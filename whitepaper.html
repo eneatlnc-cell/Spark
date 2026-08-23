@@ -55,7 +55,7 @@ mark.key { background: none; color: var(--pa); font-weight: 600; }
 .chart-figure .figsub { font-size: 0.78rem; color: var(--muted); margin-bottom: 12px; }
 
 /* param tables reuse .tbl ; address box */
-.addr-pending { font-family: var(--font-mono); font-size: 0.76rem; color: #FDE68A; border: 1px dashed rgba(245,158,11,.4); background: rgba(245,158,11,.06); border-radius: 12px; padding: 12px 18px; margin: 14px 0; display: inline-block; }
+.addr-pending { font-family: var(--font-mono); font-size:  0.76rem; color: #FDE68A; border: 1px dashed rgba(245,158,11,.4); background: rgba(245,158,11,.06); border-radius: 12px; padding: 12px 18px; margin: 14px 0; display: inline-block; }
 
 /* param note */
 .wp-note { font-size: 0.8rem; color: var(--muted); font-style: italic; margin-top: -6px; }
@@ -102,12 +102,12 @@ sup a:hover { text-decoration: underline; }
     <a class="nav-logo" href="index.html"><span class="logo-mark"><i data-ic="flame"></i></span><span>Spark<span style="color:var(--amber)">Loop</span></span></a>
     <button class="burger" aria-label="menu">☰</button>
     <div class="nav-links">
-      <a href="index.html">Home</a>
+      <a href="index.html"><span class="en">Home</span><span class="zh">首页</span></a>
       <a href="engine.html">Engine</a>
       <a href="vault.html">Vault</a>
       <a href="aether.html">Aether</a>
       <a href="havix.html">Havix</a>
-      <a href="index.html#circuit">The Loop</a>
+      <a href="index.html#circuit"><span class="en">The Loop</span><span class="zh">回路</span></a>
       <a class="nav-cta" href="spark.html"><i data-ic="flame"></i> Spark</a>
     </div>
   </div>
@@ -117,22 +117,25 @@ sup a:hover { text-decoration: underline; }
 <header class="page-hero" id="wpdoc">
   <div class="wp">
     <div class="hero-kicker">
-      <span>// PROJECT WHITEPAPER</span>
-      <span class="chip-layer">VERSION 1.0 · DRAFT</span>
+      <span><span class="en">// PROJECT WHITEPAPER</span><span class="zh">// 项目白皮书</span></span>
+      <span class="chip-layer"><span class="en">VERSION 1.0 · DRAFT</span><span class="zh">版本 1.0 · 草案</span></span>
     </div>
-    <h1>SPARK <span class="grad">&amp; the Web4 Sovereignty Loop</span></h1>
-    <p class="hero-desc">Four open-source organs — <strong>Vault</strong>, <strong>Engine</strong>, <strong>Aether</strong>, <strong>Havix</strong> — form one closed circuit, and <strong>SPARK</strong> is the fuel that makes it turn. This document describes the architecture as built, the token economics as designed, and the dual-track launch: a whitelisted presale followed by a public LBP-based IDO.</p>
+    <h1><span class="en">SPARK <span class="grad">&amp; the Web4 Sovereignty Loop</span></span><span class="zh">SPARK <span class="grad">与 Web4 主权回路</span></span></h1>
+    <p class="hero-desc">
+      <span class="en">Four open-source organs — <strong>Vault</strong>, <strong>Engine</strong>, <strong>Aether</strong>, <strong>Havix</strong> — form one closed circuit, and <strong>SPARK</strong> is the fuel that makes it turn. This document describes the architecture as built, the token economics as designed, and the dual-track launch: a whitelisted presale followed by a public LBP-based IDO.</span>
+      <span class="zh">四个开源器官 —— <strong>Vault</strong>、<strong>Engine</strong>、<strong>Aether</strong>、<strong>Havix</strong> —— 组成一条闭合回路，<strong>SPARK</strong> 是让它转动起来的燃料。本文档记录已建成的架构、已设计的代币经济，以及双轨发行：白名单预售之后的公开 LBP 式 IDO。</span>
+    </p>
     <div class="doc-meta">
-      <span>AUGUST 2026</span>
-      <span>4 REPOSITORIES · APACHE-2.0</span>
-      <span class="hot">PRESALE WHITELIST OPEN</span>
-      <span>SUPPLY 1,000,000,000 SPARK</span>
+      <span><span class="en">AUGUST 2026</span><span class="zh">2026 年 8 月</span></span>
+      <span><span class="en">4 REPOSITORIES · APACHE-2.0</span><span class="zh">4 个仓库 · APACHE-2.0</span></span>
+      <span class="hot"><span class="en">PRESALE WHITELIST OPEN</span><span class="zh">预售白名单开放中</span></span>
+      <span><span class="en">SUPPLY 1,000T SPARK</span><span class="zh">供给 1000万亿枚 SPARK</span></span>
     </div>
     <div class="hero-stats">
-      <div class="hs"><b>50%</b><span>DAO reserve — governance-gated</span></div>
-      <div class="hs"><b>42%</b><span>liquid at TGE (incl. 10% LP)</span></div>
-      <div class="hs"><b>$500</b><span>presale cap per wallet</span></div>
-      <div class="hs"><b>1 : 1</b><span>message : SPARK metering</span></div>
+      <div class="hs"><b>50%</b><span><span class="en">DAO reserve — governance-gated</span><span class="zh">DAO 储备 · 治理约束</span></span></div>
+      <div class="hs"><b>42%</b><span><span class="en">liquid at TGE (incl. 10% LP)</span><span class="zh">TGE 即流通（含 10% LP）</span></span></div>
+      <div class="hs"><b>$500</b><span><span class="en">presale cap per wallet</span><span class="zh">预售每钱包上限</span></span></div>
+      <div class="hs"><b>1 : 1</b><span><span class="en">message : SPARK metering</span><span class="zh">消息 : SPARK 计量</span></span></div>
     </div>
   </div>
 </header>
@@ -141,17 +144,18 @@ sup a:hover { text-decoration: underline; }
 <section style="padding-top:26px">
   <div class="wp">
     <div class="abstract reveal">
-      <p><b>Abstract.</b> Web3 gave users wallets but kept their social lives on servers. The Web4 prototype loop closes that gap with <mark class="key">physical isolation</mark>: an online social app (<strong>Engine</strong>) that holds no keys, an offline safe (<strong>Vault</strong>) that holds keys and never connects, an SBT-governed parliament (<strong>Aether</strong>) that banks the fuel reserve, and a P2P substrate (<strong>Havix</strong>) that charters AI stewards under a living constitution. <strong>$SPARK</strong> is the single issued asset that meters expression in the app, endows the DAO reserve, and flows between them — fuel for the loop, never a vote. This whitepaper documents the architecture as it exists in the public repositories, then specifies the token: utility, allocation (10% presale / 30% IDO / 10% DEX liquidity / 50% DAO reserve), the two-phase launch, the unlock schedule, and the safeguards that keep the launch fair and the reserve sovereign.</p>
+      <p><span class="en"><b>Abstract.</b> Web3 gave users wallets but kept their social lives on servers. The Web4 prototype loop closes that gap with <mark class="key">physical isolation</mark>: an online social app (<strong>Engine</strong>) that holds no keys, an offline safe (<strong>Vault</strong>) that holds keys and never connects, an SBT-governed parliament (<strong>Aether</strong>) that banks the fuel reserve, and a P2P substrate (<strong>Havix</strong>) that charters AI stewards under a living constitution. <strong>$SPARK</strong> is the single issued asset that meters expression in the app, endows the DAO reserve, and flows between them — fuel for the loop, never a vote. This whitepaper documents the architecture as it exists in the public repositories, then specifies the token: utility, allocation (10% presale / 30% IDO / 10% DEX liquidity / 50% DAO reserve), the two-phase launch, the unlock schedule, and the safeguards that keep the launch fair and the reserve sovereign.</span>
+      <span class="zh"><b>摘要。</b>Web3 给了用户钱包，却把他们的社交生活留在服务器上。Web4 原型回路以<mark class="key">物理隔离</mark>弥合这一缺口：不持有任何密钥的在线社交应用（<strong>Engine</strong>）、持有密钥且永不联网的离线保险箱（<strong>Vault</strong>）、以 SBT 治理收储燃料储备的议会（<strong>Aether</strong>）、以及在一部活的宪章之下为 AI 管家颁授执照的 P2P 基座（<strong>Havix</strong>）。<strong>$SPARK</strong> 是唯一发行的资产：它在应用中计量表达、为 DAO 储备注资、并在两者之间流动 —— 它是回路的燃料，从来不是选票。本白皮书记录架构在公开仓库中的现状，随后规定代币：效用、分配（10% 预售 / 30% IDO / 10% DEX 流动性 / 50% DAO 储备）、两阶段发行、解锁时间表，以及让发行保持公平、让储备保持主权的安全机制。</span></p>
     </div>
     <div class="toc reveal" style="margin-top:34px">
-      <a href="#loop"><span class="tn">01</span> The Sovereignty Loop</a>
-      <a href="#arch"><span class="tn">02</span> Architecture: Isolation &amp; Identity</a>
-      <a href="#organs"><span class="tn">03</span> The Four Organs (+ Germ)</a>
-      <a href="#token"><span class="tn">04</span> SPARK Token Economics</a>
-      <a href="#launch"><span class="tn">04b</span> Presale + IDO Launch</a>
-      <a href="#gov"><span class="tn">05</span> Governance of the Reserve</a>
-      <a href="#road"><span class="tn">06</span> Roadmap to TGE</a>
-      <a href="#risks"><span class="tn">07</span> Risks &amp; Disclaimers</a>
+      <a href="#loop"><span class="tn">01</span> <span class="en">The Sovereignty Loop</span><span class="zh">主权回路</span></a>
+      <a href="#arch"><span class="tn">02</span> <span class="en">Architecture: Isolation &amp; Identity</span><span class="zh">架构：隔离与身份</span></a>
+      <a href="#organs"><span class="tn">03</span> <span class="en">The Four Organs (+ Germ)</span><span class="zh">四个器官（+ Germ）</span></a>
+      <a href="#token"><span class="tn">04</span> <span class="en">SPARK Token Economics</span><span class="zh">SPARK 代币经济学</span></a>
+      <a href="#launch"><span class="tn">04b</span> <span class="en">Presale + IDO Launch</span><span class="zh">预售 + IDO 发行</span></a>
+      <a href="#gov"><span class="tn">05</span> <span class="en">Governance of the Reserve</span><span class="zh">储备的治理</span></a>
+      <a href="#road"><span class="tn">06</span> <span class="en">Roadmap to TGE</span><span class="zh">通向 TGE 的路线图</span></a>
+      <a href="#risks"><span class="tn">07</span> <span class="en">Risks &amp; Disclaimers</span><span class="zh">风险与免责声明</span></a>
     </div>
   </div>
 </section>
@@ -159,8 +163,9 @@ sup a:hover { text-decoration: underline; }
 <!-- ============ 01 THE LOOP ============ -->
 <section id="loop">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">01</span> The Sovereignty Loop</h2>
-    <p>This is <b>one project, not a portfolio of products</b>. Each repository is an organ; the organs share one bloodstream — SPARK. A user chats in Engine; every message burns fuel; fuel is banked in the Aether reserve; the reserve is kept liquid by chartered AI on Havix; Havix's network effects keep Engine alive; and Engine's demand gives SPARK its physical backing. Cut any organ and the loop stops turning.</p>
+    <h2 class="chap"><span class="cnum">01</span> <span class="en">The Sovereignty Loop</span><span class="zh">主权回路</span></h2>
+    <p><span class="en">This is <b>one project, not a portfolio of products</b>. Each repository is an organ; the organs share one bloodstream — SPARK. A user chats in Engine; every message burns fuel; fuel is banked in the Aether reserve; the reserve is kept liquid by chartered AI on Havix; Havix's network effects keep Engine alive; and Engine's demand gives SPARK its physical backing. Cut any organ and the loop stops turning.</span>
+    <span class="zh">这是<b>一个项目，不是一个产品组合</b>。每个仓库是一个器官；器官共享同一条血脉 —— SPARK。用户在 Engine 里聊天；每条消息燃烧燃料；燃料沉淀进 Aether 储备；储备由 Havix 上受宪章约束的 AI 维持流动；Havix 的网络效应让 Engine 存活；而 Engine 的需求给 SPARK 以实物支撑。切断任何一个器官，回路即停转。</span></p>
 
     <svg class="wp-loop-svg" viewBox="0 0 720 560" role="img" aria-label="The sovereignty loop: Vault and Engine are physically isolated pairs; Engine spends Spark; Spark flows into the Aether reserve; Aether anchors governance on Havix; Havix keeps Engine alive; DEX liquidity is the segment under construction.">
       <defs>
@@ -168,140 +173,153 @@ sup a:hover { text-decoration: underline; }
         <marker id="wArN" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker>
       </defs>
       <!-- Engine -->
-      <g class="wnode" style="--nc:#EC4899"><rect x="285" y="52" width="150" height="62" rx="10"/><text class="wt" x="360" y="78" text-anchor="middle">Engine</text><text class="ws" x="360" y="97" text-anchor="middle">the App · social online</text></g>
+      <g class="wnode" style="--nc:#EC4899"><rect x="285" y="52" width="150" height="62" rx="10"/><text class="wt" x="360" y="78" text-anchor="middle">Engine</text><text class="ws" x="360" y="97" text-anchor="middle"><tspan class="en">the App · social online</tspan><tspan class="zh">应用 · 在线社交</tspan></text></g>
       <g class="wpill" style="--pc:#6EE7B7"><rect x="300" y="122" width="120" height="20" rx="10"/><text x="360" y="136" text-anchor="middle">SHIPPED v3.22</text></g>
       <!-- Vault -->
-      <g class="wnode" style="--nc:#10B981"><rect x="66" y="66" width="140" height="62" rx="10"/><text class="wt" x="136" y="92" text-anchor="middle">Vault</text><text class="ws" x="136" y="111" text-anchor="middle">the Keybox · keys offline</text></g>
+      <g class="wnode" style="--nc:#10B981"><rect x="66" y="66" width="140" height="62" rx="10"/><text class="wt" x="136" y="92" text-anchor="middle">Vault</text><text class="ws" x="136" y="111" text-anchor="middle"><tspan class="en">the Keybox · keys offline</tspan><tspan class="zh">钥匙盒 · 密钥离线</tspan></text></g>
       <g class="wpill" style="--pc:#6EE7B7"><rect x="86" y="136" width="100" height="20" rx="10"/><text x="136" y="150" text-anchor="middle">SHIPPED v1.0</text></g>
       <!-- Spark -->
-      <g class="wnode" style="--nc:#F59E0B"><rect x="470" y="228" width="150" height="62" rx="10"/><text class="wt" x="545" y="254" text-anchor="middle">Spark</text><text class="ws" x="545" y="273" text-anchor="middle">the Fuel · $SPARK</text></g>
+      <g class="wnode" style="--nc:#F59E0B"><rect x="470" y="228" width="150" height="62" rx="10"/><text class="wt" x="545" y="254" text-anchor="middle">Spark</text><text class="ws" x="545" y="273" text-anchor="middle"><tspan class="en">the Fuel · $SPARK</tspan><tspan class="zh">燃料 · $SPARK</tspan></text></g>
       <g class="wpill" style="--pc:#FDE68A"><rect x="474" y="298" width="142" height="20" rx="10"/><text x="545" y="312" text-anchor="middle">PRESALE + IDO</text></g>
       <!-- Aether -->
-      <g class="wnode" style="--nc:#818CF8"><rect x="285" y="400" width="150" height="62" rx="10"/><text class="wt" x="360" y="426" text-anchor="middle">Aether</text><text class="ws" x="360" y="445" text-anchor="middle">the Parliament · reserve</text></g>
+      <g class="wnode" style="--nc:#818CF8"><rect x="285" y="400" width="150" height="62" rx="10"/><text class="wt" x="360" y="426" text-anchor="middle">Aether</text><text class="ws" x="360" y="445" text-anchor="middle"><tspan class="en">the Parliament · reserve</tspan><tspan class="zh">议会 · 储备</tspan></text></g>
       <g class="wpill" style="--pc:#FDE68A"><rect x="281" y="470" width="158" height="20" rx="10"/><text x="360" y="484" text-anchor="middle">AUDIT ✓ · MAINNET PENDING</text></g>
       <!-- Havix -->
-      <g class="wnode" style="--nc:#22D3EE"><rect x="80" y="228" width="150" height="62" rx="10"/><text class="wt" x="155" y="254" text-anchor="middle">Havix</text><text class="ws" x="155" y="273" text-anchor="middle">the Bedrock · P2P</text></g>
+      <g class="wnode" style="--nc:#22D3EE"><rect x="80" y="228" width="150" height="62" rx="10"/><text class="wt" x="155" y="254" text-anchor="middle">Havix</text><text class="ws" x="155" y="273" text-anchor="middle"><tspan class="en">the Bedrock · P2P</tspan><tspan class="zh">基座 · P2P</tspan></text></g>
       <g class="wpill" style="--pc:#67E8F9"><rect x="122" y="298" width="66" height="20" rx="10"/><text x="155" y="312" text-anchor="middle">BETA</text></g>
       <!-- Germ (future) -->
-      <g class="wnode ext" style="--nc:#A78BFA"><rect x="540" y="440" width="140" height="52" rx="10"/><text class="wt" x="610" y="463" text-anchor="middle">Germ</text><text class="ws" x="610" y="480" text-anchor="middle">the Brain · future</text></g>
+      <g class="wnode ext" style="--nc:#A78BFA"><rect x="540" y="440" width="140" height="52" rx="10"/><text class="wt" x="610" y="463" text-anchor="middle">Germ</text><text class="ws" x="610" y="480" text-anchor="middle"><tspan class="en">the Brain · future</tspan><tspan class="zh">大脑 · 远期</tspan></text></g>
       <!-- DEX (under construction) -->
-      <g class="wnode ext" style="--nc:#F59E0B"><rect x="548" y="340" width="130" height="46" rx="10"/><text class="wt" x="613" y="360" text-anchor="middle">DEX</text><text class="ws" x="613" y="376" text-anchor="middle">liquidity · in construction</text></g>
+      <g class="wnode ext" style="--nc:#F59E0B"><rect x="548" y="340" width="130" height="46" rx="10"/><text class="wt" x="613" y="360" text-anchor="middle">DEX</text><text class="ws" x="613" y="376" text-anchor="middle"><tspan class="en">liquidity · in construction</tspan><tspan class="zh">流动性 · 建设中</tspan></text></g>
       <!-- flows -->
       <path class="warrow" d="M437,84 C458,130 462,180 468,224" marker-end="url(#wAr)"/>
-      <text class="wlab" x="476" y="168">1 msg = 1 SPARK</text>
+      <text class="wlab" x="476" y="168"><tspan class="en">1 msg = 1 SPARK</tspan><tspan class="zh">1 条消息 = 1 SPARK</tspan></text>
       <path class="warrow" d="M540,296 L440,412" marker-end="url(#wAr)"/>
-      <text class="wlab" x="512" y="360" text-anchor="end">long-term reserve</text>
+      <text class="wlab" x="512" y="360" text-anchor="end"><tspan class="en">long-term reserve</tspan><tspan class="zh">长期储备</tspan></text>
       <path class="warrow" d="M283,424 L182,296" marker-end="url(#wAr)"/>
-      <text class="wlab" x="244" y="352" text-anchor="end">charter · red lines</text>
+      <text class="wlab" x="244" y="352" text-anchor="end"><tspan class="en">charter · red lines</tspan><tspan class="zh">宪章 · 红线</tspan></text>
       <path class="warrow" d="M152,226 L250,120" marker-end="url(#wAr)"/>
-      <text class="wlab" x="196" y="168" text-anchor="end">liveness</text>
+      <text class="wlab" x="196" y="168" text-anchor="end"><tspan class="en">liveness</tspan><tspan class="zh">存活性</tspan></text>
       <path class="wdash" d="M208,100 L283,90" marker-start="url(#wArN)" marker-end="url(#wArN)"/>
-      <text class="wlab" x="222" y="66">QR · delegated signing</text>
+      <text class="wlab" x="222" y="66"><tspan class="en">QR · delegated signing</tspan><tspan class="zh">二维码 · 委托签名</tspan></text>
       <path class="wdash" d="M613,338 L580,294" marker-start="url(#wArN)" marker-end="url(#wArN)"/>
-      <text class="wlab" x="600" y="330" text-anchor="end">swap · at TGE</text>
+      <text class="wlab" x="600" y="330" text-anchor="end"><tspan class="en">swap · at TGE</tspan><tspan class="zh">兑换 · TGE 时</tspan></text>
       <path class="wdash" d="M437,452 C500,470 530,468 538,462" marker-end="url(#wArN)"/>
-      <text class="wlab" x="492" y="494" text-anchor="middle">stewards (future)</text>
+      <text class="wlab" x="492" y="494" text-anchor="middle"><tspan class="en">stewards (future)</tspan><tspan class="zh">管家（远期）</tspan></text>
     </svg>
 
     <div class="table-wrap" style="margin-top:26px">
       <table class="tbl">
-        <thead><tr><th>Organ</th><th>Metaphor</th><th>Function in the loop</th><th>Real status</th></tr></thead>
+        <thead><tr><th><span class="en">Organ</span><span class="zh">器官</span></th><th><span class="en">Metaphor</span><span class="zh">隐喻</span></th><th><span class="en">Function in the loop</span><span class="zh">回路中的职能</span></th><th><span class="en">Real status</span><span class="zh">真实状态</span></th></tr></thead>
         <tbody>
-          <tr><td>Vault</td><td class="mono">the Keybox</td><td>Offline custody of every private key; signs by proxy; migrates keys by QR only</td><td class="ok">v1.0 shipped</td></tr>
-          <tr><td>Engine</td><td class="mono">the App</td><td>Sovereign social messenger; pure-memory, E2E-encrypted; spends SPARK per message</td><td class="ok">v3.22 shipped</td></tr>
-          <tr><td>Spark</td><td class="mono">the Fuel</td><td>Meters expression; endows the reserve; bridges reserve and markets</td><td class="warn">presale + IDO</td></tr>
-          <tr><td>Aether</td><td class="mono">the Parliament</td><td>SBT-governed DAO: three chambers, soulbound ranks, multisig treasury</td><td class="warn">v3.4 audited · mainnet pending</td></tr>
-          <tr><td>Havix</td><td class="mono">the Bedrock</td><td>P2P substrate: 4-context identity, credit ledgers, AI charter plane</td><td class="warn">M10 closed beta</td></tr>
-          <tr><td>Germ</td><td class="mono">the Brain</td><td>Node-level AI that reasons with its own identity</td><td class="mono" style="color:var(--muted)">future stage</td></tr>
+          <tr><td>Vault</td><td class="mono"><span class="en">the Keybox</span><span class="zh">钥匙盒</span></td><td><span class="en">Offline custody of every private key; signs by proxy; migrates keys by QR only</span><span class="zh">离线托管所有私钥；代理签名；仅以二维码迁移密钥</span></td><td class="ok"><span class="en">v1.0 shipped</span><span class="zh">v1.0 已交付</span></td></tr>
+          <tr><td>Engine</td><td class="mono"><span class="en">the App</span><span class="zh">应用</span></td><td><span class="en">Sovereign social messenger; pure-memory, E2E-encrypted; spends SPARK per message</span><span class="zh">主权社交通讯应用；纯内存、端到端加密；每条消息消耗 SPARK</span></td><td class="ok"><span class="en">v3.22 shipped</span><span class="zh">v3.22 已交付</span></td></tr>
+          <tr><td>Spark</td><td class="mono"><span class="en">the Fuel</span><span class="zh">燃料</span></td><td><span class="en">Meters expression; endows the reserve; bridges reserve and markets</span><span class="zh">计量表达；为储备注资；连接储备与市场</span></td><td class="warn"><span class="en">presale + IDO</span><span class="zh">预售 + IDO</span></td></tr>
+          <tr><td>Aether</td><td class="mono"><span class="en">the Parliament</span><span class="zh">议会</span></td><td><span class="en">SBT-governed DAO: three chambers, soulbound ranks, multisig treasury</span><span class="zh">SBT 治理的 DAO：三院制、灵魂绑定权级、多签金库</span></td><td class="warn"><span class="en">v3.4 audited · mainnet pending</span><span class="zh">v3.4 已审计 · 待主网</span></td></tr>
+          <tr><td>Havix</td><td class="mono"><span class="en">the Bedrock</span><span class="zh">基座</span></td><td><span class="en">P2P substrate: 4-context identity, credit ledgers, AI charter plane</span><span class="zh">P2P 基座：四语境身份、信用账本、AI 宪章面</span></td><td class="warn"><span class="en">M10 closed beta</span><span class="zh">M10 封闭内测</span></td></tr>
+          <tr><td>Germ</td><td class="mono"><span class="en">the Brain</span><span class="zh">大脑</span></td><td><span class="en">Node-level AI that reasons with its own identity</span><span class="zh">以自身身份进行推理的节点级 AI</span></td><td class="mono" style="color:var(--muted)"><span class="en">future stage</span><span class="zh">远期阶段</span></td></tr>
         </tbody>
       </table>
     </div>
-    <p style="margin-top:16px">The metaphors are the architecture: the <mark class="key">Keybox never touches the network</mark>, the <mark class="key">Parliament rules without a token</mark>, the <mark class="key">Brain is licensed, not trusted</mark>. Everything below is traceable to public code<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>.</p>
+    <p style="margin-top:16px"><span class="en">The metaphors are the architecture: the <mark class="key">Keybox never touches the network</mark>, the <mark class="key">Parliament rules by soulbound SBT</mark>, the <mark class="key">Brain is licensed, not trusted</mark>. Everything below is traceable to public code<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>.</span>
+    <span class="zh">隐喻即架构：<mark class="key">钥匙盒永不触网</mark>，<mark class="key">议会以灵魂绑定 SBT 执政</mark>，<mark class="key">大脑是被授予执照的，而非被信任的</mark>。下文的一切皆可回溯至公开代码<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>。</span></p>
   </div>
 </section>
 
 <!-- ============ 02 ARCHITECTURE ============ -->
 <section id="arch" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">02</span> Architecture: Isolation &amp; Identity</h2>
+    <h2 class="chap"><span class="cnum">02</span> <span class="en">Architecture: Isolation &amp; Identity</span><span class="zh">架构：隔离与身份</span></h2>
 
-    <h3><span class="h3k">2.1</span> Physical isolation as a security model</h3>
-    <p>The loop's root security decision is <b>separation by physics, not by policy</b>. Engine runs online but holds zero private keys; Vault holds the keys and is built with <mark class="key">no network permission at all</mark> — its Android manifest declares no INTERNET permission, making exfiltration a physical rather than logical problem<sup><a href="#cite-3">[3]</a></sup>. Signing requests travel from Engine to Vault over signature-protected IPC; key material travels between devices only as encrypted QR frames — camera-to-camera, air-gap enforced<sup><a href="#cite-3">[3]</a></sup>.</p>
-    <p>The trust is auditable: Engine's <span class="mono">core/</span> modules (protocol, crypto, IPC) are <b>byte-identical</b> to Vault's, so both apps verify against the same public source<sup><a href="#cite-1">[1]</a></sup>. Messages are end-to-end encrypted with ECDH key agreement and AES-256-GCM; the relay sees envelopes, never plaintext<sup><a href="#cite-1">[1]</a></sup>.</p>
+    <h3><span class="h3k">2.1</span> <span class="en">Physical isolation as a security model</span><span class="zh">以物理隔离作为安全模型</span></h3>
+    <p><span class="en">The loop's root security decision is <b>separation by physics, not by policy</b>. Engine runs online but holds zero private keys; Vault holds the keys and is built with <mark class="key">no network permission at all</mark> — its Android manifest declares no INTERNET permission, making exfiltration a physical rather than logical problem<sup><a href="#cite-3">[3]</a></sup>. Signing requests travel from Engine to Vault over signature-protected IPC; key material travels between devices only as encrypted QR frames — camera-to-camera, air-gap enforced<sup><a href="#cite-3">[3]</a></sup>.</span>
+    <span class="zh">回路的根本安全决策是<b>以物理而非策略实现隔离</b>。Engine 在线运行却不持有任何私钥；Vault 持有密钥，且被构建为<mark class="key">完全没有任何网络权限</mark> —— 它的 Android 清单未声明 INTERNET 权限，使数据外泄成为物理问题而非逻辑问题<sup><a href="#cite-3">[3]</a></sup>。签名请求经签名保护的 IPC 从 Engine 传至 Vault；密钥材料在设备之间只以加密二维码帧的形式迁移 —— 摄像头对摄像头，强制气隙隔离<sup><a href="#cite-3">[3]</a></sup>。</span></p>
+    <p><span class="en">The trust is auditable: Engine's <span class="mono">core/</span> modules (protocol, crypto, IPC) are <b>byte-identical</b> to Vault's, so both apps verify against the same public source<sup><a href="#cite-1">[1]</a></sup>. Messages are end-to-end encrypted with ECDH key agreement and AES-256-GCM; the relay sees envelopes, never plaintext<sup><a href="#cite-1">[1]</a></sup>.</span>
+    <span class="zh">这种信任是可审计的：Engine 的 <span class="mono">core/</span> 模块（协议、加密、IPC）与 Vault 的<b>逐字节一致</b>，因此两款应用都对照同一份公开源码进行验证<sup><a href="#cite-1">[1]</a></sup>。消息以 ECDH 密钥协商与 AES-256-GCM 端到端加密；中继看到的只是信封，从来不是明文<sup><a href="#cite-1">[1]</a></sup>。</span></p>
 
-    <h3><span class="h3k">2.2</span> One identity, four unlinkable contexts</h3>
-    <p>Havix derives four context-specific sub-identities from a single master key using HKDF — public, market, tunnel and wiki contexts<sup><a href="#cite-6">[6]</a></sup>. The derivation is cryptographically unlinkable: your market persona cannot be correlated with your private correspondence. This is what lets one person be simultaneously <mark class="key">a citizen in the Parliament, a trader in the market, and a private person in chat</mark> — without three accounts and without a platform holding the mapping.</p>
+    <h3><span class="h3k">2.2</span> <span class="en">One identity, four unlinkable contexts</span><span class="zh">一个身份，四个不可关联的语境</span></h3>
+    <p><span class="en">Havix derives four context-specific sub-identities from a single master key using HKDF — public, market, tunnel and wiki contexts<sup><a href="#cite-6">[6]</a></sup>. The derivation is cryptographically unlinkable: your market persona cannot be correlated with your private correspondence. This is what lets one person be simultaneously <mark class="key">a citizen in the Parliament, a trader in the market, and a private person in chat</mark> — without three accounts and without a platform holding the mapping.</span>
+    <span class="zh">Havix 用 HKDF 从单一主密钥派生出四个语境专属的子身份 —— 公共、市场、隧道与维基语境<sup><a href="#cite-6">[6]</a></sup>。这种派生在密码学上不可关联：你的市场人格无法与你的私人通信被相互对照。正因如此，一个人可以同时是<mark class="key">议会里的公民、市场里的交易者、聊天里的私人个体</mark> —— 不需要三个账号，也不存在一个持有映射关系的平台。</span></p>
 
-    <h3><span class="h3k">2.3</span> Three planes, one loop</h3>
+    <h3><span class="h3k">2.3</span> <span class="en">Three planes, one loop</span><span class="zh">三个平面，一条回路</span></h3>
     <ul class="plain">
-      <li><b>Application plane (online):</b> Engine — user-facing, keyless, pure-memory. Messages exist in RAM; the attack surface for seizure is roughly zero.</li>
-      <li><b>Custody plane (offline):</b> Vault — keystores sealed behind biometrics, export only via QR.</li>
-      <li><b>Coordination plane (off-chain P2P):</b> Havix — identity derivation, reputation/credit ledgers, arbitration, and the charter that licenses AI stewards<sup><a href="#cite-6">[6]</a></sup>.</li>
-      <li><b>Settlement plane (on-chain):</b> Aether on Arbitrum — governance, treasury and timelocked execution, governed by soulbound SBT rank rather than transferable token supply<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>.</li>
+      <li><span class="en"><b>Application plane (online):</b> Engine — user-facing, keyless, pure-memory. Messages exist in RAM; the attack surface for seizure is roughly zero.</span><span class="zh"><b>应用平面（在线）：</b>Engine —— 面向用户、无密钥、纯内存。消息只存在于内存中；被查抄的攻击面近乎为零。</span></li>
+      <li><span class="en"><b>Custody plane (offline):</b> Vault — keystores sealed behind biometrics, export only via QR.</span><span class="zh"><b>托管平面（离线）：</b>Vault —— 密钥库封于生物识别之后，仅可经二维码导出。</span></li>
+      <li><span class="en"><b>Coordination plane (off-chain P2P):</b> Havix — identity derivation, reputation/credit ledgers, arbitration, and the charter that licenses AI stewards<sup><a href="#cite-6">[6]</a></sup>.</span><span class="zh"><b>协调平面（链下 P2P）：</b>Havix —— 身份派生、信誉/信用账本、仲裁，以及为 AI 管家颁授执照的宪章<sup><a href="#cite-6">[6]</a></sup>。</span></li>
+      <li><span class="en"><b>Settlement plane (on-chain):</b> Aether on Arbitrum — governance, treasury and timelocked execution, governed by soulbound SBT rank rather than transferable token supply<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>.</span><span class="zh"><b>结算平面（链上）：</b>Arbitrum 上的 Aether —— 治理、金库与时间锁执行，由灵魂绑定的 SBT 权级而非可转让代币量主导<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>。</span></li>
     </ul>
-    <p>Havix's own roadmap formalizes this as a three-layer stack — network bedrock (L0), cognitive execution (L1, Germ), on-chain governance (L2, Aether) — with the 4-context DID enforcing the cryptographic separation between layers<sup><a href="#cite-7">[7]</a></sup>.</p>
+    <p><span class="en">Havix's own roadmap formalizes this as a three-layer stack — network bedrock (L0), cognitive execution (L1, Germ), on-chain governance (L2, Aether) — with the 4-context DID enforcing the cryptographic separation between layers<sup><a href="#cite-7">[7]</a></sup>.</span>
+    <span class="zh">Havix 自身的路线图将其形式化为三层栈 —— 网络基座（L0）、认知执行（L1，Germ）、链上治理（L2，Aether）—— 并以四语境 DID 强制层与层之间的密码学隔离<sup><a href="#cite-7">[7]</a></sup>。</span></p>
   </div>
 </section>
 
 <!-- ============ 03 ORGANS ============ -->
 <section id="organs" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">03</span> The Four Organs</h2>
+    <h2 class="chap"><span class="cnum">03</span> <span class="en">The Four Organs</span><span class="zh">四个器官</span></h2>
 
-    <h3><span class="h3k">3.1</span> Vault — the Keybox <span class="wp-note" style="float:right">v1.0 · shipped</span></h3>
-    <p>A generic offline keystore, not an Engine accessory: it can custody keys for any compliant app. Mechanism: no network permission; keystores encrypted at rest; biometric-gated signing (StrongBox-backed where available); dynamic signing codes that prove a signature happened on-device; QR-only migration to new hardware, with the private key never entering a network stack<sup><a href="#cite-3">[3]</a></sup>.</p>
+    <h3><span class="h3k">3.1</span> <span class="en">Vault — the Keybox</span><span class="zh">Vault —— 钥匙盒</span> <span class="wp-note" style="float:right"><span class="en">v1.0 · shipped</span><span class="zh">v1.0 · 已交付</span></span></h3>
+    <p><span class="en">A generic offline keystore, not an Engine accessory: it can custody keys for any compliant app. Mechanism: no network permission; keystores encrypted at rest; biometric-gated signing (StrongBox-backed where available); dynamic signing codes that prove a signature happened on-device; QR-only migration to new hardware, with the private key never entering a network stack<sup><a href="#cite-3">[3]</a></sup>.</span>
+    <span class="zh">一台通用的离线密钥库，而非 Engine 的配件：它可以为任何合规应用托管密钥。机制：无网络权限；密钥库静态加密；生物识别把关的签名（设备支持时由 StrongBox 支撑）；证明签名确在本机发生的动态签名码；仅限二维码的新硬件迁移 —— 私钥从不进入任何网络栈<sup><a href="#cite-3">[3]</a></sup>。</span></p>
 
-    <h3><span class="h3k">3.2</span> Engine — the App <span class="wp-note" style="float:right">v3.22 · shipped</span></h3>
-    <p>The market entry point of the whole loop: a sovereign social messenger with pure-memory architecture, group messaging, a 60-sticker economy and DID profiles<sup><a href="#cite-1">[1]</a></sup>. Its economic engine is already specified in the repository: <mark class="key">one message costs one SPARK</mark>; each user claims a daily fuel allowance of 1,000 SPARK at first login; heavy users top up from a wallet<sup><a href="#cite-2">[2]</a></sup>. Client-side pre-deduction is implemented; a standalone spark-ledger service settles balances server-side<sup><a href="#cite-2">[2]</a></sup>.</p>
+    <h3><span class="h3k">3.2</span> <span class="en">Engine — the App</span><span class="zh">Engine —— 应用</span> <span class="wp-note" style="float:right"><span class="en">v3.22 · shipped</span><span class="zh">v3.22 · 已交付</span></span></h3>
+    <p><span class="en">The market entry point of the whole loop: a sovereign social messenger with pure-memory architecture, group messaging, a 60-sticker economy and DID profiles<sup><a href="#cite-1">[1]</a></sup>. Its economic engine is already specified in the repository: <mark class="key">one message costs one SPARK</mark>; each user claims a daily fuel allowance of 1,000 SPARK at first login; heavy users top up from a wallet<sup><a href="#cite-2">[2]</a></sup>. Client-side pre-deduction is implemented; a standalone spark-ledger service settles balances server-side<sup><a href="#cite-2">[2]</a></sup>.</span>
+    <span class="zh">整条回路的市场入口：一个具备纯内存架构、群组消息、60 张贴纸经济与 DID 档案的主权社交通讯应用<sup><a href="#cite-1">[1]</a></sup>。它的经济引擎已在仓库中成文：<mark class="key">一条消息花费一枚 SPARK</mark>；每位用户在首次登录时领取每日 1,000 SPARK 的燃料配额；重度用户从钱包充值<sup><a href="#cite-2">[2]</a></sup>。客户端预扣已实现；独立的 spark-ledger 服务在服务端结算余额<sup><a href="#cite-2">[2]</a></sup>。</span></p>
 
-    <h3><span class="h3k">3.3</span> Aether — the Parliament <span class="wp-note" style="float:right">v3.4 audited · mainnet pending</span></h3>
-    <p>An SBT-governed DAO kernel on Arbitrum. Weight is earned, not bought: AetherRing mints 14 non-transferable soulbound ranks; three chambers (Council, Parliament, Elders) plus a citizen referendum check one another through a 7-stage proposal lifecycle with an elder veto; the treasury is a 3/5 Safe multisig executing timelocked calls<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>. The deliberate design tension: <mark class="key">governance is soulbound (SBT) while the fuel is a real, issued asset</mark> — whales can buy $SPARK, but $SPARK buys messages, not votes. One contract stands apart: AetherDonation is an <b>external philanthropy channel</b> (USDC tips for public goods) and is independent of the loop's economics.</p>
+    <h3><span class="h3k">3.3</span> <span class="en">Aether — the Parliament</span><span class="zh">Aether —— 议会</span> <span class="wp-note" style="float:right"><span class="en">v3.4 audited · mainnet pending</span><span class="zh">v3.4 已审计 · 待主网</span></span></h3>
+    <p><span class="en">An SBT-governed DAO kernel on Arbitrum. Weight is earned, not bought: AetherRing mints 14 non-transferable soulbound ranks; three chambers (Council, Parliament, Elders) plus a citizen referendum check one another through a 7-stage proposal lifecycle with an elder veto; the treasury is a 3/5 Safe multisig executing timelocked calls<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>. The deliberate design tension: <mark class="key">governance is soulbound (SBT) while the fuel is a real, issued asset</mark> — whales can buy $SPARK, but $SPARK buys messages, not votes. One contract stands apart: AetherDonation is an <b>external philanthropy channel</b> (USDC tips for public goods) and is independent of the loop's economics.</span>
+    <span class="zh">Arbitrum 上的 SBT 治理 DAO 内核。权重靠挣得，而非买得：AetherRing 铸造 14 级不可转让的灵魂绑定权级；三院（理事会、议院、元老院）外加公民公投，经由带元老否决的七阶段提案生命周期相互制衡；金库是执行时间锁调用的 3/5 Safe 多签<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>。刻意的设计张力在于：<mark class="key">治理是灵魂绑定的（SBT），而燃料是真实发行的资产</mark> —— 巨鲸买得起 $SPARK，但 $SPARK 买到的是消息，不是选票。有一个合约置身局外：AetherDonation 是<b>外部慈善通道</b>（面向公共物品的 USDC 打赏），与回路经济相互独立。</span></p>
 
-    <h3><span class="h3k">3.4</span> Havix — the Bedrock <span class="wp-note" style="float:right">M10 · closed beta</span></h3>
-    <p>The P2P overlay where the loop's coordination happens: eight modules (identity, message-types, credit, vouch, wiki, arbitration, market, s-node runtime), 1,234 passing tests, and a security audit that closed all 15 findings<sup><a href="#cite-6">[6]</a></sup>. Its charter plane is what makes AI stewardship legal rather than magical: routine operations execute automatically with receipts; <mark class="key">red-line operations are physically routed to a human, on-chain vote</mark>. The charter store and interceptor are scheduled as the M11 workstream<sup><a href="#cite-7">[7]</a></sup>.</p>
+    <h3><span class="h3k">3.4</span> <span class="en">Havix — the Bedrock</span><span class="zh">Havix —— 基座</span> <span class="wp-note" style="float:right"><span class="en">M10 · closed beta</span><span class="zh">M10 · 封闭内测</span></span></h3>
+    <p><span class="en">The P2P overlay where the loop's coordination happens: eight modules (identity, message-types, credit, vouch, wiki, arbitration, market, s-node runtime), 1,234 passing tests, and a security audit that closed all 15 findings<sup><a href="#cite-6">[6]</a></sup>. Its charter plane is what makes AI stewardship legal rather than magical: routine operations execute automatically with receipts; <mark class="key">red-line operations are physically routed to a human, on-chain vote</mark>. The charter store and interceptor are scheduled as the M11 workstream<sup><a href="#cite-7">[7]</a></sup>.</span>
+    <span class="zh">回路协调发生的 P2P 覆盖网络：八个模块（身份、消息类型、信用、担保、维基、仲裁、市场、s-node 运行时）、1,234 项通过的测试、以及一项关闭全部 15 项发现的安全审计<sup><a href="#cite-6">[6]</a></sup>。它的宪章面让 AI 管家合法而非魔法：例行操作自动执行并留回执；<mark class="key">红线操作被物理地路由至人类的链上表决</mark>。宪章存储与拦截器排定为 M11 工作流<sup><a href="#cite-7">[7]</a></sup>。</span></p>
 
-    <h3><span class="h3k">3.5</span> Germ — the Brain, later</h3>
-    <p>Germ is the node-level AI layer: stewards that reason with their own 4-context identities on the substrate. It is intentionally deferred — <mark class="key">Engine is today's market entry</mark>; the Brain arrives when the loop has users worth stewarding. In this whitepaper Germ appears only where the economics must reserve room for it (reserve stewardship, §5).</p>
+    <h3><span class="h3k">3.5</span> <span class="en">Germ — the Brain, later</span><span class="zh">Germ —— 大脑，远期</span></h3>
+    <p><span class="en">Germ is the node-level AI layer: stewards that reason with their own 4-context identities on the substrate. It is intentionally deferred — <mark class="key">Engine is today's market entry</mark>; the Brain arrives when the loop has users worth stewarding. In this whitepaper Germ appears only where the economics must reserve room for it (reserve stewardship, §5).</span>
+    <span class="zh">Germ 是节点级 AI 层：在基座上以自身四语境身份进行推理的管家。它被有意延后 —— <mark class="key">Engine 才是今天的市场入口</mark>；等回路拥有值得照料的用户时，大脑才会到来。在本白皮书中，Germ 只在经济必须为它预留空间之处出现（储备管家，§5）。</span></p>
   </div>
 </section>
 
 <!-- ============ 04 TOKEN ============ -->
 <section id="token" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">04</span> SPARK Token Economics</h2>
+    <h2 class="chap"><span class="cnum">04</span> <span class="en">SPARK Token Economics</span><span class="zh">SPARK 代币经济学</span></h2>
 
-    <h3><span class="h3k">4.1</span> Utility: fuel with physics behind it</h3>
-    <p>SPARK is a <b>metering asset</b>. In Engine, sending a message costs 1 SPARK — the meter is in the protocol, not the terms of service<sup><a href="#cite-2">[2]</a></sup>. Budgets derive from a real 100&nbsp;Mbps relay baseline: text envelopes up to 40&nbsp;KB, media up to 48&nbsp;KB, a 128&nbsp;KB hard frame ceiling, groups capped at 200<sup><a href="#cite-1">[1]</a></sup>. Because every expressive byte costs fuel, spam has a marginal cost and speech stays free.</p>
+    <h3><span class="h3k">4.1</span> <span class="en">Utility: fuel with physics behind it</span><span class="zh">效用：背后有物理的燃料</span></h3>
+    <p><span class="en">SPARK is a <b>metering asset</b>. In Engine, sending a message costs 1 SPARK — the meter is in the protocol, not the terms of service<sup><a href="#cite-2">[2]</a></sup>. Budgets derive from a real 100&nbsp;Mbps relay baseline: text envelopes up to 40&nbsp;KB, media up to 48&nbsp;KB, a 128&nbsp;KB hard frame ceiling, groups capped at 200<sup><a href="#cite-1">[1]</a></sup>. Because every expressive byte costs fuel, spam has a marginal cost and speech stays free.</span>
+    <span class="zh">SPARK 是<b>计量资产</b>。在 Engine 中，发送一条消息花费 1 SPARK —— 计量器长在协议里，而不是服务条款里<sup><a href="#cite-2">[2]</a></sup>。预算源自真实的 100&nbsp;Mbps 中继基线：文本信封至多 40&nbsp;KB、媒体至多 48&nbsp;KB、128&nbsp;KB 的硬性帧上限、群组上限 200 人<sup><a href="#cite-1">[1]</a></sup>。因为每一个表达的字节都要花燃料，垃圾信息有了边际成本，而言论保持自由。</span></p>
     <ul class="plain">
-      <li><b>Acquire:</b> daily login allowance (1,000 SPARK at epoch zero<sup><a href="#cite-2">[2]</a></sup>), wallet top-up<sup><a href="#cite-2">[2]</a></sup>, or market purchase after TGE.</li>
-      <li><b>Spend:</b> messaging fuel; group and media budgets; SDK app usage.</li>
-      <li><b>Hold:</b> the DAO treasury holds SPARK as its long-term reserve — demand from real usage accrues to every holder symmetrically.</li>
+      <li><span class="en"><b>Acquire:</b> daily login allowance (1,000 SPARK at epoch zero<sup><a href="#cite-2">[2]</a></sup>), wallet top-up<sup><a href="#cite-2">[2]</a></sup>, or market purchase after TGE.</span><span class="zh"><b>获取：</b>每日登录配额（纪元零时为 1,000 SPARK<sup><a href="#cite-2">[2]</a></sup>）、钱包充值<sup><a href="#cite-2">[2]</a></sup>、或 TGE 后市场购买。</span></li>
+      <li><span class="en"><b>Spend:</b> messaging fuel; group and media budgets; SDK app usage.</span><span class="zh"><b>消耗：</b>消息燃料；群组与媒体预算；SDK 应用使用。</span></li>
+      <li><span class="en"><b>Hold:</b> the DAO treasury holds SPARK as its long-term reserve — demand from real usage accrues to every holder symmetrically.</span><span class="zh"><b>持有：</b>DAO 金库将 SPARK 作为长期储备持有 —— 真实用量带来的需求对称地累积到每一位持有者身上。</span></li>
     </ul>
-    <p class="wp-note">◇ Design parameters (vesting lengths, LP lock, fee routing, allowance decay) are recommended defaults of this draft; each is confirmed or amended by governance before the presale opens. On-chain metering rates (1 msg = 1 SPARK; 1,000/day) are fixed in the Engine specification<sup><a href="#cite-2">[2]</a></sup>.</p>
+    <p class="wp-note"><span class="en">◇ Design parameters (vesting lengths, LP lock, fee routing, allowance decay) are recommended defaults of this draft; each is confirmed or amended by governance before the presale opens. On-chain metering rates (1 msg = 1 SPARK; 1,000/day) are fixed in the Engine specification<sup><a href="#cite-2">[2]</a></sup>.</span>
+    <span class="zh">◇ 设计参数（锁仓时长、LP 锁定、费用路由、配额衰减）为本草案的推荐默认值；每一项都会在预售开启前由治理确认或修订。链上计量费率（1 条消息 = 1 SPARK；每日 1,000）固定于 Engine 规格中<sup><a href="#cite-2">[2]</a></sup>。</span></p>
 
-    <h3><span class="h3k">4.2</span> Supply &amp; allocation</h3>
-    <p>Total supply is fixed at <b>1,000,000,000 SPARK</b>. Allocation follows the 10 / 30 / 10 / 50 split: presale, IDO, DEX liquidity, DAO reserve. There is <mark class="key">no team tranche, no insider allocation, no marketing tranche</mark> — the team's upside is the 50% reserve it shares with the DAO, unlocked only through public governance.</p>
+    <h3><span class="h3k">4.2</span> <span class="en">Supply &amp; allocation</span><span class="zh">供给与分配</span></h3>
+    <p><span class="en">Total supply is fixed at <b>1,000T SPARK (1,000,000,000,000,000 — one thousand trillion)</b>. Allocation follows the 10 / 30 / 10 / 50 split: presale, IDO, DEX liquidity, DAO reserve. There is <mark class="key">no team tranche, no insider allocation, no marketing tranche</mark> — the team's upside is the 50% reserve it shares with the DAO, unlocked only through public governance.</span>
+    <span class="zh">总供给固定为 <b>1000 万亿枚 SPARK（1,000,000,000,000,000）</b>。分配遵循 10 / 30 / 10 / 50 的切分：预售、IDO、DEX 流动性、DAO 储备。<mark class="key">没有团队份额，没有内部人配售，没有营销份额</mark> —— 团队的上行空间就是它与 DAO 共享的那 50% 储备，且只能经公开治理解锁。</span></p>
 
     <figure class="chart-figure">
-      <figcaption>Figure 1 — SPARK allocation at TGE (refined: 8 slices, 4 tranches)</figcaption>
-      <div class="figsub">Total supply 1,000,000,000. Presale splits 2% at TGE + 8% vesting per its terms; reserve sub-splits are charter-bounded draft defaults ◇ — the reserve itself has no calendar unlock.</div>
+      <figcaption><span class="en">Figure 1 — SPARK allocation at TGE (refined: 8 slices, 4 tranches)</span><span class="zh">图 1 —— TGE 时的 SPARK 分配（精细版：8 个切片 · 4 个份额）</span></figcaption>
+      <div class="figsub"><span class="en">Total supply 1,000T (1,000,000,000,000,000). Presale splits 2% at TGE + 8% vesting per its terms; reserve sub-splits are charter-bounded draft defaults ◇ — the reserve itself has no calendar unlock.</span><span class="zh">总供给 1000 万亿（1,000,000,000,000,000）。预售按其条款拆分为 TGE 时 2% + 线性释放 8%；储备子项为宪章约束下的草案默认值 ◇ —— 储备本身没有日历解锁。</span></div>
       <div id="chart-alloc" style="width:100%;min-height:440px"></div>
     </figure>
 
     <div class="table-wrap">
       <table class="tbl">
-        <thead><tr><th>Tranche</th><th>Share</th><th>Amount</th><th>Unlock</th></tr></thead>
+        <thead><tr><th><span class="en">Tranche</span><span class="zh">份额</span></th><th><span class="en">Share</span><span class="zh">占比</span></th><th><span class="en">Amount</span><span class="zh">数量</span></th><th><span class="en">Unlock</span><span class="zh">解锁</span></th></tr></thead>
         <tbody>
-          <tr><td>Presale — whitelist</td><td>10%</td><td class="mono">100,000,000</td><td>20% at TGE ◇, then 6-month linear ◇</td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)">└ TGE unlock</td><td>2%</td><td class="mono">20,000,000</td><td>Liquid at TGE</td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)">└ 6-month vest</td><td>8%</td><td class="mono">80,000,000</td><td>Linear, months 1–6</td></tr>
-          <tr><td>IDO — public LBP round</td><td>30%</td><td class="mono">300,000,000</td><td>100% distributed at TGE</td></tr>
-          <tr><td>DEX liquidity</td><td>10%</td><td class="mono">100,000,000</td><td>Seeded into the pool at TGE · LP locked 12 months ◇</td></tr>
-          <tr><td>DAO reserve</td><td>50%</td><td class="mono">500,000,000</td><td>No calendar — released only by Aether proposal</td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)">└ Engine fuel subsidies</td><td>15%</td><td class="mono">150,000,000</td><td>Charter default ◇ — subsidy epochs</td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)">└ Ecosystem grants</td><td>15%</td><td class="mono">150,000,000</td><td>Charter default ◇ — apps, relays, tooling</td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)">└ Relay &amp; infrastructure</td><td>10%</td><td class="mono">100,000,000</td><td>Charter default ◇ — relays, s-nodes</td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)">└ Steward liquidity &amp; endowment</td><td>10%</td><td class="mono">100,000,000</td><td>Charter default ◇ — AI stewardship bounds</td></tr>
+          <tr><td><span class="en">Presale — whitelist</span><span class="zh">预售 —— 白名单</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">20% at TGE ◇, then 6-month linear ◇</span><span class="zh">TGE 时 20% ◇，其后 6 个月线性 ◇</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ TGE unlock</span><span class="zh">└ TGE 解锁</span></td><td>2%</td><td class="mono"><span class="en">20T</span><span class="zh">20万亿</span></td><td><span class="en">Liquid at TGE</span><span class="zh">TGE 即流通</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ 6-month vest</span><span class="zh">└ 6 个月锁仓</span></td><td>8%</td><td class="mono"><span class="en">80T</span><span class="zh">80万亿</span></td><td><span class="en">Linear, months 1–6</span><span class="zh">第 1–6 个月线性</span></td></tr>
+          <tr><td><span class="en">IDO — public LBP round</span><span class="zh">IDO —— 公开 LBP 轮</span></td><td>30%</td><td class="mono"><span class="en">300T</span><span class="zh">300万亿</span></td><td><span class="en">100% distributed at TGE</span><span class="zh">TGE 时 100% 分发</span></td></tr>
+          <tr><td><span class="en">DEX liquidity</span><span class="zh">DEX 流动性</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">Seeded into the pool at TGE · LP locked 12 months ◇</span><span class="zh">TGE 时注入资金池 · LP 锁定 12 个月 ◇</span></td></tr>
+          <tr><td><span class="en">DAO reserve</span><span class="zh">DAO 储备</span></td><td>50%</td><td class="mono"><span class="en">500T</span><span class="zh">500万亿</span></td><td><span class="en">No calendar — released only by Aether proposal</span><span class="zh">无日历 —— 仅经 Aether 提案释出</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Engine fuel subsidies</span><span class="zh">└ Engine 燃料补贴</span></td><td>15%</td><td class="mono"><span class="en">150T</span><span class="zh">150万亿</span></td><td><span class="en">Charter default ◇ — subsidy epochs</span><span class="zh">宪章默认 ◇ —— 补贴期</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Ecosystem grants</span><span class="zh">└ 生态资助</span></td><td>15%</td><td class="mono"><span class="en">150T</span><span class="zh">150万亿</span></td><td><span class="en">Charter default ◇ — apps, relays, tooling</span><span class="zh">宪章默认 ◇ —— 应用、中继、工具</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Relay &amp; infrastructure</span><span class="zh">└ 中继与基础设施</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">Charter default ◇ — relays, s-nodes</span><span class="zh">宪章默认 ◇ —— 中继、s-node</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Steward liquidity &amp; endowment</span><span class="zh">└ 管家流动性与封存</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">Charter default ◇ — AI stewardship bounds</span><span class="zh">宪章默认 ◇ —— AI 管家边界</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -311,51 +329,54 @@ sup a:hover { text-decoration: underline; }
 <!-- ============ 04b LAUNCH ============ -->
 <section id="launch" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">04b</span> The Dual-Track Launch</h2>
-    <p>The core of the launch is <b>presale + IDO in parallel, at different tempos</b>: the presale targets the core community; the IDO faces the public. <mark class="key">The presale builds the base; the IDO opens the market.</mark></p>
+    <h2 class="chap"><span class="cnum">04b</span> <span class="en">The Dual-Track Launch</span><span class="zh">双轨发行</span></h2>
+    <p><span class="en">The core of the launch is <b>presale + IDO in parallel, at different tempos</b>: the presale targets the core community; the IDO faces the public. <mark class="key">The presale builds the base; the IDO opens the market.</mark></span>
+    <span class="zh">发行的核心是<b>预售与 IDO 双轨并行、节奏不同</b>：预售面向核心社区；IDO 面向公众。<mark class="key">预售建立基本盘；IDO 引爆市场。</mark></span></p>
 
     <div class="wp-metrics">
-      <div class="glass wp-metric"><b>10%</b><span>presale — whitelist · $500 cap</span></div>
-      <div class="glass wp-metric"><b>30%</b><span>IDO — LBP · 3–7 days</span></div>
-      <div class="glass wp-metric"><b>10%</b><span>liquidity — seeded at TGE</span></div>
-      <div class="glass wp-metric"><b>50%</b><span>DAO reserve — governance-gated</span></div>
+      <div class="glass wp-metric"><b>10%</b><span><span class="en">presale — whitelist · $500 cap</span><span class="zh">预售 —— 白名单 · $500 上限</span></span></div>
+      <div class="glass wp-metric"><b>30%</b><span><span class="en">IDO — LBP · 3–7 days</span><span class="zh">IDO —— LBP · 3–7 天</span></span></div>
+      <div class="glass wp-metric"><b>10%</b><span><span class="en">liquidity — seeded at TGE</span><span class="zh">流动性 —— TGE 注入</span></span></div>
+      <div class="glass wp-metric"><b>50%</b><span><span class="en">DAO reserve — governance-gated</span><span class="zh">DAO 储备 —— 治理约束</span></span></div>
     </div>
 
-    <h3><span class="h3k">4.3</span> Phase 1 — Presale (10%)</h3>
+    <h3><span class="h3k">4.3</span> <span class="en">Phase 1 — Presale (10%)</span><span class="zh">阶段一 —— 预售（10%）</span></h3>
     <ul class="plain">
-      <li><b>Audience:</b> early core contributors and active community members only. Wallet addresses are collected into a whitelist in advance; start time is announced to the list first.</li>
-      <li><b>Anti-whale:</b> a hard <mark class="key">$500 per-wallet cap</mark>.</li>
-      <li><b>Terms:</b> pay with USDT or BNB at a fixed low price; 20% unlocks at TGE, the remainder vests linearly over 6 months ◇.</li>
-      <li><b>Execution:</b> when the window opens, whitelisted wallets connect on the official site and subscribe inside the cap.</li>
+      <li><span class="en"><b>Audience:</b> early core contributors and active community members only. Wallet addresses are collected into a whitelist in advance; start time is announced to the list first.</span><span class="zh"><b>对象：</b>仅限早期核心贡献者与活跃社区成员。钱包地址提前收集进白名单；开始时间优先通知名单成员。</span></li>
+      <li><span class="en"><b>Anti-whale:</b> a hard <mark class="key">$500 per-wallet cap</mark>.</span><span class="zh"><b>防巨鲸：</b>硬性<mark class="key">每钱包 $500 上限</mark>。</span></li>
+      <li><span class="en"><b>Terms:</b> pay with USDT or BNB at a fixed low price; 20% unlocks at TGE, the remainder vests linearly over 6 months ◇.</span><span class="zh"><b>条款：</b>以 USDT 或 BNB 按固定低价认购；TGE 时解锁 20%，其余在 6 个月内线性释放 ◇。</span></li>
+      <li><span class="en"><b>Execution:</b> when the window opens, whitelisted wallets connect on the official site and subscribe inside the cap.</span><span class="zh"><b>执行：</b>窗口开启后，白名单钱包在官网连接并在限额内认购。</span></li>
     </ul>
 
-    <h3><span class="h3k">4.4</span> Phase 2 — IDO (30%)</h3>
+    <h3><span class="h3k">4.4</span> <span class="en">Phase 2 — IDO (30%)</span><span class="zh">阶段二 —— IDO（30%）</span></h3>
     <ul class="plain">
-      <li><b>Platform:</b> an LBP launchpad of the Fjord Foundry class — the price starts high and decays until demand catches it, which <mark class="key">removes the sniping edge</mark>; no whitelist, no first-block advantage.</li>
-      <li><b>Parameters:</b> token address triple-checked before funding the pool (irreversible); payment in USDT or BNB; a 3–7 day window; per-wallet minimum and maximum caps; starting price above the presale price.</li>
-      <li><b>Distribution:</b> "distribute at end" mode — one uniform claim/airdrop at TGE; proceeds flow directly to the project multisig.</li>
-      <li><b>Accounting:</b> after the window closes, the subscription list and amounts are reconciled and published before distribution.</li>
+      <li><span class="en"><b>Platform:</b> an LBP launchpad of the Fjord Foundry class — the price starts high and decays until demand catches it, which <mark class="key">removes the sniping edge</mark>; no whitelist, no first-block advantage.</span><span class="zh"><b>平台：</b>Fjord Foundry 一类的 LBP 发射台 —— 价格由高走低，直至需求接住它，这<mark class="key">消除了抢跑优势</mark>；没有白名单，没有首块优势。</span></li>
+      <li><span class="en"><b>Parameters:</b> token address triple-checked before funding the pool (irreversible); payment in USDT or BNB; a 3–7 day window; per-wallet minimum and maximum caps; starting price above the presale price.</span><span class="zh"><b>参数：</b>向资金池注资前反复核对代币地址（不可逆）；以 USDT 或 BNB 支付；窗口期 3–7 天；每钱包设最小/最大限额；起始价略高于预售价。</span></li>
+      <li><span class="en"><b>Distribution:</b> "distribute at end" mode — one uniform claim/airdrop at TGE; proceeds flow directly to the project multisig.</span><span class="zh"><b>发放：</b>"结束后发放"模式 —— TGE 时统一领取/空投；认购资金直接进入项目多签钱包。</span></li>
+      <li><span class="en"><b>Accounting:</b> after the window closes, the subscription list and amounts are reconciled and published before distribution.</span><span class="zh"><b>核算：</b>窗口关闭后，认购名单与金额经核对并在分发前公示。</span></li>
     </ul>
 
-    <h3><span class="h3k">4.5</span> Liquidity &amp; DEX (10%)</h3>
-    <p>At TGE the liquidity tranche seeds the DEX pool, paired against BNB. SPARK is recommended to issue as a BEP-20 token on BNB Chain ◇ — matching the USDT/BNB payment rails of both rounds — while the Aether treasury and governance remain on Arbitrum<sup><a href="#cite-4">[4]</a></sup>; reserve movements across chains are bridged only through the multisig with timelocked calls<sup><a href="#cite-5">[5]</a></sup>.</p>
+    <h3><span class="h3k">4.5</span> <span class="en">Liquidity &amp; DEX (10%)</span><span class="zh">流动性与 DEX（10%）</span></h3>
+    <p><span class="en">At TGE the liquidity tranche seeds the DEX pool, paired against BNB. SPARK is recommended to issue as a BEP-20 token on BNB Chain ◇ — matching the USDT/BNB payment rails of both rounds — while the Aether treasury and governance remain on Arbitrum<sup><a href="#cite-4">[4]</a></sup>; reserve movements across chains are bridged only through the multisig with timelocked calls<sup><a href="#cite-5">[5]</a></sup>.</span>
+    <span class="zh">TGE 时，流动性份额注入 DEX 资金池，与 BNB 配对。SPARK 建议以 BEP-20 形式发行于 BNB Chain ◇ —— 与两轮认购的 USDT/BNB 支付轨道相匹配 —— 而 Aether 金库与治理仍留在 Arbitrum<sup><a href="#cite-4">[4]</a></sup>；储备的跨链移动仅经多签加时间锁调用完成桥接<sup><a href="#cite-5">[5]</a></sup>。</span></p>
     <div class="addr-pending">token&nbsp;&nbsp;0x · · · pending deployment<br>pool&nbsp;&nbsp;&nbsp;0x · · · pending deployment</div>
-    <p class="wp-note">Addresses are published on the Spark page at the moment of deployment. Before that moment, any address claiming to be SPARK is fraudulent.</p>
+    <p class="wp-note"><span class="en">Addresses are published on the Spark page at the moment of deployment. Before that moment, any address claiming to be SPARK is fraudulent.</span><span class="zh">合约地址将在部署那一刻公示于 Spark 页面。在那之前，任何自称 SPARK 的地址都是假冒。</span></p>
 
-    <h3><span class="h3k">4.6</span> Unlock schedule</h3>
+    <h3><span class="h3k">4.6</span> <span class="en">Unlock schedule</span><span class="zh">解锁时间表</span></h3>
     <figure class="chart-figure">
-      <figcaption>Figure 2 — Circulating supply after TGE</figcaption>
-      <div class="figsub">Liquid float: 42% at TGE (2% presale + 30% IDO + 10% LP), reaching 50% at month 6 as the presale vests. The remaining 50% moves only by governance.</div>
+      <figcaption><span class="en">Figure 2 — Circulating supply after TGE</span><span class="zh">图 2 —— TGE 之后的流通供给</span></figcaption>
+      <div class="figsub"><span class="en">Liquid float: 42% at TGE (2% presale + 30% IDO + 10% LP), reaching 50% at month 6 as the presale vests. The remaining 50% moves only by governance.</span><span class="zh">流通量：TGE 时 42%（预售 2% + IDO 30% + LP 10%），随预售释放于第 6 个月达到 50%。其余 50% 只随治理而动。</span></div>
       <div id="chart-unlock" style="width:100%;min-height:400px"></div>
     </figure>
-    <p>The structural promise is a <mark class="key">hard float ceiling of 50%</mark>: no calendar ever unlocks the reserve — only a public, vetoable proposal can. Early buyers know exactly what the maximum float is.</p>
+    <p><span class="en">The structural promise is a <mark class="key">hard float ceiling of 50%</mark>: no calendar ever unlocks the reserve — only a public, vetoable proposal can. Early buyers know exactly what the maximum float is.</span>
+    <span class="zh">结构性承诺是<mark class="key">50% 的流通量硬上限</mark>：任何日历都不会解锁储备 —— 只有公开的、可否决的提案可以。早期买家清楚地知道最大流通量是多少。</span></p>
 
-    <h3><span class="h3k">4.7</span> Safeguards &amp; compliance</h3>
+    <h3><span class="h3k">4.7</span> <span class="en">Safeguards &amp; compliance</span><span class="zh">安全机制与合规</span></h3>
     <ul class="plain">
-      <li><b>Security:</b> token, presale and LBP contracts must carry audits from a recognized firm before any funds are accepted; reports are published alongside the addresses.</li>
-      <li><b>Transparency:</b> presale and IDO contract addresses and rules are announced before each window opens; the subscription reconciliation is published before TGE distribution.</li>
-      <li><b>Anti-bot:</b> LBP price decay defeats sniping; per-wallet caps ($500 presale; min/max IDO) cap concentration; dynamic slippage bounds may be applied on the presale contract ◇.</li>
-      <li><b>Legal:</b> the launch is being reviewed by counsel for the jurisdictions involved; participation may be restricted where required. Nothing here is an offer of securities.</li>
+      <li><span class="en"><b>Security:</b> token, presale and LBP contracts must carry audits from a recognized firm before any funds are accepted; reports are published alongside the addresses.</span><span class="zh"><b>安全：</b>代币、预售与 LBP 合约在接收任何资金之前必须经知名机构审计；审计报告随地址一并公示。</span></li>
+      <li><span class="en"><b>Transparency:</b> presale and IDO contract addresses and rules are announced before each window opens; the subscription reconciliation is published before TGE distribution.</span><span class="zh"><b>透明：</b>预售与 IDO 的合约地址和规则在各自窗口开启前公告；认购对账在 TGE 分发前公示。</span></li>
+      <li><span class="en"><b>Anti-bot:</b> LBP price decay defeats sniping; per-wallet caps ($500 presale; min/max IDO) cap concentration; dynamic slippage bounds may be applied on the presale contract ◇.</span><span class="zh"><b>防机器人：</b>LBP 价格衰减击败抢跑；每钱包限额（预售 $500；IDO 最小/最大）抑制集中度；预售合约可加动态滑点边界 ◇。</span></li>
+      <li><span class="en"><b>Legal:</b> the launch is being reviewed by counsel for the jurisdictions involved; participation may be restricted where required. Nothing here is an offer of securities.</span><span class="zh"><b>法律：</b>发行正由相关司法辖区的律师审阅；必要时可能限制参与。本文任何内容均不构成证券要约。</span></li>
     </ul>
   </div>
 </section>
@@ -363,44 +384,46 @@ sup a:hover { text-decoration: underline; }
 <!-- ============ 05 GOVERNANCE ============ -->
 <section id="gov" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">05</span> Governance of the Reserve</h2>
-    <p>The 50% reserve is not a treasury wallet — it is a <b>constitutional object</b>. Custody sits in a 3/5 Safe multisig; every movement requires a proposal through Aether's 7-stage lifecycle, survives the elder veto window, and executes through the timelock<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>. Weight in that process is soulbound and earned — 14 AetherRing ranks that cannot be bought or transferred<sup><a href="#cite-4">[4]</a></sup>.</p>
-    <p>Reserve uses are bounded by charter: user-subsidy epochs for Engine fuel, relay and infrastructure funding, ecosystem grants, and — once Germ exists — liquidity stewardship by chartered AI inside hard limits, with red lines routing back to human votes<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>. The balance design is deliberate: <mark class="key">chambers and citizens each hold roughly half the voting weight</mark>, so neither the institution nor the crowd can spend the reserve alone<sup><a href="#cite-5">[5]</a></sup>.</p>
+    <h2 class="chap"><span class="cnum">05</span> <span class="en">Governance of the Reserve</span><span class="zh">储备的治理</span></h2>
+    <p><span class="en">The 50% reserve is not a treasury wallet — it is a <b>constitutional object</b>. Custody sits in a 3/5 Safe multisig; every movement requires a proposal through Aether's 7-stage lifecycle, survives the elder veto window, and executes through the timelock<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>. Weight in that process is soulbound and earned — 14 AetherRing ranks that cannot be bought or transferred<sup><a href="#cite-4">[4]</a></sup>.</span>
+    <span class="zh">50% 的储备不是一个金库钱包 —— 它是一个<b>宪法意义上的对象</b>。托管于 3/5 Safe 多签；每一次动用都须经历 Aether 七阶段生命周期的提案、挺过元老否决窗口、并经时间锁执行<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>。这一过程中的权重是灵魂绑定且挣得的 —— 14 级 AetherRing 权级，买不到也转不走<sup><a href="#cite-4">[4]</a></sup>。</span></p>
+    <p><span class="en">Reserve uses are bounded by charter: user-subsidy epochs for Engine fuel, relay and infrastructure funding, ecosystem grants, and — once Germ exists — liquidity stewardship by chartered AI inside hard limits, with red lines routing back to human votes<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>. The balance design is deliberate: <mark class="key">chambers and citizens each hold roughly half the voting weight</mark>, so neither the institution nor the crowd can spend the reserve alone<sup><a href="#cite-5">[5]</a></sup>.</span>
+    <span class="zh">储备的用途受宪章约束：Engine 燃料的用户补贴期、中继与基础设施经费、生态资助，以及 —— 待 Germ 存在之后 —— 受宪章 AI 在硬性限额之内的流动性管家，红线一律路由回人类表决<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>。制衡设计是刻意的：<mark class="key">议席与公民各持约半数表决权重</mark>，机构与群众都无法单独花掉储备<sup><a href="#cite-5">[5]</a></sup>。</span></p>
   </div>
 </section>
 
 <!-- ============ 06 ROADMAP ============ -->
 <section id="road" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">06</span> Roadmap to TGE</h2>
+    <h2 class="chap"><span class="cnum">06</span> <span class="en">Roadmap to TGE</span><span class="zh">通向 TGE 的路线图</span></h2>
     <div class="tl-wrap">
       <div class="tl-item now">
         <div class="tl-dot">NOW</div>
-        <div class="tl-body"><b>Loop in the wild</b><span>Engine v3.22 and Vault v1.0 shipped; Havix in closed beta after a 15-finding audit closure; Aether v3.4 audited, awaiting mainnet deployment<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>. Presale whitelist open.</span></div>
+        <div class="tl-body"><b><span class="en">Loop in the wild</span><span class="zh">回路已在野外</span></b><span><span class="en">Engine v3.22 and Vault v1.0 shipped; Havix in closed beta after a 15-finding audit closure; Aether v3.4 audited, awaiting mainnet deployment<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>. Presale whitelist open.</span><span class="zh">Engine v3.22 与 Vault v1.0 已交付；Havix 在 15 项审计发现全部关闭后进入封闭内测；Aether v3.4 已审计，等待主网部署<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>。预售白名单开放中。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">01</div>
-        <div class="tl-body"><b>Whitelist &amp; parameters final</b><span>Wallet addresses collected; presale price, IDO bounds, vesting and LP-lock parameters confirmed; contracts audited and addresses published.</span></div>
+        <div class="tl-body"><b><span class="en">Whitelist &amp; parameters final</span><span class="zh">白名单与参数定稿</span></b><span><span class="en">Wallet addresses collected; presale price, IDO bounds, vesting and LP-lock parameters confirmed; contracts audited and addresses published.</span><span class="zh">收集钱包地址；确认预售价格、IDO 边界、锁仓与 LP 锁定参数；合约完成审计并公示地址。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">02</div>
-        <div class="tl-body"><b>Presale window</b><span>Whitelisted wallets subscribe with USDT/BNB inside the $500 cap at the fixed low price.</span></div>
+        <div class="tl-body"><b><span class="en">Presale window</span><span class="zh">预售窗口</span></b><span><span class="en">Whitelisted wallets subscribe with USDT/BNB inside the $500 cap at the fixed low price.</span><span class="zh">白名单钱包以 USDT/BNB 在 $500 限额内按固定低价认购。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">03</div>
-        <div class="tl-body"><b>IDO on the LBP</b><span>3–7 day public round; price discovers itself; reconciliation published at close.</span></div>
+        <div class="tl-body"><b><span class="en">IDO on the LBP</span><span class="zh">LBP 上的 IDO</span></b><span><span class="en">3–7 day public round; price discovers itself; reconciliation published at close.</span><span class="zh">3–7 天公开轮；价格自行发现；结束时公示对账。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">TGE</div>
-        <div class="tl-body"><b>Token generation event</b><span>Presale 20% + full IDO distribution land in wallets; the 10% liquidity tranche seeds the DEX pool; spark-ledger goes live for Engine settlement<sup><a href="#cite-2">[2]</a></sup>.</span></div>
+        <div class="tl-body"><b><span class="en">Token generation event</span><span class="zh">代币生成事件</span></b><span><span class="en">Presale 20% + full IDO distribution land in wallets; the 10% liquidity tranche seeds the DEX pool; spark-ledger goes live for Engine settlement<sup><a href="#cite-2">[2]</a></sup>.</span><span class="zh">预售 20% 与 IDO 全额分发到账钱包；10% 流动性份额注入 DEX 池；spark-ledger 上线为 Engine 结算<sup><a href="#cite-2">[2]</a></sup>。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">+6M</div>
-        <div class="tl-body"><b>Float completes · DAO takes the reserve</b><span>Presale vesting completes — liquid float reaches its 50% ceiling; Aether mainnet governance assumes the reserve mandate in full.</span></div>
+        <div class="tl-body"><b><span class="en">Float completes · DAO takes the reserve</span><span class="zh">流通量封顶 · DAO 接管储备</span></b><span><span class="en">Presale vesting completes — liquid float reaches its 50% ceiling; Aether mainnet governance assumes the reserve mandate in full.</span><span class="zh">预售锁仓完结 —— 流通量触及 50% 上限；Aether 主网治理全权接管储备使命。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">L1</div>
-        <div class="tl-body"><b>Germ, later</b><span>Node-level AI stewards join the substrate under the charter — the Brain arrives to tend a loop that already beats<sup><a href="#cite-7">[7]</a></sup>.</span></div>
+        <div class="tl-body"><b><span class="en">Germ, later</span><span class="zh">Germ，远期</span></b><span><span class="en">Node-level AI stewards join the substrate under the charter — the Brain arrives to tend a loop that already beats<sup><a href="#cite-7">[7]</a></sup>.</span><span class="zh">节点级 AI 管家依宪章加入基座 —— 大脑前来照料一条已在搏动的回路<sup><a href="#cite-7">[7]</a></sup>。</span></span></div>
       </div>
     </div>
   </div>
@@ -409,30 +432,31 @@ sup a:hover { text-decoration: underline; }
 <!-- ============ 07 RISKS ============ -->
 <section id="risks" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">07</span> Risks &amp; Disclaimers</h2>
+    <h2 class="chap"><span class="cnum">07</span> <span class="en">Risks &amp; Disclaimers</span><span class="zh">风险与免责声明</span></h2>
     <ul class="plain">
-      <li><b>Execution risk:</b> Aether mainnet deployment, the M11 charter store, and the spark-ledger service are unfinished components the TGE sequence depends on<sup><a href="#cite-2">[2]</a></sup><sup><a href="#cite-7">[7]</a></sup>.</li>
-      <li><b>Cross-chain risk:</b> SPARK on BNB Chain ◇ with governance on Arbitrum introduces bridge dependency for reserve operations; bridge exploits are an industry-recognized failure mode.</li>
-      <li><b>Market risk:</b> an LBP discovers price honestly — which means it can discover it downward. Fixed low presale pricing compensates early trust but does not guarantee returns.</li>
-      <li><b>Regulatory risk:</b> token launches face divergent regulation; restrictions may apply by jurisdiction; counsel review is a precondition, not a formality.</li>
-      <li><b>Smart-contract risk:</b> audits reduce but never eliminate risk; only interact with addresses published on the official site.</li>
+      <li><span class="en"><b>Execution risk:</b> Aether mainnet deployment, the M11 charter store, and the spark-ledger service are unfinished components the TGE sequence depends on<sup><a href="#cite-2">[2]</a></sup><sup><a href="#cite-7">[7]</a></sup>.</span><span class="zh"><b>执行风险：</b>Aether 主网部署、M11 宪章存储与 spark-ledger 服务是 TGE 流程所依赖的未完成组件<sup><a href="#cite-2">[2]</a></sup><sup><a href="#cite-7">[7]</a></sup>。</span></li>
+      <li><span class="en"><b>Cross-chain risk:</b> SPARK on BNB Chain ◇ with governance on Arbitrum introduces bridge dependency for reserve operations; bridge exploits are an industry-recognized failure mode.</span><span class="zh"><b>跨链风险：</b>SPARK 位于 BNB Chain ◇ 而治理位于 Arbitrum，使储备操作引入桥依赖；跨链桥漏洞是业界公认的失效模式。</span></li>
+      <li><span class="en"><b>Market risk:</b> an LBP discovers price honestly — which means it can discover it downward. Fixed low presale pricing compensates early trust but does not guarantee returns.</span><span class="zh"><b>市场风险：</b>LBP 诚实地发现价格 —— 这也意味着它可能向下发现。预售固定低价补偿早期信任，但不保证回报。</span></li>
+      <li><span class="en"><b>Regulatory risk:</b> token launches face divergent regulation; restrictions may apply by jurisdiction; counsel review is a precondition, not a formality.</span><span class="zh"><b>监管风险：</b>代币发行面临分化的监管；不同司法辖区可能适用限制；律师审阅是前置条件，不是走过场。</span></li>
+      <li><span class="en"><b>Smart-contract risk:</b> audits reduce but never eliminate risk; only interact with addresses published on the official site.</span><span class="zh"><b>智能合约风险：</b>审计降低但不消除风险；只与官网公示的地址交互。</span></li>
     </ul>
-    <p style="margin-top:20px"><b>Disclaimer.</b> This whitepaper describes an open-source software project and its fuel asset. It is not investment advice, not an offer to sell securities, and not a promise of returns. Parameters marked ◇ are draft defaults subject to change before launch. Nothing in the loop is trustless marketing: read the repositories.</p>
+    <p style="margin-top:20px"><span class="en"><b>Disclaimer.</b> This whitepaper describes an open-source software project and its fuel asset. It is not investment advice, not an offer to sell securities, and not a promise of returns. Parameters marked ◇ are draft defaults subject to change before launch. Nothing in the loop is trustless marketing: read the repositories.</span>
+    <span class="zh"><b>免责声明。</b>本白皮书描述一个开源软件项目及其燃料资产。它不是投资建议，不是证券出售要约，也不是回报承诺。标注 ◇ 的参数为草案默认值，可能在发行前变更。回路里没有任何无需信任的营销话术：请去读仓库。</span></p>
   </div>
 </section>
 
 <!-- ============ SOURCES ============ -->
 <section id="sources" style="padding-top:0">
   <div class="wp">
-    <h2 class="chap"><span class="cnum">§</span> Sources</h2>
+    <h2 class="chap"><span class="cnum">§</span> <span class="en">Sources</span><span class="zh">来源</span></h2>
     <ol class="sources-list">
-      <li id="cite-1"><span class="src-title">eneatlnc-cell, Engine repository — sovereign social app (README, releases v3.22, core module parity, SparkEconomy budgets).</span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine</a></li>
-      <li id="cite-2"><span class="src-title">Engine, TODO.md — Spark economy decisions: 1 message = 1 SPARK, daily 1,000 allowance, wallet top-up, spark-ledger service plan.</span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine/blob/main/TODO.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine/blob/main/TODO.md</a></li>
-      <li id="cite-3"><span class="src-title">eneatlnc-cell, Vault repository — offline keystore system: no network permission, biometric signing, QR migration.</span><a class="src-url" href="https://github.com/eneatlnc-cell/Vault" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Vault</a></li>
-      <li id="cite-4"><span class="src-title">eneatlnc-cell, Aether repository — SBT-governed DAO kernel: AetherRing, Governance, Election, Safe treasury.</span><a class="src-url" href="https://github.com/eneatlnc-cell/Aether" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Aether</a></li>
-      <li id="cite-5"><span class="src-title">Aether, docs/TECHNICAL_WHITEPAPER.md — three chambers, 7-stage lifecycle, elder veto, chamber/citizen balance.</span><a class="src-url" href="https://github.com/eneatlnc-cell/Aether/blob/main/docs/TECHNICAL_WHITEPAPER.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Aether/blob/main/docs/TECHNICAL_WHITEPAPER.md</a></li>
-      <li id="cite-6"><span class="src-title">eneatlnc-cell, Havix repository — P2P substrate: 8 modules, 1,234 tests, 15 audit findings closed.</span><a class="src-url" href="https://github.com/eneatlnc-cell/Havix" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Havix</a></li>
-      <li id="cite-7"><span class="src-title">Havix, NEXT-STEPS.md — L0/L1/L2 three-layer stack, M11 charter store and red-line interceptor plan.</span><a class="src-url" href="https://github.com/eneatlnc-cell/Havix/blob/main/NEXT-STEPS.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Havix/blob/main/NEXT-STEPS.md</a></li>
+      <li id="cite-1"><span class="src-title"><span class="en">eneatlnc-cell, Engine repository — sovereign social app (README, releases v3.22, core module parity, SparkEconomy budgets).</span><span class="zh">eneatlnc-cell，Engine 仓库 —— 主权社交应用（README、v3.22 发布、核心模块一致性、SparkEconomy 预算）。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine</a></li>
+      <li id="cite-2"><span class="src-title"><span class="en">Engine, TODO.md — Spark economy decisions: 1 message = 1 SPARK, daily 1,000 allowance, wallet top-up, spark-ledger service plan.</span><span class="zh">Engine，TODO.md —— Spark 经济决策：1 条消息 = 1 SPARK、每日 1,000 配额、钱包充值、spark-ledger 服务计划。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine/blob/main/TODO.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine/blob/main/TODO.md</a></li>
+      <li id="cite-3"><span class="src-title"><span class="en">eneatlnc-cell, Vault repository — offline keystore system: no network permission, biometric signing, QR migration.</span><span class="zh">eneatlnc-cell，Vault 仓库 —— 离线密钥库系统：无网络权限、生物识别签名、二维码迁移。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Vault" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Vault</a></li>
+      <li id="cite-4"><span class="src-title"><span class="en">eneatlnc-cell, Aether repository — SBT-governed DAO kernel: AetherRing, Governance, Election, Safe treasury.</span><span class="zh">eneatlnc-cell，Aether 仓库 —— SBT 治理的 DAO 内核：AetherRing、Governance、Election、Safe 金库。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Aether" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Aether</a></li>
+      <li id="cite-5"><span class="src-title"><span class="en">Aether, docs/TECHNICAL_WHITEPAPER.md — three chambers, 7-stage lifecycle, elder veto, chamber/citizen balance.</span><span class="zh">Aether，docs/TECHNICAL_WHITEPAPER.md —— 三院制、七阶段生命周期、元老否决、议席/公民平衡。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Aether/blob/main/docs/TECHNICAL_WHITEPAPER.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Aether/blob/main/docs/TECHNICAL_WHITEPAPER.md</a></li>
+      <li id="cite-6"><span class="src-title"><span class="en">eneatlnc-cell, Havix repository — P2P substrate: 8 modules, 1,234 tests, 15 audit findings closed.</span><span class="zh">eneatlnc-cell，Havix 仓库 —— P2P 基座：8 个模块、1,234 项测试、15 项审计发现全部关闭。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Havix" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Havix</a></li>
+      <li id="cite-7"><span class="src-title"><span class="en">Havix, NEXT-STEPS.md — L0/L1/L2 three-layer stack, M11 charter store and red-line interceptor plan.</span><span class="zh">Havix，NEXT-STEPS.md —— L0/L1/L2 三层栈、M11 宪章存储与红线拦截器计划。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Havix/blob/main/NEXT-STEPS.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Havix/blob/main/NEXT-STEPS.md</a></li>
     </ol>
   </div>
 </section>
@@ -441,8 +465,8 @@ sup a:hover { text-decoration: underline; }
 <footer>
   <div class="container">
     <div class="foot-bottom" style="border:none;padding-top:0">
-      <span>© <span class="yr">2026</span> SparkLoop · Whitepaper v1.0 draft</span>
-      <span><a href="spark.html" style="color:var(--amber);font-weight:700"><i data-ic="flame"></i> Join the presale whitelist</a></span>
+      <span><span class="en">© <span class="yr">2026</span> SparkLoop · Whitepaper v1.0 draft</span><span class="zh">© <span class="yr">2026</span> SparkLoop · 白皮书 v1.0 草案</span></span>
+      <span><a href="spark.html" style="color:var(--amber);font-weight:700"><i data-ic="flame"></i> <span class="en">Join the presale whitelist</span><span class="zh">加入预售白名单</span></a></span>
     </div>
   </div>
 </footer>
