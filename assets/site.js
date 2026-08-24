@@ -176,6 +176,11 @@
     injectSprite();
     swapPlaceholders();
 
+    /* inputs authored with only data-ph-zh: capture initial placeholder as the EN variant */
+    document.querySelectorAll("[data-ph-zh]").forEach(function (el) {
+      if (!el.getAttribute("data-ph-en")) el.setAttribute("data-ph-en", el.getAttribute("placeholder") || "");
+    });
+
     var saved = "en";
     try { saved = localStorage.getItem(KEY) || "en"; } catch (e) {}
     applyLang(saved);

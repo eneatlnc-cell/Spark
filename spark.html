@@ -75,6 +75,7 @@
       <a href="vault.html">Vault</a>
       <a href="aether.html">Aether</a>
       <a href="havix.html">Havix</a>
+      <a href="rewards.html"><span class="en">Rewards</span><span class="zh">激励</span></a>
       <a class="nav-cta" href="spark.html"><i data-ic="flame"></i> Spark</a>
     </div>
   </div>
@@ -272,17 +273,47 @@
           <div class="st-desc"><span class="en">Builder scale — SDK apps &amp; community relays</span><span class="zh">建设者规模 —— SDK 应用与社区中继</span></div>
         </div>
       </div>
-      <form class="sub-form" id="subForm" novalidate>
-        <input type="email" id="subEmail" required data-ph-en="you@domain.com" data-ph-zh="你的邮箱地址" placeholder="you@domain.com" aria-label="email">
-        <button class="btn btn-amber" type="submit"><i data-ic="flame"></i> <span class="en">Subscribe to Spark</span><span class="zh">认购 Spark</span></button>
+      <form class="wl-form" id="wlForm" novalidate>
+        <div class="wl-field">
+          <label for="wlWallet"><span class="en">Wallet address</span><span class="zh">钱包地址</span> <em>*</em></label>
+          <input type="text" id="wlWallet" required spellcheck="false" autocomplete="off"
+                 placeholder="0x… Binance Web3 wallet"
+                 data-ph-zh="0x…（建议填币安钱包地址）">
+          <span class="wl-hint"><span class="en">the wallet that pays at presale — Binance Web3 wallet recommended (BSC · EVM)</span><span class="zh">预售时用于认购付款的钱包 —— 建议使用币安 Web3 钱包地址（BSC · EVM 格式）</span></span>
+        </div>
+        <div class="wl-field">
+          <label for="wlRef"><span class="en">Referrer code</span><span class="zh">推荐人短码</span></label>
+          <input type="text" id="wlRef" spellcheck="false" autocomplete="off"
+                 placeholder="SL-XXXXXX"
+                 data-ph-zh="SL-XXXXXX（没有可留空）">
+          <span class="wl-hint"><span class="en">optional — find any member's code on the <a href="rewards.html">rewards page</a></span><span class="zh">选填 —— 任意成员的短码可在<a href="rewards.html">激励政策页</a>查询</span></span>
+        </div>
+        <div class="wl-field">
+          <label for="wlEmail"><span class="en">Email</span><span class="zh">邮箱地址</span> <em>*</em></label>
+          <input type="email" id="wlEmail" required spellcheck="false"
+                 placeholder="you@domain.com"
+                 data-ph-zh="你的邮箱地址">
+          <span class="wl-hint"><span class="en">schedule &amp; confirmation reach this address</span><span class="zh">时间表与确认信息将发送至此</span></span>
+        </div>
+        <button class="btn btn-amber wl-submit" type="submit"><i data-ic="flame"></i> <span class="en">Join the whitelist</span><span class="zh">加入白名单</span></button>
       </form>
-      <div class="sub-ok" id="subOk">
+      <div class="wl-ok" id="wlOk">
         <span class="ok-ic"><i data-ic="flame"></i></span>
-        <span id="subOkTxt"></span>
+        <div class="wl-ok-body">
+          <p class="wl-ok-line"><span class="en">You're on the list. Your referral code:</span><span class="zh">你已进入白名单。你的推荐短码：</span></p>
+          <p class="wl-ok-code" id="wlOkCode">SL-······</p>
+          <p class="wl-ok-line"><span class="en">Share it — both sides earn at TGE. Details on the <a href="rewards.html">rewards page</a>.</span><span class="zh">分享它 —— 双方都在 TGE 获得奖励。规则见<a href="rewards.html">激励政策页</a>。</span></p>
+          <div class="wl-ok-actions">
+            <input type="text" id="wlOkShare" readonly aria-label="share link">
+            <button class="btn btn-ghost" type="button" id="wlCopy"><span class="en">COPY SHARE LINK</span><span class="zh">复制分享链接</span></button>
+            <button class="btn btn-ghost" type="button" id="wlMail"><span class="en">✉ SEND CONFIRMATION</span><span class="zh">✉ 发送确认邮件</span></button>
+          </div>
+          <p class="wl-ok-note"><span class="en">Entry saved in this browser. No payment taken — when presale opens, connect the same wallet (Binance Web3 works) and subscribe with USDT/BNB.</span><span class="zh">记录已存入本浏览器。本页不收款 —— 预售开启后用同一钱包（支持币安 Web3 钱包）连接，以 USDT/BNB 认购。</span></p>
+        </div>
       </div>
       <p class="sub-note">
-        <span class="en">Whitelist entry only — no payment is taken on this page. When the presale opens, whitelisted wallets connect on this site and subscribe with USDT/BNB inside the $500 cap. Full parameters, unlock schedule and safeguards live in the <a href="whitepaper.html" style="color:var(--amber);font-weight:700">whitepaper</a>.</span>
-        <span class="zh">仅登记白名单 —— 本页不收取任何款项。预售开启后，白名单钱包在本站连接钱包，以 USDT/BNB 在 $500 上限内认购。完整参数、解锁时间表与防护措施见<a href="whitepaper.html" style="color:var(--amber);font-weight:700">白皮书</a>。</span>
+        <span class="en">Whitelist entry only — no payment is taken on this page. When the presale opens, whitelisted wallets (Binance Web3 wallet recommended) connect on this site and subscribe with USDT/BNB inside the $500 cap. Full parameters, unlock schedule and safeguards live in the <a href="whitepaper.html" style="color:var(--amber);font-weight:700">whitepaper</a>.</span>
+        <span class="zh">仅登记白名单 —— 本页不收取任何款项。预售开启后，白名单钱包（建议币安 Web3 钱包）在本站连接，以 USDT/BNB 在 $500 上限内认购。完整参数、解锁时间表与防护措施见<a href="whitepaper.html" style="color:var(--amber);font-weight:700">白皮书</a>。</span>
       </p>
     </div>
   </div>
@@ -336,6 +367,7 @@
           <li><a href="aether.html">Aether · DAO</a></li>
           <li><a href="havix.html">Havix · <span class="en">L0 substrate</span><span class="zh">L0 基底</span></a></li>
           <li><a href="spark.html">Spark · <span class="en">the fuel</span><span class="zh">燃料</span></a></li>
+          <li><a href="rewards.html">Rewards · <span class="en">referral policy</span><span class="zh">激励政策</span></a></li>
           <li><a href="index.html#circuit"><span class="en">The Web4 Loop</span><span class="zh">Web4 回路</span></a></li>
         </ul>
       </div>
@@ -360,6 +392,6 @@
 <script src="assets/whitepaper-charts.js"></script>
 <script>if (window.SLAllocChart) { window.SLAllocChart("allocChart"); }</script>
 <script src="assets/site.js"></script>
-<script src="assets/spark.js"></script>
+<script src="assets/whitelist.js"></script>
 </body>
 </html>
