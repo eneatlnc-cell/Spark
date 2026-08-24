@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Engine — Physically-Isolated Sovereign Social · Spark Loop</title>
-<meta name="description" content="Engine chats online while Vault keeps the keys offline. E2E encryption, pure-memory app, stateless relay, Spark sticker economy.">
+<meta name="description" content="Engine chats online while Vault keeps the keys offline. E2E encryption, pure-memory app, stateless relay, Spark emoji economy.">
 <link rel="stylesheet" href="assets/site.css">
 <style>
 .bind-stage { border-radius: 26px; border: 1px solid var(--rule); background: linear-gradient(180deg,#0C0718,#0E081D); min-height: 300px; padding: 26px; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,0.45); position: sticky; top: 100px; }
@@ -138,7 +138,7 @@
           <li><b><span class="en">E2E chat</span><span class="zh">端到端聊天</span></b><span class="en"> — ECDH agreement + AES-256-GCM, AAD-bound anti-replay</span><span class="zh"> —— ECDH 协商 + AES-256-GCM，AAD 绑定防重放</span></li>
           <li><b><span class="en">Pure memory</span><span class="zh">纯内存</span></b><span class="en"> — kill the process, everything evaporates</span><span class="zh"> —— 杀掉进程，一切蒸发</span></li>
           <li><b><span class="en">Groups & gating</span><span class="zh">群组与门禁</span></b><span class="en"> — 200-member cap, invite codes, approval queues</span><span class="zh"> —— 200 人上限、邀请码刷新、审批队列</span></li>
-          <li><b><span class="en">Spark stickers</span><span class="zh">Spark 表情</span></b><span class="en"> — ≤48KB media, one message, E2E direct</span><span class="zh"> —— ≤48KB 媒体，一条消息端到端直达</span></li>
+          <li><b><span class="en">Spark emoji</span><span class="zh">Spark 表情</span></b><span class="en"> — 60 refined faces, ≈1KB each, one message, E2E direct</span><span class="zh"> —— 60 张精制小表情，单张 ≈1KB，一条消息端到端直达</span></li>
           <li><b><span class="en">DID profiles</span><span class="zh">DID 档案</span></b><span class="en"> — identity fingerprint, searchable handle</span><span class="zh"> —— 身份指纹，可检索昵称</span></li>
         </ul>
         <span class="arch-pkg">com.engine · INTERNET ✓ · persistence ✗</span>
@@ -253,7 +253,7 @@
           <div class="sp-body" id="chatB"></div>
           <div class="quick-chips">
             <span class="chip" data-msg="Got it — the relay only sees noise 😎" data-zh="收到！中继那边全是乱码 😎"><span class="en">Snark back</span><span class="zh">回个槽</span></span>
-            <span class="chip" data-msg="Sticker delivered · 48KB direct 🎨" data-zh="贴纸已送达 · 48KB 直达 🎨"><span class="en">Send sticker</span><span class="zh">发个贴纸</span></span>
+            <span class="chip" data-msg="Emoji delivered · ≈1KB direct 🎨" data-zh="表情已送达 · ≈1KB 直达 🎨"><span class="en">Send emoji</span><span class="zh">发个表情</span></span>
           </div>
           <div class="sp-input">
             <input type="text" id="inputB" maxlength="60" data-ph-en="Bob says…" data-ph-zh="Bob 说点什么…" placeholder="Bob says…">
@@ -277,14 +277,14 @@
       <span class="section-tag">04 / FEATURES</span>
       <h2 class="section-title"><span class="en">Social that feels normal,</span><span class="zh">体验如常，</span> <span class="grad"><span class="en">threat model that isn't</span><span class="zh">威胁模型不常</span></span></h2>
       <p class="section-sub">
-        <span class="en">Everything below ships in the current v3.2x builds — grouped chat with gatekeeping, the Spark sticker economy, DID profiles, and a markers system that exports only when you say so.</span>
+        <span class="en">Everything below ships in the current v3.2x builds — grouped chat with gatekeeping, the Spark emoji economy, DID profiles, and a markers system that exports only when you say so.</span>
         <span class="zh">以下能力均已随 v3.2x 版本交付 —— 带门禁的群聊、Spark 表情经济、DID 档案，以及仅在你主动触发时才导出的标记物系统。</span>
       </p>
     </div>
 
     <div class="f-grid">
       <div class="glass f-card reveal"><div class="f-ic">👥</div><div><b><span class="en">Groups with gatekeeping</span><span class="zh">带门禁的群聊</span></b><span class="en">200-member groups, refreshable invite codes, pending-approval queues and group detail pages.</span><span class="zh">200 人群组、可刷新邀请码、待审队列与群详情页。</span></div></div>
-      <div class="glass f-card reveal"><div class="f-ic">🎨</div><div><b><span class="en">Spark sticker economy</span><span class="zh">Spark 表情经济</span></b><span class="en">Official packs ≤44KB per frame; a sticker rides one E2E message — no CDN, no link preview leakage.</span><span class="zh">官方表情包单帧 ≤44KB，一条消息端到端直达 —— 无 CDN，无链接预览泄露。</span></div></div>
+      <div class="glass f-card reveal"><div class="f-ic">🎨</div><div><b><span class="en">Spark emoji economy</span><span class="zh">Spark 表情经济</span></b><span class="en">Sixty refined emoji, ≈1KB each; an emoji rides one E2E message — no CDN, no link preview leakage.</span><span class="zh">60 张精制小表情，单张 ≈1KB，一条消息端到端直达 —— 无 CDN，无链接预览泄露。</span></div></div>
       <div class="glass f-card reveal"><div class="f-ic">🪪</div><div><b>DID <span class="en">profiles</span><span class="zh">档案页</span></b><span class="en">Every identity is a key fingerprint with a human face: searchable nickname, avatar, verified fingerprint.</span><span class="zh">每个身份都是带人味的密钥指纹：可检索昵称、头像、已验证指纹。</span></div></div>
       <div class="glass f-card reveal"><div class="f-ic">🔖</div><div><b><span class="en">Markers system</span><span class="zh">标记物系统</span></b><span class="en">Bookmark and search moments; plain-text export is strictly a user action — the "never write to disk" red line holds.</span><span class="zh">收藏检索关键时刻；明文导出严格由用户触发 —— "从不落盘"红线不破。</span></div></div>
       <div class="glass f-card reveal"><div class="f-ic">🌓</div><div><b><span class="en">Day / night theming</span><span class="zh">昼夜主题</span></b><span class="en">Unified breathing empty states, night-contrast fixes and FAB polish across the app pair.</span><span class="zh">统一呼吸空态、夜间对比度修复与双端悬浮按钮打磨。</span></div></div>
@@ -364,11 +364,15 @@
       </div>
       <div class="tl-item">
         <div class="tl-dot">3.20</div>
-        <div class="tl-body"><b><span class="en">Spark sticker system</span><span class="zh">Spark 表情包系统</span></b><span class="en">Quote-style stickers, expression panel, big-sticker rendering and the full send pipeline.</span><span class="zh">引用式贴纸、表情面板、大表情渲染与完整发送链路。</span></div>
+        <div class="tl-body"><b><span class="en">Spark expression system</span><span class="zh">Spark 表情系统</span></b><span class="en">Quote-style emoji, expression panel, big-emoji rendering and the full send pipeline.</span><span class="zh">引用式表情、表情面板、大表情渲染与完整发送链路。</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3.22</div>
+        <div class="tl-body"><b><span class="en">Group UI + DID profiles</span><span class="zh">群组 UI + DID 档案</span></b><span class="en">Group detail pages, approval queues, invite refresh, FAB polish, unified breathing empty states, DID profile pages.</span><span class="zh">群详情页、待审队列、邀请码刷新、FAB 打磨、统一呼吸空态、DID 档案页。</span></div>
       </div>
       <div class="tl-item now">
-        <div class="tl-dot">3.22</div>
-        <div class="tl-body"><b><span class="en">Group UI + DID profiles</span><span class="zh">群组 UI + DID 档案</span></b><span class="en">Group detail pages, approval queues, invite refresh, FAB polish, unified breathing empty states, DID profile pages. Active development, August 2026.</span><span class="zh">群详情页、待审队列、邀请码刷新、FAB 打磨、统一呼吸空态、DID 档案页。2026 年 8 月活跃开发中。</span></div>
+        <div class="tl-dot">3.26</div>
+        <div class="tl-body"><b><span class="en">Emoji economy settled</span><span class="zh">表情经济定稿</span></b><span class="en">Sixty refined emoji at ≈1KB each; metering locked to a single track — one kilobyte, one SPARK.</span><span class="zh">60 张 ≈1KB 精制表情；计量定稿回单轨 —— 每 KB 一枚 SPARK。</span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">2.0+</div>
