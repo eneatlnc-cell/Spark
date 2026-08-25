@@ -24,12 +24,22 @@
     var titleEl = $("stageTitle");
     var descEl = $("stageDesc");
     var vetoBtn = $("vetoToggle");
+    var playBtn = $("stagePlay");
     var CH_LABEL = {
       citizen: { en: "◎ CITIZEN FILING", zh: "◎ 公民提交" },
       parliament: { en: "🏛 PARLIAMENT CHAMBER", zh: "🏛 议院" },
       council: { en: "🏛 COUNCIL CHAMBER", zh: "🏛 理事会" },
       elders: { en: "🕯 ELDERS CHAMBER", zh: "🕯 元老院" },
       chain: { en: "⛓ ON-CHAIN — BNB SMART CHAIN", zh: "⛓ 链上 — BNB Smart Chain" }
+    };
+    /* 双语工具：写入 <span class="en/zh"> 结构，语言切换由 CSS 显隐接管，
+       避免 textContent 把双语嵌套结构抹掉后切语言文案冻结 */
+    function bi(en, zh) {
+      return '<span class="en">' + en + '</span><span class="zh">' + zh + "</span>";
+    }
+    var VETO_DESC = {
+      en: "The charter clause was violated. The proposal is returned with written reasons — nothing executes, the bond is slashed.",
+      zh: "提案触碰宪章条款。被附书面理由打回 —— 什么都不会执行，保证金被罚没。"
     };
     function paint(n) {
       i = n;
@@ -40,22 +50,26 @@
         c.classList.toggle("done", k < n);
         c.classList.toggle("dead", vetoed && k >= 4);
       });
-      chamberEl.textContent = dead ? (lang() === "zh" ? "✕ 已被元老院否决" : "✕ VETOED BY ELDERS") : CH_LABEL[s.ch][lang()];
+      chamberEl.innerHTML = dead
+        ? bi("✕ VETOED BY ELDERS", "✕ 已被元老院否决")
+        : bi(CH_LABEL[s.ch].en, CH_LABEL[s.ch].zh);
       chamberEl.classList.toggle("veto", dead);
-      titleEl.textContent = s[lang()][0];
-      descEl.textContent = vetoed && n >= 4
-        ? t("The charter clause was violated. The proposal is returned with written reasons — nothing executes, the bond is slashed.", "提案触碰宪章条款。被附书面理由打回 —— 什么都不会执行，保证金被罚没。")
-        : s[lang()][1];
+      titleEl.innerHTML = bi(s.en[0], s.zh[0]);
+      descEl.innerHTML = dead
+        ? bi(VETO_DESC.en, VETO_DESC.zh)
+        : bi(s.en[1], s.zh[1]);
     }
+    function playLabel() { playBtn.innerHTML = "▶ " + bi("Play", "播放"); }
+    function pauseLabel() { playBtn.innerHTML = "⏸ " + bi("Pause", "暂停"); }
     function play() {
       if (vetoed && i === 4) { paint(4); stop(); return; }
       if (i === stages.length - 1) { stop(); return; }
       paint(i + 1);
     }
-    function stop() { if (timer) { clearInterval(timer); timer = null; $("stagePlay").textContent = t("▶ Play", "▶ 播放"); } }
-    $("stagePlay").addEventListener("click", function () {
+    function stop() { if (timer) { clearInterval(timer); timer = null; playLabel(); } }
+    playBtn.addEventListener("click", function () {
       if (timer) { stop(); return; }
-      this.textContent = t("⏸ Pause", "⏸ 暂停");
+      pauseLabel();
       if (i === stages.length - 1) paint(0);
       timer = setInterval(play, 1700);
     });
@@ -64,10 +78,13 @@
     vetoBtn.addEventListener("click", function () {
       vetoed = !vetoed;
       this.classList.toggle("on", vetoed);
-      this.textContent = vetoed ? t("🕯 Elder veto: ON", "🕯 元老否决：开") : t("🕯 Elder veto: OFF", "🕯 元老否决：关");
+      this.innerHTML = vetoed
+        ? "🕯 " + bi("Elder veto: ON", "元老否决：开")
+        : "🕯 " + bi("Elder veto: OFF", "元老否决：关");
       stop();
       paint(i > 3 ? 4 : i);
     });
+    playLabel();
     paint(0);
   }
 
@@ -90,7 +107,8 @@
         var r = parseInt(b.getAttribute("data-r"), 10);
         wNum.textContent = "×" + r;
         wBar.style.width = Math.round((r / 14) * 100) + "%";
-        wNote.textContent = r <= 4 ? NOTES.lo[lang()] : (r <= 9 ? NOTES.mid[lang()] : NOTES.hi[lang()]);
+        var note = r <= 4 ? NOTES.lo : (r <= 9 ? NOTES.mid : NOTES.hi);
+        wNote.innerHTML = bi(note.en, note.zh);
       });
     });
   }

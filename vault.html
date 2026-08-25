@@ -145,7 +145,8 @@
           </div>
           <button class="vs-btn main" id="signBtn">🖋 <span class="en">Sign Engine request</span><span class="zh">签署 Engine 请求</span></button>
           <button class="vs-btn"><span class="en">⟳ Migrate to new device</span><span class="zh">⟳ 迁移到新设备</span></button>
-          <div class="bio-overlay" id="bioOverlay">
+          <!-- 初始必须带 hide 类：CSS 默认为可见态，缺失会把状态页整个盖住且无法关闭 -->
+          <div class="bio-overlay hide" id="bioOverlay">
             <div class="fp">Touch the sensor</div>
             <b><span class="en">BiometricPrompt</span><span class="zh">生物识别验证</span></b>
             <span><span class="en">The key never leaves the TEE — it signs inside secure hardware.</span><span class="zh">密钥永不离开 TEE —— 它在安全硬件内部完成签名。</span></span>

@@ -37,6 +37,18 @@
   function vEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
   function vCode(v) { return v.trim() === "" || /^SL-[0-9A-Z]{6}$/i.test(v.trim()); }
 
+  /* 已知档位白名单：merge 只接受这些值，其余清空（数据卫生 + 防注入） */
+  var TIERS = ["Ember", "Flame", "Supernova"];
+
+  /* ---------- html escape ----------
+     运营台表格直接 innerHTML 渲染 localStorage 记录，而记录可经 merge
+     导入外部 mailto 回传的任意 JSON——所有插值必须先转义，防 XSS。 */
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
   /* ---------- storage ---------- */
   function load() {
     try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) { return []; }
@@ -82,6 +94,9 @@
     var F = { wallet: $("wlWallet"), ref: $("wlRef"), email: $("wlEmail") };
     var okBox = $("wlOk"), okCode = $("wlOkCode"), okShare = $("wlOkShare");
     var tier = "Flame";
+    /* 刚提交的那条记录：upsert 会原地更新老记录（不追加到末尾），
+       mailto 必须用它，而不是 load().slice(-1)[0]——后者在重复提交时会取错人 */
+    var lastRec = null;
     document.querySelectorAll(".sub-tier").forEach(function (el) {
       el.addEventListener("click", function () {
         document.querySelectorAll(".sub-tier").forEach(function (x) { x.classList.remove("sel"); });
@@ -103,6 +118,7 @@
       var rec = { wallet: w.toLowerCase(), code: refCode(w), ref: r, tier: tier, email: m, ts: Date.now() };
       if (!rec.code || rec.ref === rec.code) { mark(F.ref, true); return; }  /* self-referral blocked */
       upsert(rec);
+      lastRec = rec;
       form.style.display = "none";
       okCode.textContent = rec.code;
       okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code.slice(3);
@@ -117,7 +133,7 @@
       var b = this; setTimeout(function () { b.textContent = t("COPY SHARE LINK", "复制分享链接"); }, 1500);
     });
     $("wlMail").addEventListener("click", function () {
-      var rec = load().slice(-1)[0] || {};
+      var rec = lastRec || load().slice(-1)[0] || {};
       location.href = "mailto:" + OPS_MAIL +
         "?subject=" + encodeURIComponent("SparkLoop whitelist " + rec.code) +
         "&body=" + encodeURIComponent(JSON.stringify(rec, null, 2));
@@ -171,10 +187,11 @@
     function render() {
       var list = load();
       $("waCount").textContent = list.length + (list.length === 1 ? " entry" : " entries");
+      /* 所有字段先 esc() 再拼 HTML：merge 导入的外部数据可能带任意字符 */
       $("waBody").innerHTML = list.map(function (r) {
-        return "<tr><td>" + r.wallet.slice(0, 8) + "…" + r.wallet.slice(-6) +
-          "</td><td><b>" + r.code + "</b></td><td>" + (r.ref || "—") + "</td><td>" + (r.tier || "—") +
-          "</td><td>" + r.email + "</td><td>" + new Date(r.ts).toLocaleString() + "</td></tr>";
+        return "<tr><td>" + esc(r.wallet.slice(0, 8) + "…" + r.wallet.slice(-6)) +
+          "</td><td><b>" + esc(r.code) + "</b></td><td>" + esc(r.ref || "—") + "</td><td>" + esc(r.tier || "—") +
+          "</td><td>" + esc(r.email) + "</td><td>" + esc(new Date(r.ts).toLocaleString()) + "</td></tr>";
       }).join("") || '<tr><td colspan="6" class="wa-empty">— no entries yet —</td></tr>';
     }
     render();
@@ -197,19 +214,29 @@
           try { return JSON.parse(l); } catch (x) { return null; }
         }).filter(Boolean);
       }
+      /* 归一化为数组：粘贴单个 JSON 对象（非数组）时也能合并，
+         否则 got.length 为 undefined，跳过计数会显示 NaN */
+      var arr = Array.isArray(got) ? got : (got && typeof got === "object" ? [got] : []);
       var before = load(), seen = {};
       before.forEach(function (r) { seen[r.wallet] = 1; });
       var add = 0;
-      (Array.isArray(got) ? got : []).forEach(function (r) {
-        if (r && vWallet(r.wallet || "") && !seen[r.wallet.toLowerCase()]) {
-          var w = r.wallet.toLowerCase();
-          seen[w] = 1; add++;
-          before.push({ wallet: w, code: r.code || refCode(w), ref: r.ref || "", tier: r.tier || "", email: r.email || "", ts: r.ts || Date.now() });
-        }
+      arr.forEach(function (r) {
+        /* 逐字段校验/清洗，不信任任何外部回传内容：
+           code 由钱包确定性推导（不接受外部值）；ref 必须符合格式或为空；
+           tier 只认白名单；email 必须合法；ts 必须是有限数字 */
+        if (!r || !vWallet(r.wallet || "")) return;
+        var w = r.wallet.toLowerCase();
+        if (seen[w]) return;
+        var ref = vCode(r.ref || "") ? String(r.ref).trim().toUpperCase() : "";
+        var email = vEmail(r.email || "") ? String(r.email).trim() : "";
+        var tierV = TIERS.indexOf(r.tier) >= 0 ? r.tier : "";
+        var ts = (typeof r.ts === "number" && isFinite(r.ts)) ? r.ts : Date.now();
+        seen[w] = 1; add++;
+        before.push({ wallet: w, code: refCode(w), ref: ref, tier: tierV, email: email, ts: ts });
       });
       save(before); render();
       $("waPaste").value = "";
-      alert(t(add + " merged, " + (got.length - add) + " skipped (invalid or duplicate).", "合并 " + add + " 条，跳过 " + (got.length - add) + " 条（无效或重复）。"));
+      alert(t(add + " merged, " + (arr.length - add) + " skipped (invalid or duplicate).", "合并 " + add + " 条，跳过 " + (arr.length - add) + " 条（无效或重复）。"));
     });
   }
 })();

@@ -19,13 +19,18 @@
       ring.style.strokeDashoffset = String(RING * (1 - pct));
       ring.style.stroke = left <= 5 ? "#FB7185" : "url(#vgrad)";
     }
-    function roll() {
+    function roll(silent) {
       codeEl.textContent = rand(4, "0123456789") + " " + rand(4, "0123456789");
       codeEl.classList.remove("spin");
       void codeEl.offsetWidth;
       codeEl.classList.add("spin");
-      logEvent(t("code expired → old code zero-wiped · new ECDSA P-256 code issued", "动态码到期 → 旧码零字节覆写 · 签发新 ECDSA P-256 码"));
+      /* 初始签发与到期轮换的日志语义不同；silent 用于页面加载时的首次签发 */
+      if (!silent) {
+        logEvent(t("code expired → old code zero-wiped · new ECDSA P-256 code issued", "动态码到期 → 旧码零字节覆写 · 签发新 ECDSA P-256 码"));
+      }
     }
+    /* 初始化即签发首个动态码（此前页面加载后 30 秒内一直显示占位符 0000 0000） */
+    roll(true);
     var tick = setInterval(function () {
       left -= 1;
       if (left <= 0) { roll(); left = LIFE; }
@@ -44,18 +49,35 @@
     var overlay = $("bioOverlay");
     var sigRow = $("sigRow");
     var busy2 = false;
+    function resetCeremony() {
+      overlay.classList.add("hide");
+      busy2 = false;
+    }
+    /* 遮罩可点击关闭：即使定时流程异常，用户也不会被锁在遮罩后（防死锁） */
+    overlay.addEventListener("click", function () {
+      if (overlay.classList.contains("hide")) return;
+      resetCeremony();
+      logEvent(t("biometric prompt dismissed", "生物识别验证已关闭"));
+    });
     signBtn.addEventListener("click", function () {
       if (busy2) return;
       busy2 = true;
       overlay.classList.remove("hide");
       logEvent(t("IPC request received · challenge=0x" + rand(6, HEX) + " · waiting for biometrics", "收到 IPC 签名请求 · challenge=0x" + rand(6, HEX) + " · 等待生物识别"));
       setTimeout(function () {
-        overlay.classList.add("hide");
-        sigRow.querySelector(".v").textContent = t("✓ signed · ECDSA P-256 · TEE", "✓ 已签名 · ECDSA P-256 · TEE");
-        sigRow.querySelector(".v").style.color = "#34D399";
-        logEvent(t("BiometricPrompt ✓ → key unsealed in TEE → signed inside secure world → re-sealed", "生物识别 ✓ → 密钥在 TEE 内解封 → 安全世界内完成签名 → 重新封存"));
-        logEvent(t("callback verified: sig(sessionId‖status‖ts) ✓ · Δt < 120s ✓", "回调验签：sig(sessionId‖status‖ts) ✓ · Δt < 120s ✓"));
-        busy2 = false;
+        /* try/finally 保证任何异常下遮罩都会收起、按钮都会解锁 */
+        try {
+          var v = sigRow.querySelector(".v");
+          /* 写入双语 span 结构而非纯文本：语言切换后文案仍能正确跟随 */
+          v.innerHTML =
+            '<span class="en">✓ signed · ECDSA P-256 · TEE</span>' +
+            '<span class="zh">✓ 已签名 · ECDSA P-256 · TEE</span>';
+          v.style.color = "#34D399";
+          logEvent(t("BiometricPrompt ✓ → key unsealed in TEE → signed inside secure world → re-sealed", "生物识别 ✓ → 密钥在 TEE 内解封 → 安全世界内完成签名 → 重新封存"));
+          logEvent(t("callback verified: sig(sessionId‖status‖ts) ✓ · Δt < 120s ✓", "回调验签：sig(sessionId‖status‖ts) ✓ · Δt < 120s ✓"));
+        } finally {
+          resetCeremony();
+        }
       }, 1900);
     });
   }
@@ -103,10 +125,11 @@
       var s = MIG[i];
       dots.forEach(function (d, k) { d.classList.toggle("on", k <= i); });
       bar.style.width = Math.round(((i + 1) / MIG.length) * 100) + "%";
+      /* 写入双语 span 而非按当前语言写死文本：切语言后由 CSS 显隐控制 */
       migStage.innerHTML =
         '<div class="ms-icon">' + s.icon + "</div>" +
-        '<div class="ms-title">' + s.title[lang()] + "</div>" +
-        '<p class="ms-desc">' + s.desc[lang()] + "</p>" +
+        '<div class="ms-title"><span class="en">' + s.title.en + '</span><span class="zh">' + s.title.zh + "</span></div>" +
+        '<p class="ms-desc"><span class="en">' + s.desc.en + '</span><span class="zh">' + s.desc.zh + "</span></p>" +
         '<div class="ms-mono mono">' + s.mono + "</div>";
       migStage.style.animation = "none";
       void migStage.offsetWidth;
