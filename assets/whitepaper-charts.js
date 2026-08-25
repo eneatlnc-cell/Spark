@@ -10,22 +10,22 @@
 
   /* ---- refined allocation model: 5 tranches, 10 slices ----
      total 1,000T (1,000 trillion = 10^15)
-     presale 20% = 5% at TGE + 15% vesting (25% of tranche at TGE, 9-month linear)
-     IDO 10% = 2.5% at TGE + 7.5% vesting (25% of tranche at TGE, 9-month linear)
+     presale 10% = 2.5% at TGE + 7.5% vesting (25% of tranche at TGE, 9-month linear)
+     IDO 20% = 5% at TGE + 15% vesting (25% of tranche at TGE, 9-month linear)
      incentive 10% = referral bonuses + activation grants, per program
      reserve 50% = fuel 15 + grants 15 + relay 10 + steward 10
                    (charter defaults ◇ · release capped at ≤5% of the reserve per year) */
   var ALLOC = [
-    { value: 5,   short: "50T",  full: "50,000,000,000,000",    color: "#FCD34D",
+    { value: 2.5, short: "25T",  full: "25,000,000,000,000",    color: "#FCD34D",
       en: "Presale · TGE unlock",           zh: "预售 · TGE 解锁",
       uen: "25% of the tranche at TGE",                 uzh: "TGE 时解锁该份额的 25%" },
-    { value: 15,  short: "150T", full: "150,000,000,000,000",   color: "#F59E0B",
+    { value: 7.5, short: "75T",  full: "75,000,000,000,000",    color: "#F59E0B",
       en: "Presale · 9-mo vest",            zh: "预售 · 9 个月线性",
       uen: "Remainder vests linearly over 9 months",  uzh: "其余 9 个月线性释放" },
-    { value: 2.5, short: "25T",  full: "25,000,000,000,000",    color: "#F472B6",
+    { value: 5,   short: "50T",  full: "50,000,000,000,000",    color: "#F472B6",
       en: "IDO · TGE unlock",               zh: "IDO · TGE 解锁",
       uen: "25% of the tranche at TGE",                 uzh: "TGE 时解锁该份额的 25%" },
-    { value: 7.5, short: "75T",  full: "75,000,000,000,000",    color: "#EC4899",
+    { value: 15,  short: "150T", full: "150,000,000,000,000",   color: "#EC4899",
       en: "IDO · 9-mo vest",                zh: "IDO · 9 个月线性",
       uen: "Remainder vests linearly over 9 months",  uzh: "其余 9 个月线性释放" },
     { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#22D3EE",
@@ -122,7 +122,7 @@
     var amber   = s.getPropertyValue("--amber").trim();
     var accent  = s.getPropertyValue("--accent").trim();
     var months = ["TGE", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10", "M11", "M12"];
-    /* presale vests 5% -> 20% and IDO 2.5% -> 10%, both linearly over 9 months;
+    /* presale vests 2.5% -> 10% and IDO 5% -> 20%, both linearly over 9 months;
        LP 10% live from TGE; incentive 10% settles per program (not calendar) */
     var liquid = [17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 40, 40, 40];
     var reserve = months.map(function () { return 50; });
