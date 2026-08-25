@@ -133,7 +133,7 @@ sup a:hover { text-decoration: underline; }
     </div>
     <div class="hero-stats">
       <div class="hs"><b>50%</b><span><span class="en">DAO reserve — governance-gated</span><span class="zh">DAO 储备 · 治理约束</span></span></div>
-      <div class="hs"><b>42%</b><span><span class="en">liquid at TGE (incl. 10% LP)</span><span class="zh">TGE 即流通（含 10% LP）</span></span></div>
+      <div class="hs"><b>17.5%</b><span><span class="en">liquid at TGE (incl. 10% LP)</span><span class="zh">TGE 即流通（含 10% LP）</span></span></div>
       <div class="hs"><b>$500</b><span><span class="en">presale cap per wallet</span><span class="zh">预售每钱包上限</span></span></div>
       <div class="hs"><b>1 : 1</b><span><span class="en">message : SPARK metering</span><span class="zh">消息 : SPARK 计量</span></span></div>
     </div>
@@ -144,8 +144,8 @@ sup a:hover { text-decoration: underline; }
 <section style="padding-top:26px">
   <div class="wp">
     <div class="abstract reveal">
-      <p><span class="en"><b>Abstract.</b> Web3 gave users wallets but kept their social lives on servers. The Web4 prototype loop closes that gap with <mark class="key">physical isolation</mark>: an online social app (<strong>Engine</strong>) that holds no keys, an offline safe (<strong>Vault</strong>) that holds keys and never connects, an SBT-governed parliament (<strong>Aether</strong>) that banks the fuel reserve, and a P2P substrate (<strong>Havix</strong>) that charters AI stewards under a living constitution. <strong>$SPARK</strong> is the single issued asset that meters expression in the app, endows the DAO reserve, and flows between them — fuel for the loop, never a vote. This whitepaper documents the architecture as it exists in the public repositories, then specifies the token: utility, allocation (10% presale / 30% IDO / 10% DEX liquidity / 50% DAO reserve), the two-phase launch, the unlock schedule, and the safeguards that keep the launch fair and the reserve sovereign.</span>
-      <span class="zh"><b>摘要。</b>Web3 给了用户钱包，却把他们的社交生活留在服务器上。Web4 原型回路以<mark class="key">物理隔离</mark>弥合这一缺口：不持有任何密钥的在线社交应用（<strong>Engine</strong>）、持有密钥且永不联网的离线保险箱（<strong>Vault</strong>）、以 SBT 治理收储燃料储备的议会（<strong>Aether</strong>）、以及在一部活的宪章之下为 AI 管家颁授执照的 P2P 基座（<strong>Havix</strong>）。<strong>$SPARK</strong> 是唯一发行的资产：它在应用中计量表达、为 DAO 储备注资、并在两者之间流动 —— 它是回路的燃料，从来不是选票。本白皮书记录架构在公开仓库中的现状，随后规定代币：效用、分配（10% 预售 / 30% IDO / 10% DEX 流动性 / 50% DAO 储备）、两阶段发行、解锁时间表，以及让发行保持公平、让储备保持主权的安全机制。</span></p>
+      <p><span class="en"><b>Abstract.</b> Web3 gave users wallets but kept their social lives on servers. The Web4 prototype loop closes that gap with <mark class="key">physical isolation</mark>: an online social app (<strong>Engine</strong>) that holds no keys, an offline safe (<strong>Vault</strong>) that holds keys and never connects, an SBT-governed parliament (<strong>Aether</strong>) that banks the fuel reserve, and a P2P substrate (<strong>Havix</strong>) that charters AI stewards under a living constitution. <strong>$SPARK</strong> is the single issued asset that meters expression in the app, endows the DAO reserve, and flows between them — fuel for the loop, never a vote. This whitepaper documents the architecture as it exists in the public repositories, then specifies the token: utility, allocation (20% presale / 10% IDO / 10% DEX liquidity / 50% DAO reserve / 10% community incentives), the two-phase launch, the unlock schedule, and the safeguards that keep the launch fair and the reserve sovereign.</span>
+      <span class="zh"><b>摘要。</b>Web3 给了用户钱包，却把他们的社交生活留在服务器上。Web4 原型回路以<mark class="key">物理隔离</mark>弥合这一缺口：不持有任何密钥的在线社交应用（<strong>Engine</strong>）、持有密钥且永不联网的离线保险箱（<strong>Vault</strong>）、以 SBT 治理收储燃料储备的议会（<strong>Aether</strong>）、以及在一部活的宪章之下为 AI 管家颁授执照的 P2P 基座（<strong>Havix</strong>）。<strong>$SPARK</strong> 是唯一发行的资产：它在应用中计量表达、为 DAO 储备注资、并在两者之间流动 —— 它是回路的燃料，从来不是选票。本白皮书记录架构在公开仓库中的现状，随后规定代币：效用、分配（20% 预售 / 10% IDO / 10% DEX 流动性 / 50% DAO 储备 / 10% 社区激励）、两阶段发行、解锁时间表，以及让发行保持公平、让储备保持主权的安全机制。</span></p>
     </div>
     <div class="toc reveal" style="margin-top:34px">
       <a href="#loop"><span class="tn">01</span> <span class="en">The Sovereignty Loop</span><span class="zh">主权回路</span></a>
@@ -297,12 +297,12 @@ sup a:hover { text-decoration: underline; }
     <span class="zh">◇ 设计参数（锁仓时长、LP 锁定、费用路由、配额衰减）为本草案的推荐默认值；每一项都会在预售开启前由治理确认或修订。链上计量费率（1 KB = 10 SPARK，单条最低 10；每设备一次性激活赠金 1,000）固定于 Engine 规格中<sup><a href="#cite-2">[2]</a></sup>。</span></p>
 
     <h3><span class="h3k">4.2</span> <span class="en">Supply &amp; allocation</span><span class="zh">供给与分配</span></h3>
-    <p><span class="en">Total supply is fixed at <b>1,000T SPARK (1,000,000,000,000,000 — one thousand trillion)</b>. Allocation follows the 10 / 30 / 10 / 50 split: presale, IDO, DEX liquidity, DAO reserve. There is <mark class="key">no team tranche, no insider allocation, no marketing tranche</mark> — the team's upside is the 50% reserve it shares with the DAO, unlocked only through public governance.</span>
-    <span class="zh">总供给固定为 <b>1000 万亿枚 SPARK（1,000,000,000,000,000）</b>。分配遵循 10 / 30 / 10 / 50 的切分：预售、IDO、DEX 流动性、DAO 储备。<mark class="key">没有团队份额，没有内部人配售，没有营销份额</mark> —— 团队的上行空间就是它与 DAO 共享的那 50% 储备，且只能经公开治理解锁。</span></p>
+    <p><span class="en">Total supply is fixed at <b>1,000T SPARK (1,000,000,000,000,000 — one thousand trillion)</b>. Allocation follows the 20 / 10 / 10 / 50 / 10 split: presale, IDO, DEX liquidity, DAO reserve, community incentives. There is <mark class="key">no team tranche, no insider allocation, no marketing tranche</mark> — the team's upside is the 50% reserve it shares with the DAO, unlocked only through public governance and capped by charter at ≤5% of the reserve per year.</span>
+    <span class="zh">总供给固定为 <b>1000 万亿枚 SPARK（1,000,000,000,000,000）</b>。分配遵循 20 / 10 / 10 / 50 / 10 的切分：预售、IDO、DEX 流动性、DAO 储备、社区激励。<mark class="key">没有团队份额，没有内部人配售，没有营销份额</mark> —— 团队的上行空间就是它与 DAO 共享的那 50% 储备，且只能经公开治理解锁，宪章限定每年释出不超过储备的 5%。</span></p>
 
     <figure class="chart-figure">
-      <figcaption><span class="en">Figure 1 — SPARK allocation at TGE (refined: 8 slices, 4 tranches)</span><span class="zh">图 1 —— TGE 时的 SPARK 分配（精细版：8 个切片 · 4 个份额）</span></figcaption>
-      <div class="figsub"><span class="en">Total supply 1,000T (1,000,000,000,000,000). Presale splits 2% at TGE + 8% vesting per its terms; reserve sub-splits are charter-bounded draft defaults ◇ — the reserve itself has no calendar unlock.</span><span class="zh">总供给 1000 万亿（1,000,000,000,000,000）。预售按其条款拆分为 TGE 时 2% + 线性释放 8%；储备子项为宪章约束下的草案默认值 ◇ —— 储备本身没有日历解锁。</span></div>
+      <figcaption><span class="en">Figure 1 — SPARK allocation at TGE (refined: 10 slices, 5 tranches)</span><span class="zh">图 1 —— TGE 时的 SPARK 分配（精细版：10 个切片 · 5 个份额）</span></figcaption>
+      <div class="figsub"><span class="en">Total supply 1,000T (1,000,000,000,000,000). Presale splits 5% at TGE + 15% vesting; IDO splits 2.5% at TGE + 7.5% vesting (both tranches: 25% at TGE, then 9-month linear); reserve sub-splits are charter-bounded draft defaults ◇ with release capped at ≤5%/yr — the reserve itself has no calendar unlock.</span><span class="zh">总供给 1000 万亿（1,000,000,000,000,000）。预售拆分为 TGE 时 5% + 线性释放 15%；IDO 拆分为 TGE 时 2.5% + 线性释放 7.5%（两份额均为 TGE 解锁 25%、其后 9 个月线性）；储备子项为宪章约束下的草案默认值 ◇，释出限速 ≤5%/年 —— 储备本身没有日历解锁。</span></div>
       <div id="chart-alloc" style="width:100%;min-height:440px"></div>
     </figure>
 
@@ -310,12 +310,15 @@ sup a:hover { text-decoration: underline; }
       <table class="tbl">
         <thead><tr><th><span class="en">Tranche</span><span class="zh">份额</span></th><th><span class="en">Share</span><span class="zh">占比</span></th><th><span class="en">Amount</span><span class="zh">数量</span></th><th><span class="en">Unlock</span><span class="zh">解锁</span></th></tr></thead>
         <tbody>
-          <tr><td><span class="en">Presale — whitelist</span><span class="zh">预售 —— 白名单</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">20% at TGE ◇, then 6-month linear ◇</span><span class="zh">TGE 时 20% ◇，其后 6 个月线性 ◇</span></td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ TGE unlock</span><span class="zh">└ TGE 解锁</span></td><td>2%</td><td class="mono"><span class="en">20T</span><span class="zh">20万亿</span></td><td><span class="en">Liquid at TGE</span><span class="zh">TGE 即流通</span></td></tr>
-          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ 6-month vest</span><span class="zh">└ 6 个月锁仓</span></td><td>8%</td><td class="mono"><span class="en">80T</span><span class="zh">80万亿</span></td><td><span class="en">Linear, months 1–6</span><span class="zh">第 1–6 个月线性</span></td></tr>
-          <tr><td><span class="en">IDO — public LBP round</span><span class="zh">IDO —— 公开 LBP 轮</span></td><td>30%</td><td class="mono"><span class="en">300T</span><span class="zh">300万亿</span></td><td><span class="en">100% distributed at TGE</span><span class="zh">TGE 时 100% 分发</span></td></tr>
+          <tr><td><span class="en">Presale — whitelist</span><span class="zh">预售 —— 白名单</span></td><td>20%</td><td class="mono"><span class="en">200T</span><span class="zh">200万亿</span></td><td><span class="en">25% at TGE ◇, then 9-month linear ◇</span><span class="zh">TGE 时 25% ◇，其后 9 个月线性 ◇</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ TGE unlock</span><span class="zh">└ TGE 解锁</span></td><td>5%</td><td class="mono"><span class="en">50T</span><span class="zh">50万亿</span></td><td><span class="en">Liquid at TGE</span><span class="zh">TGE 即流通</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ 9-month vest</span><span class="zh">└ 9 个月锁仓</span></td><td>15%</td><td class="mono"><span class="en">150T</span><span class="zh">150万亿</span></td><td><span class="en">Linear, months 1–9</span><span class="zh">第 1–9 个月线性</span></td></tr>
+          <tr><td><span class="en">IDO — public LBP round</span><span class="zh">IDO —— 公开 LBP 轮</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">25% at TGE ◇, then 9-month linear ◇</span><span class="zh">TGE 时 25% ◇，其后 9 个月线性 ◇</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ TGE unlock</span><span class="zh">└ TGE 解锁</span></td><td>2.5%</td><td class="mono"><span class="en">25T</span><span class="zh">25万亿</span></td><td><span class="en">Liquid at TGE</span><span class="zh">TGE 即流通</span></td></tr>
+          <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ 9-month vest</span><span class="zh">└ 9 个月锁仓</span></td><td>7.5%</td><td class="mono"><span class="en">75T</span><span class="zh">75万亿</span></td><td><span class="en">Linear, months 1–9</span><span class="zh">第 1–9 个月线性</span></td></tr>
           <tr><td><span class="en">DEX liquidity</span><span class="zh">DEX 流动性</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">Seeded into the pool at TGE · LP locked 12 months ◇</span><span class="zh">TGE 时注入资金池 · LP 锁定 12 个月 ◇</span></td></tr>
-          <tr><td><span class="en">DAO reserve</span><span class="zh">DAO 储备</span></td><td>50%</td><td class="mono"><span class="en">500T</span><span class="zh">500万亿</span></td><td><span class="en">No calendar — released only by Aether proposal</span><span class="zh">无日历 —— 仅经 Aether 提案释出</span></td></tr>
+          <tr><td><span class="en">Community incentives</span><span class="zh">社区激励</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">Referral bonuses + activation grants · settles per program</span><span class="zh">推荐奖励 + 激活赠金 · 按激励计划结算</span></td></tr>
+          <tr><td><span class="en">DAO reserve</span><span class="zh">DAO 储备</span></td><td>50%</td><td class="mono"><span class="en">500T</span><span class="zh">500万亿</span></td><td><span class="en">No calendar — released only by Aether proposal · charter cap ≤5%/yr</span><span class="zh">无日历 —— 仅经 Aether 提案释出 · 宪章限速 ≤5%/年</span></td></tr>
           <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Engine fuel subsidies</span><span class="zh">└ Engine 燃料补贴</span></td><td>15%</td><td class="mono"><span class="en">150T</span><span class="zh">150万亿</span></td><td><span class="en">Charter default ◇ — subsidy epochs</span><span class="zh">宪章默认 ◇ —— 补贴期</span></td></tr>
           <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Ecosystem grants</span><span class="zh">└ 生态资助</span></td><td>15%</td><td class="mono"><span class="en">150T</span><span class="zh">150万亿</span></td><td><span class="en">Charter default ◇ — apps, relays, tooling</span><span class="zh">宪章默认 ◇ —— 应用、中继、工具</span></td></tr>
           <tr><td class="mono" style="padding-left:26px;color:var(--muted)"><span class="en">└ Relay &amp; infrastructure</span><span class="zh">└ 中继与基础设施</span></td><td>10%</td><td class="mono"><span class="en">100T</span><span class="zh">100万亿</span></td><td><span class="en">Charter default ◇ — relays, s-nodes</span><span class="zh">宪章默认 ◇ —— 中继、s-node</span></td></tr>
@@ -334,25 +337,26 @@ sup a:hover { text-decoration: underline; }
     <span class="zh">发行的核心是<b>预售与 IDO 双轨并行、节奏不同</b>：预售面向核心社区；IDO 面向公众。<mark class="key">预售建立基本盘；IDO 引爆市场。</mark></span></p>
 
     <div class="wp-metrics">
-      <div class="glass wp-metric"><b>10%</b><span><span class="en">presale — whitelist · $500 cap</span><span class="zh">预售 —— 白名单 · $500 上限</span></span></div>
-      <div class="glass wp-metric"><b>30%</b><span><span class="en">IDO — LBP · 3–7 days</span><span class="zh">IDO —— LBP · 3–7 天</span></span></div>
+      <div class="glass wp-metric"><b>20%</b><span><span class="en">presale — whitelist · $500 cap</span><span class="zh">预售 —— 白名单 · $500 上限</span></span></div>
+      <div class="glass wp-metric"><b>10%</b><span><span class="en">IDO — LBP · 3–7 days</span><span class="zh">IDO —— LBP · 3–7 天</span></span></div>
       <div class="glass wp-metric"><b>10%</b><span><span class="en">liquidity — seeded at TGE</span><span class="zh">流动性 —— TGE 注入</span></span></div>
-      <div class="glass wp-metric"><b>50%</b><span><span class="en">DAO reserve — governance-gated</span><span class="zh">DAO 储备 —— 治理约束</span></span></div>
+      <div class="glass wp-metric"><b>10%</b><span><span class="en">community incentives — referral &amp; activation</span><span class="zh">社区激励 —— 推荐 + 激活</span></span></div>
+      <div class="glass wp-metric"><b>50%</b><span><span class="en">DAO reserve — governance-gated · ≤5%/yr</span><span class="zh">DAO 储备 —— 治理约束 · ≤5%/年</span></span></div>
     </div>
 
-    <h3><span class="h3k">4.3</span> <span class="en">Phase 1 — Presale (10%)</span><span class="zh">阶段一 —— 预售（10%）</span></h3>
+    <h3><span class="h3k">4.3</span> <span class="en">Phase 1 — Presale (20%)</span><span class="zh">阶段一 —— 预售（20%）</span></h3>
     <ul class="plain">
       <li><span class="en"><b>Audience:</b> early core contributors and active community members only. Wallet addresses are collected into a whitelist in advance; start time is announced to the list first.</span><span class="zh"><b>对象：</b>仅限早期核心贡献者与活跃社区成员。钱包地址提前收集进白名单；开始时间优先通知名单成员。</span></li>
       <li><span class="en"><b>Anti-whale:</b> a hard <mark class="key">$500 per-wallet cap</mark>.</span><span class="zh"><b>防巨鲸：</b>硬性<mark class="key">每钱包 $500 上限</mark>。</span></li>
-      <li><span class="en"><b>Terms:</b> pay with USDT or BNB at a fixed low price; 20% unlocks at TGE, the remainder vests linearly over 6 months ◇.</span><span class="zh"><b>条款：</b>以 USDT 或 BNB 按固定低价认购；TGE 时解锁 20%，其余在 6 个月内线性释放 ◇。</span></li>
+      <li><span class="en"><b>Terms:</b> pay with USDT or BNB at a fixed low price; 25% unlocks at TGE, the remainder vests linearly over 9 months ◇.</span><span class="zh"><b>条款：</b>以 USDT 或 BNB 按固定低价认购；TGE 时解锁 25%，其余在 9 个月内线性释放 ◇。</span></li>
       <li><span class="en"><b>Execution:</b> when the window opens, whitelisted wallets connect on the official site and subscribe inside the cap.</span><span class="zh"><b>执行：</b>窗口开启后，白名单钱包在官网连接并在限额内认购。</span></li>
     </ul>
 
-    <h3><span class="h3k">4.4</span> <span class="en">Phase 2 — IDO (30%)</span><span class="zh">阶段二 —— IDO（30%）</span></h3>
+    <h3><span class="h3k">4.4</span> <span class="en">Phase 2 — IDO (10%)</span><span class="zh">阶段二 —— IDO（10%）</span></h3>
     <ul class="plain">
       <li><span class="en"><b>Platform:</b> an LBP launchpad of the Fjord Foundry class — the price starts high and decays until demand catches it, which <mark class="key">removes the sniping edge</mark>; no whitelist, no first-block advantage.</span><span class="zh"><b>平台：</b>Fjord Foundry 一类的 LBP 发射台 —— 价格由高走低，直至需求接住它，这<mark class="key">消除了抢跑优势</mark>；没有白名单，没有首块优势。</span></li>
       <li><span class="en"><b>Parameters:</b> token address triple-checked before funding the pool (irreversible); payment in USDT or BNB; a 3–7 day window; per-wallet minimum and maximum caps; starting price above the presale price.</span><span class="zh"><b>参数：</b>向资金池注资前反复核对代币地址（不可逆）；以 USDT 或 BNB 支付；窗口期 3–7 天；每钱包设最小/最大限额；起始价略高于预售价。</span></li>
-      <li><span class="en"><b>Distribution:</b> "distribute at end" mode — one uniform claim/airdrop at TGE; proceeds flow directly to the project multisig.</span><span class="zh"><b>发放：</b>"结束后发放"模式 —— TGE 时统一领取/空投；认购资金直接进入项目多签钱包。</span></li>
+      <li><span class="en"><b>Distribution:</b> 25% of each wallet's allocation is claimable at TGE, the remainder vests linearly over 9 months ◇; proceeds flow directly to the project multisig.</span><span class="zh"><b>发放：</b>每钱包份额的 25% 于 TGE 可领取，其余在 9 个月内线性释放 ◇；认购资金直接进入项目多签钱包。</span></li>
       <li><span class="en"><b>Accounting:</b> after the window closes, the subscription list and amounts are reconciled and published before distribution.</span><span class="zh"><b>核算：</b>窗口关闭后，认购名单与金额经核对并在分发前公示。</span></li>
     </ul>
 
@@ -365,11 +369,11 @@ sup a:hover { text-decoration: underline; }
     <h3><span class="h3k">4.6</span> <span class="en">Unlock schedule</span><span class="zh">解锁时间表</span></h3>
     <figure class="chart-figure">
       <figcaption><span class="en">Figure 2 — Circulating supply after TGE</span><span class="zh">图 2 —— TGE 之后的流通供给</span></figcaption>
-      <div class="figsub"><span class="en">Liquid float: 42% at TGE (2% presale + 30% IDO + 10% LP), reaching 50% at month 6 as the presale vests. The remaining 50% moves only by governance.</span><span class="zh">流通量：TGE 时 42%（预售 2% + IDO 30% + LP 10%），随预售释放于第 6 个月达到 50%。其余 50% 只随治理而动。</span></div>
+      <div class="figsub"><span class="en">Liquid float: 17.5% at TGE (5% presale + 2.5% IDO + 10% LP), rising by 2.5% per month as both tranches vest and reaching its 40% calendar ceiling at month 9. The 10% incentive tranche settles per program; the remaining 50% moves only by governance, charter-capped at ≤5%/yr.</span><span class="zh">流通量：TGE 时 17.5%（预售 5% + IDO 2.5% + LP 10%），随两份额线性释放每月递增 2.5%，于第 9 个月触及 40% 日历上限。10% 激励份额按计划结算；其余 50% 只随治理而动，宪章限速 ≤5%/年。</span></div>
       <div id="chart-unlock" style="width:100%;min-height:400px"></div>
     </figure>
-    <p><span class="en">The structural promise is a <mark class="key">hard float ceiling of 50%</mark>: no calendar ever unlocks the reserve — only a public, vetoable proposal can. Early buyers know exactly what the maximum float is.</span>
-    <span class="zh">结构性承诺是<mark class="key">50% 的流通量硬上限</mark>：任何日历都不会解锁储备 —— 只有公开的、可否决的提案可以。早期买家清楚地知道最大流通量是多少。</span></p>
+    <p><span class="en">The structural promise is a <mark class="key">hard float ceiling</mark>: the calendar can never unlock more than 40% (presale + IDO + LP); the 10% incentive tranche pays out only against verified referrals and activations; and the 50% reserve moves only through a public, vetoable proposal, with the charter capping releases at <b>≤5% of the reserve per year</b>. Early buyers know exactly what the maximum float is.</span>
+    <span class="zh">结构性承诺是<mark class="key">流通量硬上限</mark>：任何日历最多解锁 40%（预售 + IDO + LP）；10% 激励份额只对经核验的推荐与激活支付；而 50% 的储备只能经公开的、可否决的提案移动，宪章限定每年释出<b>不超过储备的 5%</b>。早期买家清楚地知道最大流通量是多少。</span></p>
 
     <h3><span class="h3k">4.7</span> <span class="en">Safeguards &amp; compliance</span><span class="zh">安全机制与合规</span></h3>
     <ul class="plain">
@@ -387,8 +391,8 @@ sup a:hover { text-decoration: underline; }
     <h2 class="chap"><span class="cnum">05</span> <span class="en">Governance of the Reserve</span><span class="zh">储备的治理</span></h2>
     <p><span class="en">The 50% reserve is not a treasury wallet — it is a <b>constitutional object</b>. Custody sits in a 3/5 Safe multisig; every movement requires a proposal through Aether's 7-stage lifecycle, survives the elder veto window, and executes through the timelock<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>. Weight in that process is soulbound and earned — 14 AetherRing ranks that cannot be bought or transferred<sup><a href="#cite-4">[4]</a></sup>.</span>
     <span class="zh">50% 的储备不是一个金库钱包 —— 它是一个<b>宪法意义上的对象</b>。托管于 3/5 Safe 多签；每一次动用都须经历 Aether 七阶段生命周期的提案、挺过元老否决窗口、并经时间锁执行<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>。这一过程中的权重是灵魂绑定且挣得的 —— 14 级 AetherRing 权级，买不到也转不走<sup><a href="#cite-4">[4]</a></sup>。</span></p>
-    <p><span class="en">Reserve uses are bounded by charter: user-subsidy epochs for Engine fuel, relay and infrastructure funding, ecosystem grants, and — once Germ exists — liquidity stewardship by chartered AI inside hard limits, with red lines routing back to human votes<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>. The balance design is deliberate: <mark class="key">chambers and citizens each hold roughly half the voting weight</mark>, so neither the institution nor the crowd can spend the reserve alone<sup><a href="#cite-5">[5]</a></sup>.</span>
-    <span class="zh">储备的用途受宪章约束：Engine 燃料的用户补贴期、中继与基础设施经费、生态资助，以及 —— 待 Germ 存在之后 —— 受宪章 AI 在硬性限额之内的流动性管家，红线一律路由回人类表决<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>。制衡设计是刻意的：<mark class="key">议席与公民各持约半数表决权重</mark>，机构与群众都无法单独花掉储备<sup><a href="#cite-5">[5]</a></sup>。</span></p>
+    <p><span class="en">Reserve uses are bounded by charter: user-subsidy epochs for Engine fuel, relay and infrastructure funding, ecosystem grants, and — once Germ exists — liquidity stewardship by chartered AI inside hard limits, with red lines routing back to human votes<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>. The charter also fixes a <mark class="key">release-rate ceiling of ≤5% of the reserve per year</mark> — a computable promise, not a discretionary one: even a fully captured treasury cannot drain the reserve faster than one-twentieth per year. The balance design is deliberate: <mark class="key">chambers and citizens each hold roughly half the voting weight</mark>, so neither the institution nor the crowd can spend the reserve alone<sup><a href="#cite-5">[5]</a></sup>.</span>
+    <span class="zh">储备的用途受宪章约束：Engine 燃料的用户补贴期、中继与基础设施经费、生态资助，以及 —— 待 Germ 存在之后 —— 受宪章 AI 在硬性限额之内的流动性管家，红线一律路由回人类表决<sup><a href="#cite-6">[6]</a></sup><sup><a href="#cite-7">[7]</a></sup>。宪章同时固定<mark class="key">释出速率上限 —— 每年不超过储备的 5%</mark>：这是一个可计算的承诺，而非自由裁量的许诺 —— 即便金库被完全攻陷，也无法以快于每年二十分之一的速度抽干储备。制衡设计是刻意的：<mark class="key">议席与公民各持约半数表决权重</mark>，机构与群众都无法单独花掉储备<sup><a href="#cite-5">[5]</a></sup>。</span></p>
   </div>
 </section>
 
@@ -415,11 +419,11 @@ sup a:hover { text-decoration: underline; }
       </div>
       <div class="tl-item">
         <div class="tl-dot">TGE</div>
-        <div class="tl-body"><b><span class="en">Token generation event</span><span class="zh">代币生成事件</span></b><span><span class="en">Presale 20% + full IDO distribution land in wallets; the 10% liquidity tranche seeds the DEX pool; spark-ledger goes live for Engine settlement<sup><a href="#cite-2">[2]</a></sup>.</span><span class="zh">预售 20% 与 IDO 全额分发到账钱包；10% 流动性份额注入 DEX 池；spark-ledger 上线为 Engine 结算<sup><a href="#cite-2">[2]</a></sup>。</span></span></div>
+        <div class="tl-body"><b><span class="en">Token generation event</span><span class="zh">代币生成事件</span></b><span><span class="en">Presale 25% + IDO 25% initial distribution land in wallets; the 10% liquidity tranche seeds the DEX pool; spark-ledger goes live for Engine settlement<sup><a href="#cite-2">[2]</a></sup>.</span><span class="zh">预售 25% 与 IDO 25% 的首期分发到账钱包；10% 流动性份额注入 DEX 池；spark-ledger 上线为 Engine 结算<sup><a href="#cite-2">[2]</a></sup>。</span></span></div>
       </div>
       <div class="tl-item">
-        <div class="tl-dot">+6M</div>
-        <div class="tl-body"><b><span class="en">Float completes · DAO takes the reserve</span><span class="zh">流通量封顶 · DAO 接管储备</span></b><span><span class="en">Presale vesting completes — liquid float reaches its 50% ceiling; Aether mainnet governance assumes the reserve mandate in full.</span><span class="zh">预售锁仓完结 —— 流通量触及 50% 上限；Aether 主网治理全权接管储备使命。</span></span></div>
+        <div class="tl-dot">+9M</div>
+        <div class="tl-body"><b><span class="en">Float completes · DAO takes the reserve</span><span class="zh">流通量封顶 · DAO 接管储备</span></b><span><span class="en">Presale and IDO vesting complete — the calendar float reaches its 40% ceiling; Aether mainnet governance assumes the reserve mandate in full, releases capped by charter at ≤5%/yr.</span><span class="zh">预售与 IDO 锁仓完结 —— 日历流通量触及 40% 上限；Aether 主网治理全权接管储备使命，释出受宪章限速 ≤5%/年。</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">L1</div>

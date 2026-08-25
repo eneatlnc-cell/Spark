@@ -8,35 +8,44 @@
   var bg     = s.getPropertyValue("--bg").trim();
   var ink    = s.getPropertyValue("--ink").trim();
 
-  /* ---- refined allocation model: 4 tranches, 8 slices ----
+  /* ---- refined allocation model: 5 tranches, 10 slices ----
      total 1,000T (1,000 trillion = 10^15)
-     presale 10% = 2% at TGE + 8% vesting (20% of tranche at TGE, per spec)
-     reserve 50% = fuel 15 + grants 15 + relay 10 + steward 10 (charter defaults ◇) */
+     presale 20% = 5% at TGE + 15% vesting (25% of tranche at TGE, 9-month linear)
+     IDO 10% = 2.5% at TGE + 7.5% vesting (25% of tranche at TGE, 9-month linear)
+     incentive 10% = referral bonuses + activation grants, per program
+     reserve 50% = fuel 15 + grants 15 + relay 10 + steward 10
+                   (charter defaults ◇ · release capped at ≤5% of the reserve per year) */
   var ALLOC = [
-    { value: 2,  short: "20T",  full: "20,000,000,000,000",   color: "#FCD34D",
+    { value: 5,   short: "50T",  full: "50,000,000,000,000",    color: "#FCD34D",
       en: "Presale · TGE unlock",           zh: "预售 · TGE 解锁",
-      uen: "20% of the tranche at TGE",                 uzh: "TGE 时解锁该份额的 20%" },
-    { value: 8,  short: "80T",  full: "80,000,000,000,000",   color: "#F59E0B",
-      en: "Presale · 6-mo vest",             zh: "预售 · 6 个月线性",
-      uen: "Remainder vests linearly over 6 months",    uzh: "其余 6 个月线性释放" },
-    { value: 30, short: "300T", full: "300,000,000,000,000",  color: "#F472B6",
-      en: "IDO · public LBP",                zh: "IDO · 公开 LBP",
-      uen: "Distributed in full at TGE",                uzh: "TGE 全额分发" },
-    { value: 10, short: "100T", full: "100,000,000,000,000",  color: "#22D3EE",
+      uen: "25% of the tranche at TGE",                 uzh: "TGE 时解锁该份额的 25%" },
+    { value: 15,  short: "150T", full: "150,000,000,000,000",   color: "#F59E0B",
+      en: "Presale · 9-mo vest",            zh: "预售 · 9 个月线性",
+      uen: "Remainder vests linearly over 9 months",  uzh: "其余 9 个月线性释放" },
+    { value: 2.5, short: "25T",  full: "25,000,000,000,000",    color: "#F472B6",
+      en: "IDO · TGE unlock",               zh: "IDO · TGE 解锁",
+      uen: "25% of the tranche at TGE",                 uzh: "TGE 时解锁该份额的 25%" },
+    { value: 7.5, short: "75T",  full: "75,000,000,000,000",    color: "#EC4899",
+      en: "IDO · 9-mo vest",                zh: "IDO · 9 个月线性",
+      uen: "Remainder vests linearly over 9 months",  uzh: "其余 9 个月线性释放" },
+    { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#22D3EE",
       en: "DEX liquidity",                   zh: "DEX 流动性",
       uen: "Seeded at TGE · LP locked 12 months",       uzh: "TGE 注入 · LP 锁定 12 个月" },
-    { value: 15, short: "150T", full: "150,000,000,000,000",  color: "#818CF8",
+    { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#34D399",
+      en: "Community incentives",           zh: "社区激励",
+      uen: "Referral bonuses & activation grants · settles per program", uzh: "推荐奖励与激活赠金 · 按计划结算" },
+    { value: 15,  short: "150T", full: "150,000,000,000,000",   color: "#818CF8",
       en: "Reserve · fuel subsidies",        zh: "储备 · 燃料补贴",
-      uen: "Engine message-fuel subsidy epochs ◇",      uzh: "Engine 消息燃料补贴期 ◇" },
-    { value: 15, short: "150T", full: "150,000,000,000,000",  color: "#A78BFA",
+      uen: "Engine message-fuel subsidy epochs ◇ · release ≤5%/yr by charter", uzh: "Engine 消息燃料补贴期 ◇ · 宪章释出 ≤5%/年" },
+    { value: 15,  short: "150T", full: "150,000,000,000,000",   color: "#A78BFA",
       en: "Reserve · ecosystem grants",      zh: "储备 · 生态资助",
-      uen: "Grants for apps, relays, tooling ◇",        uzh: "面向应用、中继与工具的资助 ◇" },
-    { value: 10, short: "100T", full: "100,000,000,000,000",  color: "#C084FC",
+      uen: "Grants for apps, relays, tooling ◇ · release ≤5%/yr by charter", uzh: "面向应用、中继与工具的资助 ◇ · 宪章释出 ≤5%/年" },
+    { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#C084FC",
       en: "Reserve · relay & infra",         zh: "储备 · 中继与设施",
-      uen: "Relay, s-node and infrastructure funding ◇", uzh: "中继、s-node 与基础设施经费 ◇" },
-    { value: 10, short: "100T", full: "100,000,000,000,000",  color: "#7C3AED",
+      uen: "Relay, s-node and infrastructure funding ◇ · release ≤5%/yr by charter", uzh: "中继、s-node 与基础设施经费 ◇ · 宪章释出 ≤5%/年" },
+    { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#7C3AED",
       en: "Reserve · steward & endowment",   zh: "储备 · 管家与封存",
-      uen: "Chartered steward liquidity · long endowment ◇", uzh: "受宪章管家流动性 · 长期封存 ◇" }
+      uen: "Chartered steward liquidity · long endowment ◇ · release ≤5%/yr by charter", uzh: "受宪章管家流动性 · 长期封存 ◇ · 宪章释出 ≤5%/年" }
   ];
 
   function zh() { return document.documentElement.getAttribute("data-lang") === "zh"; }
@@ -53,7 +62,7 @@
         animation: false,
         title: {
           text: z ? "1000万亿" : "1,000T",
-          subtext: z ? "SPARK 总供给\n8 个切片 · 4 个份额" : "TOTAL SPARK SUPPLY\n8 slices · 4 tranches",
+          subtext: z ? "SPARK 总供给\n10 个切片 · 5 个份额" : "TOTAL SPARK SUPPLY\n10 slices · 5 tranches",
           left: "center", top: "37%",
           itemGap: 4,
           textStyle: { color: ink, fontSize: 17, fontWeight: 700, fontFamily: "GeistMono, monospace" },
@@ -113,8 +122,9 @@
     var amber   = s.getPropertyValue("--amber").trim();
     var accent  = s.getPropertyValue("--accent").trim();
     var months = ["TGE", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10", "M11", "M12"];
-    /* presale vests 2% -> 10% linearly over 6 months; IDO 30% + LP 10% live from TGE */
-    var liquid = [42, 43.3, 44.7, 46, 47.3, 48.7, 50, 50, 50, 50, 50, 50, 50];
+    /* presale vests 5% -> 20% and IDO 2.5% -> 10%, both linearly over 9 months;
+       LP 10% live from TGE; incentive 10% settles per program (not calendar) */
+    var liquid = [17.5, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 40, 40, 40];
     var reserve = months.map(function () { return 50; });
     var c2 = echarts.init(el2, null, { renderer: "svg" });
     function render2() {
