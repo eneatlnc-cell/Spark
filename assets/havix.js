@@ -9,8 +9,8 @@
 
   var ACTIONS = [
     { id: "liq", red: false, icon: "💧",
-      en: { name: "Rebalance liquidity: reserve ⇄ Engine fuel pool", charter: "§3.2 liquidity operations · within ±5% band", out: "Executed. Receipt tx 0x__ on Arbitrum, threshold kept, reserves intact." },
-      zh: { name: "再平衡流动性：储备 ⇄ Engine 燃料池", charter: "§3.2 流动性操作 · ±5% 带内", out: "已执行。回执 tx 0x__ 于 Arbitrum，阈值保持，储备无虞。" } },
+      en: { name: "Rebalance liquidity: reserve ⇄ Engine fuel pool", charter: "§3.2 liquidity operations · within ±5% band", out: "Executed. Receipt tx 0x__ on BNB Smart Chain, threshold kept, reserves intact." },
+      zh: { name: "再平衡流动性：储备 ⇄ Engine 燃料池", charter: "§3.2 流动性操作 · ±5% 带内", out: "已执行。回执 tx 0x__ 于 BNB Smart Chain，阈值保持，储备无虞。" } },
     { id: "budget", red: false, icon: "📊",
       en: { name: "Renew message-fuel budgets for the quarter", charter: "§4.1 routine budget renewal · non-dilutive", out: "Executed. 40KB text / 48KB media budgets renewed from the standing schedule." },
       zh: { name: "续订本季度消息燃料预算", charter: "§4.1 例行预算续订 · 非摊薄", out: "已执行。按既定时间表续订 40KB 文本 / 48KB 媒体预算。" } },

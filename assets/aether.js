@@ -29,7 +29,7 @@
       parliament: { en: "🏛 PARLIAMENT CHAMBER", zh: "🏛 议院" },
       council: { en: "🏛 COUNCIL CHAMBER", zh: "🏛 理事会" },
       elders: { en: "🕯 ELDERS CHAMBER", zh: "🕯 元老院" },
-      chain: { en: "⛓ ON-CHAIN — ARBITRUM", zh: "⛓ 链上 — Arbitrum" }
+      chain: { en: "⛓ ON-CHAIN — BNB SMART CHAIN", zh: "⛓ 链上 — BNB Smart Chain" }
     };
     function paint(n) {
       i = n;
