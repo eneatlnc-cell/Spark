@@ -4,10 +4,10 @@
    ============================================================ */
 
 /* ============ fonts ============ */
-@font-face { font-family: "Outfit"; src: url("../_shared/fonts/Outfit-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Outfit"; src: url("../_shared/fonts/Outfit-Bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "GeistMono"; src: url("../_shared/fonts/GeistMono-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "GeistMono"; src: url("../_shared/fonts/GeistMono-Bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Outfit"; src: url("../_shared/fonts/Outfit-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Outfit"; src: url("../_shared/fonts/Outfit-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "GeistMono"; src: url("../_shared/fonts/GeistMono-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "GeistMono"; src: url("../_shared/fonts/GeistMono-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 
 /* ============ design tokens ============ */
 :root {

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 部署到自定义域名时, 请将 URL 前缀统一替换 -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://eneatlnc-cell.github.io/Spark/</loc><priority>1.0</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/engine.html</loc><priority>0.9</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/vault.html</loc><priority>0.9</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/aether.html</loc><priority>0.9</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/havix.html</loc><priority>0.9</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/spark.html</loc><priority>0.9</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/whitepaper.html</loc><priority>0.8</priority></url>
+  <url><loc>https://eneatlnc-cell.github.io/Spark/rewards.html</loc><priority>0.7</priority></url>
+</urlset>

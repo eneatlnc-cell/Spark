@@ -6,6 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SPARK Whitepaper — The Web4 Sovereignty Loop</title>
 <meta name="description" content="The project whitepaper for SPARK and the Web4 prototype loop: Engine, Vault, Aether, Havix — architecture, token economics, presale + IDO dual-track launch, unlock schedule and governance.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SPARK Whitepaper — The Web4 Sovereignty Loop">
+<meta property="og:description" content="The project whitepaper for SPARK and the Web4 prototype loop: Engine, Vault, Aether, Havix — architecture, token economics, presale + IDO dual-track launch, unlock schedule and governance.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SPARK Whitepaper — The Web4 Sovereignty Loop">
+<meta name="twitter:description" content="The project whitepaper for SPARK and the Web4 prototype loop: Engine, Vault, Aether, Havix — architecture, token economics, presale + IDO dual-track launch, unlock schedule and governance.">
 <link rel="stylesheet" href="assets/site.css">
 <style>
 /* ============ whitepaper document layer ============ */
@@ -122,8 +129,8 @@ sup a:hover { text-decoration: underline; }
     </div>
     <h1><span class="en">SPARK <span class="grad">&amp; the Web4 Sovereignty Loop</span></span><span class="zh">SPARK <span class="grad">与 Web4 主权回路</span></span></h1>
     <p class="hero-desc">
-      <span class="en">Four open-source organs — <strong>Vault</strong>, <strong>Engine</strong>, <strong>Aether</strong>, <strong>Havix</strong> — form one closed circuit, and <strong>SPARK</strong> is the fuel that makes it turn. This document describes the architecture as built, the token economics as designed, and the dual-track launch: a whitelisted presale followed by a public LBP-based IDO.</span>
-      <span class="zh">四个开源器官 —— <strong>Vault</strong>、<strong>Engine</strong>、<strong>Aether</strong>、<strong>Havix</strong> —— 组成一条闭合回路，<strong>SPARK</strong> 是让它转动起来的燃料。本文档记录已建成的架构、已设计的代币经济，以及双轨发行：白名单预售之后的公开 LBP 式 IDO。</span>
+      <span class="en">Four organs — <strong>Vault</strong>, <strong>Engine</strong>, <strong>Aether</strong>, <strong>Havix</strong> — form one closed circuit, and <strong>SPARK</strong> is the fuel that makes it turn. The E2EE protocol stack is open for audit; this document describes the architecture as built, the token economics as designed, and the dual-track launch: a whitelisted presale followed by a public LBP-based IDO.</span>
+      <span class="zh">四个器官 —— <strong>Vault</strong>、<strong>Engine</strong>、<strong>Aether</strong>、<strong>Havix</strong> —— 组成一条闭合回路，<strong>SPARK</strong> 是让它转动起来的燃料。E2EE 协议栈公开审计；本文档记录已建成的架构、已设计的代币经济，以及双轨发行：白名单预售之后的公开 LBP 式 IDO。</span>
     </p>
     <div class="doc-meta">
       <span><span class="en">AUGUST 2026</span><span class="zh">2026 年 8 月</span></span>
@@ -454,9 +461,9 @@ sup a:hover { text-decoration: underline; }
   <div class="wp">
     <h2 class="chap"><span class="cnum">§</span> <span class="en">Sources</span><span class="zh">来源</span></h2>
     <ol class="sources-list">
-      <li id="cite-1"><span class="src-title"><span class="en">eneatlnc-cell, Engine repository — sovereign social app (README, releases v3.22, core module parity, SparkEconomy budgets).</span><span class="zh">eneatlnc-cell，Engine 仓库 —— 主权社交应用（README、v3.22 发布、核心模块一致性、SparkEconomy 预算）。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine</a></li>
-      <li id="cite-2"><span class="src-title"><span class="en">Engine, TODO.md — Spark economy decisions: 1 KB = 10 SPARK (minimum 10 per message), one-time 1,000 activation grant per device, wallet top-up, spark-ledger service plan.</span><span class="zh">Engine，TODO.md —— Spark 经济决策：1 KB = 10 SPARK（单条最低 10）、每设备一次性 1,000 激活赠金、钱包充值、spark-ledger 服务计划。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine/blob/main/TODO.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine/blob/main/TODO.md</a></li>
-      <li id="cite-3"><span class="src-title"><span class="en">eneatlnc-cell, Vault repository — offline keystore system: no network permission, biometric signing, QR migration.</span><span class="zh">eneatlnc-cell，Vault 仓库 —— 离线密钥库系统：无网络权限、生物识别签名、二维码迁移。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Vault" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Vault</a></li>
+      <li id="cite-1"><span class="src-title"><span class="en">eneatlnc-cell, Engine 3.0 — public audit edition of the E2EE protocol stack (core-crypto, core-protocol, core-ipc; AGPL-3.0).</span><span class="zh">eneatlnc-cell，Engine 3.0 —— E2EE 协议栈公开审计版（core-crypto、core-protocol、core-ipc，AGPL-3.0）。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine3.0</a></li>
+      <li id="cite-2"><span class="src-title"><span class="en">Engine, SparkEconomy engineering record (internal) — 1 KB = 10 SPARK (minimum 10 per message), one-time 1,000 activation grant per device, wallet top-up, spark-ledger service plan.</span><span class="zh">Engine，SparkEconomy 工程记录（内部）—— 1 KB = 10 SPARK（单条最低 10）、每设备一次性 1,000 激活赠金、钱包充值、spark-ledger 服务计划。</span></span><span class="src-url">Internal engineering record · 内部工程记录</span></li>
+      <li id="cite-3"><span class="src-title"><span class="en">eneatlnc-cell, Engine 3.0 — core-ipc: the Engine↔Vault signing contract behind the offline keystore (no network permission, biometric signing, QR migration).</span><span class="zh">eneatlnc-cell，Engine 3.0 —— core-ipc：离线密钥库背后的 Engine↔Vault 签名契约（无网络权限、生物识别签名、二维码迁移）。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Engine3.0</a></li>
       <li id="cite-4"><span class="src-title"><span class="en">eneatlnc-cell, Aether repository — SBT-governed DAO kernel: AetherRing, Governance, Election, Safe treasury.</span><span class="zh">eneatlnc-cell，Aether 仓库 —— SBT 治理的 DAO 内核：AetherRing、Governance、Election、Safe 金库。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Aether" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Aether</a></li>
       <li id="cite-5"><span class="src-title"><span class="en">Aether, docs/TECHNICAL_WHITEPAPER.md — three chambers, 7-stage lifecycle, elder veto, chamber/citizen balance.</span><span class="zh">Aether，docs/TECHNICAL_WHITEPAPER.md —— 三院制、七阶段生命周期、元老否决、议席/公民平衡。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Aether/blob/main/docs/TECHNICAL_WHITEPAPER.md" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Aether/blob/main/docs/TECHNICAL_WHITEPAPER.md</a></li>
       <li id="cite-6"><span class="src-title"><span class="en">eneatlnc-cell, Havix repository — P2P substrate: 8 modules, 1,234 tests, 15 audit findings closed.</span><span class="zh">eneatlnc-cell，Havix 仓库 —— P2P 基座：8 个模块、1,234 项测试、15 项审计发现全部关闭。</span></span><a class="src-url" href="https://github.com/eneatlnc-cell/Havix" target="_blank" rel="noopener">https://github.com/eneatlnc-cell/Havix</a></li>
