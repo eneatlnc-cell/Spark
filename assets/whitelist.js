@@ -1,18 +1,43 @@
 /* ============================================================
-   Whitelist engine — pure frontend, no server.
+   Whitelist engine — local-first with optional server capture.
    · 3-field form: wallet address · referrer code · email
    · deterministic referral codes: SL-XXXXXX = FNV-1a(wallet) → base36
      (same wallet ⇒ same code on every page, verifiable offline)
    · localStorage persistence (key sl-whitelist-v1), upsert by wallet
-   · operator export: spark.html?export=1 → table · copy JSON · CSV · merge · clear
-   · visitor confirmation: one-click mailto + copy payload
+   · SERVER CAPTURE (v2): if WL_ENDPOINT is set, every entry is
+     POSTed there (text/plain ⇒ no CORS preflight); local copy is
+     always kept first so nothing is ever lost; unsynced entries
+     are retried automatically on later visits and via the console.
+   · operator export: spark.html?export=1 → table · copy JSON · CSV ·
+     merge · sync · clear
+   · visitor confirmation: one-click mailto + copy payload (only
+     shown when OPS_MAIL is a real address)
+   ============================================================
+   DEPLOY NOTE — CURRENT MODE (v2.1): auto-email via FormSubmit.
+   WL_ENDPOINT points at the FormSubmit AJAX endpoint below, so every
+   whitelist entry is emailed straight to the operator inbox — no
+   signup, no server to run. OPS_MAIL enables the mailto backup.
+   One-time: click the "Activate Form" link FormSubmit mailed to the
+   operator address; until then entries stay local and auto-retry.
+   To upgrade to full data ownership later (KV + /count /list), deploy
+   tools/whitelist-worker.js and swap WL_ENDPOINT — see
+   docs/WHITELIST_BACKEND.md.
    ============================================================ */
 (function () {
   "use strict";
 
-  /* collection mailbox for confirmations — replace with the real one */
-  var OPS_MAIL = "whitelist@sparkloop.example";
+  /* ------------------------------------------------------------
+     CONFIG — the only two lines an operator normally touches.
+     · WL_ENDPOINT: any URL accepting a JSON POST body.
+       Empty string = pure local mode (legacy behaviour).
+     · OPS_MAIL: real mailbox for the optional mailto backup.
+       Empty string = mailto button hidden (recommended until set).
+     ------------------------------------------------------------ */
+  var WL_ENDPOINT = "https://formsubmit.co/ajax/eneatlnc@gmail.com";  /* FormSubmit → auto-emails every entry to the operator */
+  var OPS_MAIL = "eneatlnc@gmail.com";                                /* mailto backup — same inbox */
+
   var KEY = "sl-whitelist-v1";
+  var SYNC_TIMEOUT = 8000;                   /* ms per POST attempt */
 
   function $(id) { return document.getElementById(id); }
   function lang() { return document.documentElement.getAttribute("data-lang") === "zh" ? "zh" : "en"; }
@@ -58,17 +83,34 @@
   }
   function upsert(rec) {
     var list = load();
-    for (var i = 0; i < list.length; i++) {
-      if (list[i].wallet === rec.wallet) { list[i] = rec; break; }  /* re-entry updates */
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i].wallet === rec.wallet) {
+        /* 保留既有 synced 标记：本地重复提交不得把已同步降级 */
+        if (list[i].synced && !rec.synced) rec.synced = list[i].synced;
+        if (list[i].ts_synced && !rec.ts_synced) rec.ts_synced = list[i].ts_synced;
+        list[i] = rec; break;
+      }
     }
     if (i >= list.length) list.push(rec);
     save(list);
     return rec;
   }
+  function markSynced(wallet, ok) {
+    var list = load();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].wallet === wallet) {
+        if (ok) { list[i].synced = 1; list[i].ts_synced = Date.now(); }
+        else { list[i].synced = 0; }
+        break;
+      }
+    }
+    save(list);
+  }
   function csv(list) {
-    var head = "wallet,referral_code,referrer_code,tier,email,timestamp";
+    var head = "wallet,referral_code,referrer_code,tier,email,timestamp,synced";
     var rows = list.map(function (r) {
-      return [r.wallet, r.code, r.ref || "", r.tier || "", r.email, new Date(r.ts).toISOString()].join(",");
+      return [r.wallet, r.code, r.ref || "", r.tier || "", r.email, new Date(r.ts).toISOString(), r.synced ? "yes" : "local-only"].join(",");
     });
     return head + "\n" + rows.join("\n");
   }
@@ -85,6 +127,86 @@
     el.classList.toggle("bad", bad);
     if (bad) { el.focus(); setTimeout(function () { el.classList.remove("bad"); }, 1600); }
   }
+  /* write the server-capture status line (id="wlSync" in spark.html) */
+  function setSync(el, cls, html) {
+    if (!el) return;
+    el.hidden = false;
+    el.className = "wl-sync" + (cls ? " " + cls : "");
+    el.innerHTML = html;
+  }
+
+  /* ============================================================
+     SERVER CAPTURE — POST one record as text/plain JSON.
+     text/plain keeps it a "simple request": no CORS preflight, so
+     any backend (Worker / Apps Script / tiny server) accepts it
+     with a single Access-Control-Allow-Origin header.
+     Returns a promise fulfilled with { ok: boolean }.
+     ============================================================ */
+  function postRecord(rec) {
+    if (!WL_ENDPOINT) return Promise.resolve({ ok: false, configured: false });
+    var payload = {
+      /* FormSubmit control fields (harmless no-ops for the KV worker):
+         readable subject, table layout, reply-to the visitor */
+      _subject: "SparkLoop whitelist · " + (rec.code || rec.wallet),
+      _template: "table",
+      wallet: rec.wallet, code: rec.code, ref: rec.ref || "",
+      tier: rec.tier || "", email: rec.email, ts: rec.ts,
+      date: new Date(rec.ts).toISOString(),
+      lang: lang(), page: location.pathname.split("/").pop() || "spark.html"
+    };
+    if (rec.email) payload._replyto = rec.email;
+    /* hard timeout so a hung endpoint can't stall the retry chain */
+    var ctl = (typeof AbortController === "function") ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, SYNC_TIMEOUT) : null;
+    /* credentials 'same-origin': a cross-origin endpoint gets no cookies
+       (privacy identical to 'omit'), while a same-origin endpoint (worker
+       reverse-proxied under the site domain) still works — and some
+       corporate proxies 401 cookieless requests outright.
+       text/plain keeps this a simple request (no CORS preflight), and
+       FormSubmit accepts it as long as the page is served over http(s) —
+       the browser then attaches Referer, which FormSubmit requires.
+       From file:// (or privacy tools stripping Referer) the POST is
+       rejected; the entry stays local and retries, nothing is lost. */
+    return fetch(WL_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify(payload),
+      credentials: "same-origin",
+      redirect: "error",
+      signal: ctl ? ctl.signal : undefined
+    }).then(function (res) {
+      if (!res.ok) return { ok: false };
+      /* FormSubmit answers 200 + {"success":"false"} on logical failure
+         (activation pending, file:// origin, …) — inspect the body or we
+         would wrongly mark the entry as synced. The KV worker returns
+         {"ok":true}, which passes this check unchanged. */
+      return res.text().then(function (txt) {
+        var d = null;
+        try { d = JSON.parse(txt); } catch (e) {}
+        if (d && (d.success === false || d.success === "false")) return { ok: false };
+        return { ok: true };
+      });
+    }).catch(function () {
+      return { ok: false };
+    }).finally(function () {
+      if (timer) clearTimeout(timer);
+    });
+  }
+
+  /* Retry unsynced entries (serial, capped so a dead endpoint can't
+     stall page load for minutes). Called on every visit. */
+  function syncBacklog() {
+    if (!WL_ENDPOINT) return;
+    var pending = load().filter(function (r) { return !r.synced; }).slice(0, 20);
+    var chain = Promise.resolve();
+    pending.forEach(function (r) {
+      chain = chain.then(function () {
+        return postRecord(r).then(function (res) {
+          if (res.ok) markSynced(r.wallet, true);
+        });
+      });
+    });
+  }
 
   /* ============================================================
      A) WHITELIST FORM  (spark.html)
@@ -93,7 +215,9 @@
   if (form) {
     var F = { wallet: $("wlWallet"), ref: $("wlRef"), email: $("wlEmail") };
     var okBox = $("wlOk"), okCode = $("wlOkCode"), okShare = $("wlOkShare");
+    var syncLine = $("wlSync");               /* status line injected in spark.html */
     var tier = "Flame";
+    var posting = false;
     /* 刚提交的那条记录：upsert 会原地更新老记录（不追加到末尾），
        mailto 必须用它，而不是 load().slice(-1)[0]——后者在重复提交时会取错人 */
     var lastRec = null;
@@ -109,21 +233,54 @@
     var q = new URLSearchParams(location.search).get("ref");
     if (q && /^SL-[0-9A-Z]{6}$/i.test(q.trim())) F.ref.value = q.trim().toUpperCase();
 
+    /* mailto backup button: only meaningful with a real mailbox */
+    var mailBtn = $("wlMail");
+    if (mailBtn && (!OPS_MAIL || /\.example$/i.test(OPS_MAIL.split("@")[1] || ""))) {
+      mailBtn.style.display = "none";
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (posting) return;
       var w = F.wallet.value.trim(), r = F.ref.value.trim().toUpperCase(), m = F.email.value.trim();
       if (!vWallet(w)) { mark(F.wallet, true); return; }
       if (!vCode(r)) { mark(F.ref, true); return; }
       if (!vEmail(m)) { mark(F.email, true); return; }
       var rec = { wallet: w.toLowerCase(), code: refCode(w), ref: r, tier: tier, email: m, ts: Date.now() };
       if (!rec.code || rec.ref === rec.code) { mark(F.ref, true); return; }  /* self-referral blocked */
-      upsert(rec);
+      upsert(rec);                                   /* local copy ALWAYS first */
       lastRec = rec;
       form.style.display = "none";
       okCode.textContent = rec.code;
       okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code.slice(3);
       okBox.classList.add("show");
       okBox.dispatchEvent(new CustomEvent("wl:done", { detail: rec }));
+
+      /* server capture — status line keeps the user informed either way */
+      var submitBtn = form.querySelector(".wl-submit");
+      if (!WL_ENDPOINT) {
+        setSync(syncLine, "warn", t(
+          "⚠ Entry saved in this browser only — the operator endpoint is not configured yet.",
+          "⚠ 记录仅保存在本浏览器 —— 运营方尚未配置收集端点。"));
+        return;
+      }
+      posting = true;
+      if (submitBtn) submitBtn.disabled = true;
+      setSync(syncLine, "", t("⏳ Registering with the whitelist server…", "⏳ 正在向白名单服务器登记…"));
+      postRecord(rec).then(function (res) {
+        posting = false;
+        if (submitBtn) submitBtn.disabled = false;
+        if (res.ok) {
+          markSynced(rec.wallet, true);
+          setSync(syncLine, "ok", t(
+            "✓ Registered. This wallet is on the presale list — confirmation email follows.",
+            "✓ 登记成功。该钱包已进入预售名单 —— 确认邮件随后发送。"));
+        } else {
+          setSync(syncLine, "warn", t(
+            "⚠ Saved locally — the server is unreachable right now. Your entry will upload automatically the next time you open this page; or press “send confirmation”.",
+            "⚠ 已在本地保存 —— 服务器暂时不可达。下次打开本页时将自动补传；也可点击“发送确认邮件”。"));
+        }
+      });
     });
 
     /* success actions: copy share link · mailto confirmation */
@@ -132,12 +289,14 @@
       this.textContent = t("LINK COPIED", "链接已复制");
       var b = this; setTimeout(function () { b.textContent = t("COPY SHARE LINK", "复制分享链接"); }, 1500);
     });
-    $("wlMail").addEventListener("click", function () {
-      var rec = lastRec || load().slice(-1)[0] || {};
-      location.href = "mailto:" + OPS_MAIL +
-        "?subject=" + encodeURIComponent("SparkLoop whitelist " + rec.code) +
-        "&body=" + encodeURIComponent(JSON.stringify(rec, null, 2));
-    });
+    if (mailBtn && OPS_MAIL && !/\.example$/i.test(OPS_MAIL.split("@")[1] || "")) {
+      mailBtn.addEventListener("click", function () {
+        var rec = lastRec || load().slice(-1)[0] || {};
+        location.href = "mailto:" + OPS_MAIL +
+          "?subject=" + encodeURIComponent("SparkLoop whitelist " + rec.code) +
+          "&body=" + encodeURIComponent(JSON.stringify(rec, null, 2));
+      });
+    }
   }
 
   /* ============================================================
@@ -169,32 +328,59 @@
     panel.className = "wl-admin glass";
     panel.innerHTML =
       '<div class="wa-head"><b>WHITELIST CONSOLE · <span id="waCount"></span></b>' +
-      '<span>' + t("operator view — data lives in this browser", "运营视图 —— 数据存于本浏览器") + '</span></div>' +
+      '<span>' + t("operator view — local entries in this browser", "运营视图 —— 本浏览器内的记录") + '</span></div>' +
       '<div class="wa-tablewrap"><table class="wa-table"><thead><tr>' +
-      "<th>wallet</th><th>code</th><th>referrer</th><th>tier</th><th>email</th><th>time</th></tr>" +
+      "<th>wallet</th><th>code</th><th>referrer</th><th>tier</th><th>email</th><th>time</th><th>sync</th></tr>" +
       '</thead><tbody id="waBody"></tbody></table></div>' +
       '<div class="wa-actions">' +
+      '<button class="btn btn-ghost" id="waSync">↻ SYNC</button>' +
       '<button class="btn btn-ghost" id="waCsv">↓ CSV</button>' +
       '<button class="btn btn-ghost" id="waJson">↓ JSON</button>' +
       '<button class="btn btn-ghost" id="waCopy">COPY JSON</button>' +
       '<button class="btn btn-ghost" id="waClear">CLEAR</button></div>' +
       '<div class="wa-import"><span>' + t("merge arrived mailto payloads:", "合并邮件回传的记录：") + '</span>' +
       '<textarea id="waPaste" rows="3" placeholder=\'[{"wallet":"0x…"}] or one JSON per line\'></textarea>' +
-      '<button class="btn btn-amber" id="waMerge">MERGE</button></div>';
+      '<button class="btn btn-amber" id="waMerge">MERGE</button></div>' +
+      '<p class="wa-endpoint">' + (WL_ENDPOINT
+        ? t("endpoint: <code>" + esc(WL_ENDPOINT) + "</code>", "端点：<code>" + esc(WL_ENDPOINT) + "</code>")
+        : t("<b>WL_ENDPOINT is not configured</b> — entries stay in this browser only. Set it in assets/whitelist.js to start capturing.", "<b>WL_ENDPOINT 未配置</b> —— 记录仅存于本浏览器。在 assets/whitelist.js 中设置后即可开始收集。")) + "</p>";
     var anchor = document.getElementById("subscribe") || document.body;
     anchor.appendChild(panel);
 
     function render() {
       var list = load();
-      $("waCount").textContent = list.length + (list.length === 1 ? " entry" : " entries");
+      var synced = list.filter(function (r) { return r.synced; }).length;
+      $("waCount").textContent = list.length + (list.length === 1 ? " entry" : " entries") +
+        " · " + synced + " synced";
       /* 所有字段先 esc() 再拼 HTML：merge 导入的外部数据可能带任意字符 */
       $("waBody").innerHTML = list.map(function (r) {
         return "<tr><td>" + esc(r.wallet.slice(0, 8) + "…" + r.wallet.slice(-6)) +
           "</td><td><b>" + esc(r.code) + "</b></td><td>" + esc(r.ref || "—") + "</td><td>" + esc(r.tier || "—") +
-          "</td><td>" + esc(r.email) + "</td><td>" + esc(new Date(r.ts).toLocaleString()) + "</td></tr>";
-      }).join("") || '<tr><td colspan="6" class="wa-empty">— no entries yet —</td></tr>';
+          "</td><td>" + esc(r.email) + "</td><td>" + esc(new Date(r.ts).toLocaleString()) + "</td>" +
+          "<td>" + (r.synced ? "✓" : "◌") + "</td></tr>";
+      }).join("") || '<tr><td colspan="7" class="wa-empty">— no entries yet —</td></tr>';
     }
     render();
+
+    /* manual backlog push — operator repairs a flaky endpoint here */
+    $("waSync").addEventListener("click", function () {
+      if (!WL_ENDPOINT) { alert(t("Configure WL_ENDPOINT first (assets/whitelist.js).", "请先配置 WL_ENDPOINT（assets/whitelist.js）。")); return; }
+      var btn = this, pending = load().filter(function (r) { return !r.synced; });
+      if (!pending.length) { alert(t("Nothing to sync — all entries are on the server.", "无需同步 —— 全部记录均已在服务器。")); return; }
+      btn.disabled = true; var done = 0;
+      var chain = Promise.resolve();
+      pending.forEach(function (r) {
+        chain = chain.then(function () {
+          return postRecord(r).then(function (res) {
+            if (res.ok) { markSynced(r.wallet, true); done++; }
+          });
+        });
+      });
+      chain.then(function () {
+        btn.disabled = false; render();
+        alert(t(done + " / " + pending.length + " entries synced.", "已同步 " + done + " / " + pending.length + " 条。"));
+      });
+    });
     $("waCsv").addEventListener("click", function () { dl("sparkloop-whitelist.csv", csv(load()), "text/csv"); });
     $("waJson").addEventListener("click", function () { dl("sparkloop-whitelist.json", JSON.stringify(load(), null, 2), "application/json"); });
     $("waCopy").addEventListener("click", function () {
@@ -239,4 +425,7 @@
       alert(t(add + " merged, " + (arr.length - add) + " skipped (invalid or duplicate).", "合并 " + add + " 条，跳过 " + (arr.length - add) + " 条（无效或重复）。"));
     });
   }
+
+  /* background backlog retry on every visit (after form/console setup) */
+  syncBacklog();
 })();

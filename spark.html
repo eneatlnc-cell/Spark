@@ -7,12 +7,48 @@
 <title>Spark — The Fuel of the Loop · Spark Loop</title>
 <meta name="description" content="Spark is the fuel of the Web4 prototype circuit: burned by every expressive byte in Engine, banked long-term in the Aether reserve, and recycled by chartered AI stewards. Presale whitelist open, public IDO to follow, DEX liquidity at TGE.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<!-- canonical + social card — replace the host when moving to a custom domain -->
+<link rel="canonical" href="https://eneatlnc-cell.github.io/Spark/spark.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Spark — The Fuel of the Loop · Spark Loop">
 <meta property="og:description" content="Spark is the fuel of the Web4 prototype circuit: burned by every expressive byte in Engine, banked long-term in the Aether reserve, and recycled by chartered AI stewards. Presale whitelist open, public IDO to follow, DEX liquidity at TGE.">
-<meta name="twitter:card" content="summary">
+<meta property="og:url" content="https://eneatlnc-cell.github.io/Spark/spark.html">
+<meta property="og:image" content="https://eneatlnc-cell.github.io/Spark/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Spark Loop — one loop, four layers, zero intermediaries. $SPARK is the fuel.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Spark — The Fuel of the Loop · Spark Loop">
 <meta name="twitter:description" content="Spark is the fuel of the Web4 prototype circuit: burned by every expressive byte in Engine, banked long-term in the Aether reserve, and recycled by chartered AI stewards. Presale whitelist open, public IDO to follow, DEX liquidity at TGE.">
+<meta name="twitter:image" content="https://eneatlnc-cell.github.io/Spark/assets/og-card.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need Spark to chat in Engine?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Daily messaging lives comfortably inside standing budgets. Spark becomes visible when you push media, run big groups or build on the SDK." }
+    },
+    {
+      "@type": "Question",
+      "name": "When can I trade Spark on a DEX?",
+      "acceptedAnswer": { "@type": "Answer", "text": "At TGE. Each IDO wallet can claim 25% up front (the rest vests linearly over 9 months), and 10% of supply seeds the DEX pool paired with BNB. Token and pool addresses are published on this page the moment they deploy — until then no Spark is tradable, and any address claiming otherwise is fake." }
+    },
+    {
+      "@type": "Question",
+      "name": "What backs Spark?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Real usage physics: every message in the application layer consumes it, and the DAO's treasury holds it long-term. Utility first, reserve second, narrative never." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can AI stewards spend my Spark?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Stewards operate only on reserve-side liquidity, inside charter bounds, with receipts. Personal keys sit offline in Vault — outside any AI's reach by physics." }
+    }
+  ]
+}
+</script>
 <link rel="stylesheet" href="assets/site.css">
 <style>
 .spark-hero-emoji { font-size: 4.4rem; line-height: 1; filter: drop-shadow(0 0 26px rgba(245,158,11,0.55)); animation: float 4s ease-in-out infinite; display: inline-block; }
@@ -322,7 +358,8 @@
             <button class="btn btn-ghost" type="button" id="wlCopy"><span class="en">COPY SHARE LINK</span><span class="zh">复制分享链接</span></button>
             <button class="btn btn-ghost" type="button" id="wlMail"><span class="en">✉ SEND CONFIRMATION</span><span class="zh">✉ 发送确认邮件</span></button>
           </div>
-          <p class="wl-ok-note"><span class="en">Entry saved in this browser. No payment taken — when presale opens, connect the same wallet (Binance Web3 works) and subscribe with USDT/BNB.</span><span class="zh">记录已存入本浏览器。本页不收款 —— 预售开启后用同一钱包（支持币安 Web3 钱包）连接，以 USDT/BNB 认购。</span></p>
+          <p class="wl-ok-note"><span class="en">No payment taken on this page — when presale opens, connect the same wallet (Binance Web3 works) and subscribe with USDT/BNB. Full parameters, unlock schedule and safeguards live in the <a href="whitepaper.html" style="color:var(--amber);font-weight:700">whitepaper</a>.</span><span class="zh">本页不收取任何款项 —— 预售开启后用同一钱包（支持币安 Web3 钱包）连接，以 USDT/BNB 认购。完整参数、解锁时间表与防护措施见<a href="whitepaper.html" style="color:var(--amber);font-weight:700">白皮书</a>。</span></p>
+          <p class="wl-sync" id="wlSync" hidden></p>
         </div>
       </div>
       <p class="sub-note">
@@ -401,9 +438,9 @@
   </div>
 </footer>
 
-<script src="_shared/js/echarts.min.js"></script>
-<script src="assets/whitepaper-charts.js"></script>
-<script>if (window.SLAllocChart) { window.SLAllocChart("allocChart"); }</script>
+<script defer src="_shared/js/echarts.min.js"></script>
+<script defer src="assets/whitepaper-charts.js"></script>
+<script defer>document.addEventListener("DOMContentLoaded", function () { if (window.SLAllocChart) { window.SLAllocChart("allocChart"); } });</script>
 <script src="assets/site.js"></script>
 <script src="assets/whitelist.js"></script>
 </body>
