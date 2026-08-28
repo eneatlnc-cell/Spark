@@ -180,9 +180,10 @@
         <ul>
           <li><b><span class="en">No INTERNET permission</span><span class="zh">无联网权限</span></b><span class="en"> — air-gap enforced by Android manifest</span><span class="zh"> —— 由 Android 清单强制的物理断网</span></li>
           <li><b>Keystore (TEE)</b> <span class="en">AES-256 encrypted, double-layer storage</span><span class="zh">AES-256 加密，双层存储</span></li>
-          <li><b><span class="en">Dynamic codes</span><span class="zh">动态签名码</span></b><span class="en"> — ECDSA P-256, 8 digits, 30s lifetime</span><span class="zh"> —— ECDSA P-256，8 位，30 秒有效</span></li>
+          <li><b><span class="en">SPARK custody</span><span class="zh">SPARK 托管</span></b><span class="en"> — append-only signed tx chain, full-balance handover to a new device</span><span class="zh"> —— 追加式签名交易链，全额余额交接新机</span></li>
           <li><b><span class="en">QR import</span><span class="zh">扫码导入</span></b><span class="en"> — optical channel, URI carries no private key</span><span class="zh"> —— 光学通道，URI 不含私钥</span></li>
           <li><b><span class="en">Biometric login</span><span class="zh">指纹登录</span></b><span class="en"> — BiometricPrompt + signed callback</span><span class="zh"> —— BiometricPrompt + 签名回调</span></li>
+          <li><b><span class="en">Binder IPC</span><span class="zh">Binder 直连</span></b><span class="en"> — v3.40 direct channel, signature-protected, zero jump dialogs</span><span class="zh"> —— v3.40 直连通道，签名级保护，零跳转弹窗</span></li>
         </ul>
         <span class="arch-pkg">com.vault · INTERNET ✗ · TEE ✓</span>
       </div>
@@ -292,8 +293,8 @@
       <span class="section-tag">04 / FEATURES</span>
       <h2 class="section-title"><span class="en">Social that feels normal,</span><span class="zh">体验如常，</span> <span class="grad"><span class="en">threat model that isn't</span><span class="zh">威胁模型不常</span></span></h2>
       <p class="section-sub">
-        <span class="en">Everything below ships in the current v3.2x builds — grouped chat with gatekeeping, the Spark emoji economy, DID profiles, and a markers system that exports only when you say so.</span>
-        <span class="zh">以下能力均已随 v3.2x 版本交付 —— 带门禁的群聊、Spark 表情经济、DID 档案，以及仅在你主动触发时才导出的标记物系统。</span>
+        <span class="en">Everything below ships in the current v3.4x builds — grouped chat with gatekeeping, the Spark emoji economy, DID profiles, the signed-transaction SPARK wallet, and a markers system that exports only when you say so.</span>
+        <span class="zh">以下能力均已随 v3.4x 版本交付 —— 带门禁的群聊、Spark 表情经济、DID 档案、签名交易 SPARK 钱包，以及仅在你主动触发时才导出的标记物系统。</span>
       </p>
     </div>
 
@@ -389,9 +390,25 @@
         <div class="tl-dot">3.26</div>
         <div class="tl-body"><b><span class="en">Emoji economy settled</span><span class="zh">表情经济定稿</span></b><span class="en">Sixty refined emoji at ≈1KB each; metering unified to a single byte-based track.</span><span class="zh">60 张 ≈1KB 精制表情；计量统一为按字节的单轨。</span></div>
       </div>
-      <div class="tl-item now">
+      <div class="tl-item">
         <div class="tl-dot">3.27</div>
-        <div class="tl-body"><b><span class="en">Fuel economics final</span><span class="zh">燃料经济定稿</span></b><span class="en">One kilobyte, ten SPARK — with a hit-point style burn animation on every send; the daily allowance retired into a one-time 1,000 activation grant, once per device for life.</span><span class="zh">每 KB 十枚 SPARK —— 每次发送伴掉血式扣费飘字；每日领取退役为一次性 1,000 激活赠金，每台设备终生仅一次。</span></div>
+        <div class="tl-body"><b><span class="en">Fuel economics final</span><span class="zh">燃料经济定稿</span></b><span class="en">One kilobyte, ten SPARK — with a hit-point style burn animation on every send.</span><span class="zh">每 KB 十枚 SPARK —— 每次发送伴掉血式扣费飘字。</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3.28</div>
+        <div class="tl-body"><b><span class="en">Wallet persistence</span><span class="zh">钱包持久化</span></b><span class="en">SparkWalletStore controlled disk write-through — killing the process no longer zeroes the balance.</span><span class="zh">SparkWalletStore 受控落盘写穿 —— 杀进程不再清零余额。</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3.34</div>
+        <div class="tl-body"><b><span class="en">Daily login grant</span><span class="zh">每日登录赠金</span></b><span class="en">1,000 SPARK per calendar day, idempotent and gated by a bound Vault identity; the flame becomes the official symbol.</span><span class="zh">每自然日 1,000 SPARK，当日幂等且以绑定 Vault 身份门控；火焰成为官方符号。</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3.37</div>
+        <div class="tl-body"><b><span class="en">Signed-transaction wallet</span><span class="zh">签名交易钱包</span></b><span class="en">The balance stops being a stored number and becomes the derivation of an append-only, co-signed transaction chain.</span><span class="zh">余额不再是一个存储的数字，而是追加式联签交易链的推导值。</span></div>
+      </div>
+      <div class="tl-item now">
+        <div class="tl-dot">3.40</div>
+        <div class="tl-body"><b><span class="en">Binder IPC direct</span><span class="zh">Binder 直连</span></b><span class="en">Engine and Vault talk over a signature-protected Binder channel — cross-app jump dialogs eliminated; wallet handover by camera-scan; full-chain reconciliation from the authoritative ledger.</span><span class="zh">Engine 与 Vault 经签名级保护的 Binder 通道直连 —— 跨应用跳转弹窗消失；钱包交接支持拍照扫码；权威账本全链对账。</span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">2.0+</div>

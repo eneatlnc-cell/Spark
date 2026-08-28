@@ -1,4 +1,4 @@
-/* Vault page — dynamic signing code, biometric signing ceremony, migration stepper */
+/* Vault page — SPARK signed-transaction wallet, biometric signing ceremony, migration stepper */
 (function () {
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
@@ -7,40 +7,40 @@
   var HEX = "0123456789ABCDEF";
   function rand(n, chars) { var s = ""; for (var i = 0; i < n; i++) s += chars.charAt(Math.floor(Math.random() * chars.length)); return s; }
 
-  /* ============ 1. 30s dynamic ECDSA signing code ============ */
-  var codeEl = $("vaultCode");
-  if (codeEl) {
-    var secsEl = $("vaultSecs");
-    var ring = $("ringProg");
-    var RING = 578, LIFE = 30, left = LIFE;
-    function render() {
-      secsEl.textContent = left + "s";
-      var pct = left / LIFE;
-      ring.style.strokeDashoffset = String(RING * (1 - pct));
-      ring.style.stroke = left <= 5 ? "#FB7185" : "url(#vgrad)";
+  /* ============ 1. SPARK wallet — signed transaction chain ============ */
+  var balEl = $("sparkBalance");
+  if (balEl) {
+    var txListEl = $("sparkTxs");
+    var handoverBtn = $("vaultHandover");
+    var bal = 990;
+    var epoch = 3;
+    function renderBal() {
+      balEl.textContent = String(bal);
+      balEl.classList.remove("spin");
+      void balEl.offsetWidth;
+      balEl.classList.add("spin");
     }
-    function roll(silent) {
-      codeEl.textContent = rand(4, "0123456789") + " " + rand(4, "0123456789");
-      codeEl.classList.remove("spin");
-      void codeEl.offsetWidth;
-      codeEl.classList.add("spin");
-      /* 初始签发与到期轮换的日志语义不同；silent 用于页面加载时的首次签发 */
-      if (!silent) {
-        logEvent(t("code expired → old code zero-wiped · new ECDSA P-256 code issued", "动态码到期 → 旧码零字节覆写 · 签发新 ECDSA P-256 码"));
+    function settle() {
+      var amt = 10 + Math.floor(Math.random() * 3) * 10; /* 计量批次: 10/20/30 */
+      if (bal - amt < 0) { bal = 985; } /* 演示兜底: 余额回灌 (真实链上由每日登录赠金) */
+      bal -= amt;
+      epoch += 1;
+      renderBal();
+      if (txListEl) {
+        var row = document.createElement("div");
+        row.className = "vp-tx";
+        row.innerHTML = "<span>METERED ×" + (1 + Math.floor(Math.random() * 3)) + "</span><em class='neg'>−" + amt + "</em>";
+        txListEl.insertBefore(row, txListEl.firstChild);
+        while (txListEl.children.length > 3) txListEl.removeChild(txListEl.lastChild);
       }
+      logEvent(t("metered batch co-signed inside TEE → tx #" + epoch + " appended to chain · balance = Σ signed txs", "计量批次于 TEE 内联签 → 交易 #" + epoch + " 入链 · 余额 = 签名交易之和"));
     }
-    /* 初始化即签发首个动态码（此前页面加载后 30 秒内一直显示占位符 0000 0000） */
-    roll(true);
-    var tick = setInterval(function () {
-      left -= 1;
-      if (left <= 0) { roll(); left = LIFE; }
-      render();
-    }, 1000);
-    render();
-    $("vaultRefresh").addEventListener("click", function () {
-      roll(); left = LIFE; render();
-      logEvent(t("manual refresh · fresh signature, fresh counter", "手动刷新 · 新签名、新计数器"));
-    });
+    if (handoverBtn) {
+      handoverBtn.addEventListener("click", function () {
+        logEvent(t("handover certificate signed · full balance migrates to the new device as a genesis tx", "交接证书已签名 · 全额余额以创世交易迁移至新设备"));
+      });
+    }
+    setInterval(settle, 9000);
   }
 
   /* ============ 2. Biometric signing ceremony ============ */
@@ -109,6 +109,12 @@
       mono: "rebind(old_fp → new_fp, sig) · relay gossip"
     },
     {
+      icon: "⇄",
+      title: { en: "SPARK custody hands over too", zh: "SPARK 托管同步交接" },
+      desc: { en: "The old Vault signs a handover certificate that terminates its chain with the full balance; the new Vault verifies it and continues the ledger with a genesis transaction — no balance ever exists un-signed.", zh: "旧 Vault 签署交接证书，以全额余额终结旧链；新 Vault 验证后以创世交易承接账本 —— 任何余额都不存在未签名的形态。" },
+      mono: "HANDOVER(total) → cert(σ) → GENESIS on device #2"
+    },
+    {
       icon: "🔥",
       title: { en: "Old copy burned, zero residue", zh: "旧副本烧毁，零残留" },
       desc: { en: "The old Vault wipes the sealed key with zero-overwrite. Migration complete — no key ever touched the internet.", zh: "旧 Vault 以零覆写方式擦除封存密钥。迁移完成 —— 没有任何密钥碰过互联网。" },
@@ -159,7 +165,7 @@
       t("AndroidManifest: uses-permission INTERNET → <b>not found</b> ✓", "AndroidManifest：uses-permission INTERNET → <b>未声明</b> ✓"),
       t("network stack: unreachable · sockets: none · telemetry: none", "网络栈：不可达 · sockets：无 · 遥测：无"),
       t("Keystore TEE alive · keys sealed (AES-256-GCM) · biometrics armed", "Keystore TEE 在线 · 密钥已封存（AES-256-GCM）· 生物识别就绪"),
-      t("signing code rotation armed · TTL 30s · ready", "签名码轮换已就绪 · TTL 30 秒 · 待命")
+      t("SPARK wallet chain armed · HWM anti-replay · handover ready", "SPARK 钱包链已就绪 · HWM 防重放 · 交接待命")
     ];
     boot.forEach(function (m, i) { setTimeout(function () { logEvent(m); }, 500 + i * 700); });
   }

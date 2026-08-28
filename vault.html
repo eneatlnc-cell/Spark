@@ -5,13 +5,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vault — The Offline Safe for Sovereign Keys · Spark Loop</title>
-<meta name="description" content="Vault stores Engine-class app keys offline: no INTERNET permission, TEE-sealed keys, biometric signing, 30s dynamic codes and QR-only migration to new devices.">
+<meta name="description" content="Vault stores Engine-class app keys offline: no INTERNET permission, TEE-sealed keys, biometric signing, SPARK wallet custody with cross-device handover, and QR-only key migration.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <!-- canonical + social card — replace the host when moving to a custom domain -->
 <link rel="canonical" href="https://eneatlnc-cell.github.io/Spark/vault.html">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Vault — The Offline Safe for Sovereign Keys · Spark Loop">
-<meta property="og:description" content="Vault stores Engine-class app keys offline: no INTERNET permission, TEE-sealed keys, biometric signing, 30s dynamic codes and QR-only migration to new devices.">
+<meta property="og:description" content="Vault stores Engine-class app keys offline: no INTERNET permission, TEE-sealed keys, biometric signing, SPARK wallet custody with cross-device handover, and QR-only key migration.">
 <meta property="og:url" content="https://eneatlnc-cell.github.io/Spark/vault.html">
 <meta property="og:image" content="https://eneatlnc-cell.github.io/Spark/assets/og-card.jpg">
 <meta property="og:image:width" content="1200">
@@ -19,7 +19,7 @@
 <meta property="og:image:alt" content="Spark Loop — one loop, four layers, zero intermediaries. $SPARK is the fuel.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Vault — The Offline Safe for Sovereign Keys · Spark Loop">
-<meta name="twitter:description" content="Vault stores Engine-class app keys offline: no INTERNET permission, TEE-sealed keys, biometric signing, 30s dynamic codes and QR-only migration to new devices.">
+<meta name="twitter:description" content="Vault stores Engine-class app keys offline: no INTERNET permission, TEE-sealed keys, biometric signing, SPARK wallet custody with cross-device handover, and QR-only key migration.">
 <meta name="twitter:image" content="https://eneatlnc-cell.github.io/Spark/assets/og-card.jpg">
 <link rel="stylesheet" href="assets/site.css">
 <style>
@@ -41,6 +41,17 @@
 #migScene .ms-title { font-size: 1.18rem; font-weight: 700; }
 #migScene .ms-desc { font-size: 0.9rem; color: var(--muted); max-width: 420px; }
 #migScene .ms-mono { font-size: 0.72rem; color: #34D399; background: rgba(52,211,153,0.07); border: 1px dashed rgba(52,211,153,0.3); border-radius: 10px; padding: 8px 14px; word-break: break-all; }
+.vp-wallet { display: flex; flex-direction: column; align-items: center; padding: 16px 20px 4px; }
+.vp-balance { font-family: var(--font-mono); font-size: 2.4rem; font-weight: 800; color: #fff; line-height: 1; display: flex; align-items: baseline; gap: 8px; }
+.vp-balance small { font-size: 0.78rem; color: #F59E0B; font-weight: 700; letter-spacing: 0.5px; }
+.vp-bal-sub { font-size: 0.68rem; color: var(--muted); margin-top: 6px; text-align: center; }
+.vp-balance span.spin { animation: codeflip 0.45s ease; display: inline-block; }
+.vp-txs { width: 100%; margin-top: 14px; border-top: 1px dashed rgba(52,211,153,0.25); padding-top: 10px; display: flex; flex-direction: column; gap: 5px; }
+.vp-tx { display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.66rem; padding: 5px 12px; border-radius: 9px; background: rgba(52,211,153,0.06); border: 1px solid rgba(52,211,153,0.14); animation: fadeUp 0.4s ease both; }
+.vp-tx span { color: rgba(255,255,255,0.55); letter-spacing: 0.4px; }
+.vp-tx em { font-style: normal; font-weight: 700; }
+.vp-tx em.pos { color: #34D399; }
+.vp-tx em.neg { color: #FB7185; }
 .mig-ctl { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
 .mig-btn { border: 1px solid var(--rule); background: rgba(255,255,255,0.04); color: var(--ink); border-radius: 12px; padding: 9px 20px; font-weight: 700; font-family: var(--font-sans); cursor: pointer; transition: all 0.2s; }
 .mig-btn:hover { border-color: #10B981; }
@@ -96,7 +107,7 @@
     <div class="hero-stats">
       <div class="hs"><b>0</b><span class="en">INTERNET permissions in manifest</span><span class="zh">清单联网权限</span></div>
       <div class="hs"><b>TEE</b><span class="en">hardware-sealed keys</span><span class="zh">硬件封存密钥</span></div>
-      <div class="hs"><b>30s</b><span class="en">rotating signing codes</span><span class="zh">轮换签名码</span></div>
+      <div class="hs"><b>SPARK</b><span class="en">wallet custody & handover</span><span class="zh">钱包托管与交接</span></div>
       <div class="hs"><b>QR</b><span class="en">the only exit for a key</span><span class="zh">密钥唯一的出口</span></div>
     </div>
   </div>
@@ -109,38 +120,32 @@
       <span class="section-tag pa">01 / LIVE <span class="en">RECREATED FROM THE DEMO FILM</span><span class="zh">依演示视频复现</span></span>
       <h2 class="section-title"><span class="en">Hold the safe in your hands</span><span class="zh">把保险箱握在手里</span></h2>
       <p class="section-sub">
-        <span class="en">On the left, the real Vault app: a dynamic signing code that dies every 30 seconds. In the middle, the vault status page listing every app key it guards — press <b>Sign</b> and watch the biometric ceremony. On the right, what the phone itself reports about its own isolation.</span>
-        <span class="zh">左侧是真实的 Vault 应用：每 30 秒失效一次的动态签名码。中间是保险箱状态页，列出它守护的每一把应用密钥 —— 点<b>签名</b>观看生物识别仪式。右侧是手机对自身隔离状态的自述。</span>
+        <span class="en">On the left, the real Vault app: the SPARK wallet view — a balance that is nothing but the sum of signed transactions, with handover always one bottom-bar tap away. In the middle, the vault status page listing every app key it guards — press <b>Sign</b> and watch the biometric ceremony. On the right, what the phone itself reports about its own isolation.</span>
+        <span class="zh">左侧是真实的 Vault 应用：SPARK 钱包视图 —— 余额只是签名交易之和，交接永远是底栏一按之遥。中间是保险箱状态页，列出它守护的每一把应用密钥 —— 点<b>签名</b>观看生物识别仪式。右侧是手机对自身隔离状态的自述。</span>
       </p>
     </div>
 
     <div class="demo-grid reveal">
-      <!-- dynamic code phone -->
+      <!-- spark wallet phone -->
       <div class="vault-phone">
         <div class="vp-screen">
           <div class="vp-status"><span>VAULT · 9:41</span><span>● OFFLINE</span></div>
           <div class="vp-head">
-            <div class="vp-icon">🔐</div>
-            <h4><span class="en">Signing Code</span><span class="zh">签名码</span></h4>
-            <div class="vp-sub"><span class="en">ECDSA P-256 · TEE-issued</span><span class="zh">ECDSA P-256 · TEE 签发</span></div>
+            <div class="vp-icon">🔥</div>
+            <h4><span class="en">SPARK Wallet</span><span class="zh">SPARK 钱包</span></h4>
+            <div class="vp-sub"><span class="en">Vault custody · signed tx chain</span><span class="zh">Vault 托管 · 签名交易链</span></div>
           </div>
-          <div class="vp-ring">
-            <svg width="210" height="210" viewBox="0 0 210 210">
-              <defs>
-                <linearGradient id="vgrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#10B981"/><stop offset="100%" stop-color="#22D3EE"/>
-                </linearGradient>
-              </defs>
-              <circle class="track" cx="105" cy="105" r="92" fill="none" stroke-width="7"/>
-              <circle class="prog" id="ringProg" cx="105" cy="105" r="92" fill="none" stroke-width="7" stroke-linecap="round" stroke-dasharray="578" stroke-dashoffset="0"/>
-            </svg>
-            <div class="vp-center">
-              <div class="vp-code" id="vaultCode">0000 0000</div>
-              <div class="vp-count"><b id="vaultSecs">30s</b> <span class="en">to expiry</span><span class="zh">后失效</span></div>
+          <div class="vp-wallet">
+            <div class="vp-balance"><span id="sparkBalance">990</span><small>$SPARK</small></div>
+            <div class="vp-bal-sub"><span class="en">balance = Σ signed transactions</span><span class="zh">余额 = 签名交易之和</span></div>
+            <div class="vp-txs" id="sparkTxs">
+              <div class="vp-tx"><span>TIP</span><em class="pos">+5</em></div>
+              <div class="vp-tx"><span>METERED ×3</span><em class="neg">−15</em></div>
+              <div class="vp-tx"><span>GENESIS</span><em class="pos">+1000</em></div>
             </div>
           </div>
           <div class="vp-actions">
-            <button class="vp-btn main" id="vaultRefresh"><span class="en">↻ Refresh</span><span class="zh">↻ 刷新</span></button>
+            <button class="vp-btn main" id="vaultHandover"><span class="en">⇄ Wallet handover</span><span class="zh">⇄ 钱包交接</span></button>
             <button class="vp-btn sec"><span class="en">Keys: 3</span><span class="zh">密钥：3</span></button>
           </div>
         </div>
@@ -196,7 +201,7 @@
     </div>
     <div class="f-grid reveal">
       <div class="glass f-card"><div class="f-ic">🗝️</div><div><b><span class="en">App private keys</span><span class="zh">应用私钥</span></b><span><span class="en">ECDSA P-256 identities generated by apps like Engine, sealed the moment they arrive.</span><span class="zh">Engine 这类应用生成的 ECDSA P-256 身份，到达即封存。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic">🖋️</div><div><b><span class="en">Login & auth signatures</span><span class="zh">登录与验证签名</span></b><span><span class="en">Challenge-response login codes and 30s rotating signing tickets — issued, never stored online.</span><span class="zh">挑战应答登录码与 30 秒轮换签名票 —— 只签发，从不在线存储。</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🖋️</div><div><b><span class="en">Login & wallet signatures</span><span class="zh">登录与钱包签名</span></b><span><span class="en">Challenge-response login codes and SPARK wallet transactions — signed inside the safe, never stored online. Every balance change is a signed transaction on an append-only chain.</span><span class="zh">挑战应答登录码与 SPARK 钱包交易 —— 在保险箱内签名，从不在线存储。每一笔余额变动都是追加式签名链上的一笔交易。</span></span></div></div>
       <div class="glass f-card"><div class="f-ic">⟳</div><div><b><span class="en">Device migration bindings</span><span class="zh">换机迁移绑定</span></b><span><span class="en">Signed re-bind records that move your identity to fresh hardware without a cloud backup.</span><span class="zh">带签名的重绑记录，无需云备份即可把身份迁到新硬件。</span></span></div></div>
       <div class="glass f-card"><div class="f-ic">🧿</div><div><b><span class="en">Fingerprint directory</span><span class="zh">指纹目录</span></b><span><span class="en">A local registry of every guarded key, its fingerprint and seal state — visible at a glance.</span><span class="zh">本地登记每一把受护密钥、其指纹与封存状态 —— 一目了然。</span></span></div></div>
       <div class="glass f-card"><div class="f-ic">🚫</div><div><b><span class="en">Nothing else</span><span class="zh">别无其他</span></b><span><span class="en">No browsing, no sync, no ads, no telemetry. A safe with a screen, not a smartphone app.</span><span class="zh">不浏览、不同步、无广告、无遥测。是一台带屏幕的保险箱，不是手机应用。</span></span></div></div>
@@ -247,7 +252,7 @@
     <div class="mig-stage reveal">
       <div class="mig-bar"><i id="migFill" style="width:20%"></i></div>
       <div class="mig-dots">
-        <span class="mig-dot on"></span><span class="mig-dot"></span><span class="mig-dot"></span><span class="mig-dot"></span><span class="mig-dot"></span>
+        <span class="mig-dot on"></span><span class="mig-dot"></span><span class="mig-dot"></span><span class="mig-dot"></span><span class="mig-dot"></span><span class="mig-dot"></span>
       </div>
       <div id="migScene"></div>
       <div class="mig-ctl">
