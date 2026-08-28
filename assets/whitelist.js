@@ -13,7 +13,7 @@
    · visitor confirmation: one-click mailto + copy payload (only
      shown when OPS_MAIL is a real address)
    ============================================================
-   DEPLOY NOTE — CURRENT MODE (v2.1): auto-email via FormSubmit.
+   DEPLOY NOTE — CURRENT MODE (v2.2): auto-email via FormSubmit. v2.2: site copy — the AI is called just "AI".
    WL_ENDPOINT points at the FormSubmit AJAX endpoint below, so every
    whitelist entry is emailed straight to the operator inbox — no
    signup, no server to run. OPS_MAIL enables the mailto backup.

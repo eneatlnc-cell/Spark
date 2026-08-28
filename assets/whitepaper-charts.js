@@ -13,7 +13,7 @@
      presale 10% = 2.5% at TGE + 7.5% vesting (25% of tranche at TGE, 9-month linear)
      IDO 20% = 5% at TGE + 15% vesting (25% of tranche at TGE, 9-month linear)
      incentive 10% = referral bonuses + activation grants, per program
-     reserve 50% = fuel 15 + grants 15 + relay 10 + steward 10
+     reserve 50% = fuel 15 + grants 15 + relay 10 + AI 10
                    (charter defaults ◇ · release capped at ≤5% of the reserve per year) */
   var ALLOC = [
     { value: 2.5, short: "25T",  full: "25,000,000,000,000",    color: "#FCD34D",
@@ -44,8 +44,8 @@
       en: "Reserve · relay & infra",         zh: "储备 · 中继与设施",
       uen: "Relay, s-node and infrastructure funding ◇ · release ≤5%/yr by charter", uzh: "中继、s-node 与基础设施经费 ◇ · 宪章释出 ≤5%/年" },
     { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#7C3AED",
-      en: "Reserve · steward & endowment",   zh: "储备 · 管家与封存",
-      uen: "Chartered steward liquidity · long endowment ◇ · release ≤5%/yr by charter", uzh: "受宪章管家流动性 · 长期封存 ◇ · 宪章释出 ≤5%/年" }
+      en: "Reserve · AI & endowment",   zh: "储备 · AI 与封存",
+      uen: "Chartered AI liquidity · long endowment ◇ · release ≤5%/yr by charter", uzh: "受宪章 AI 流动性 · 长期封存 ◇ · 宪章释出 ≤5%/年" }
   ];
 
   function zh() { return document.documentElement.getAttribute("data-lang") === "zh"; }

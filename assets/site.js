@@ -5,7 +5,7 @@
   /* ============================================================
      SVG ICON SYSTEM — one sprite, injected once per page.
      ship (Engine) · shield (Vault) · temple (Aether) · mesh (Havix)
-     flame (Spark) · bee (AI steward) · crown (sovereignty)
+     flame (Spark) · bee (AI) · crown (sovereignty)
      gavel (Parliament) · sprout (Germ)
      ============================================================ */
   var SYMBOLS = {
@@ -54,7 +54,7 @@
       '<path d="M15.5 13.8 C17.2 14.3 18.6 15.7 19.1 18 C17 18.2 15.4 17.3 14.6 15.5 Z" fill="currentColor" opacity="0.72"/>' +
       '<path d="M12 7.3 C12.6 9.3 13.9 10.8 13.9 12.8 C13.9 14.6 13.1 15.8 12 15.8 C10.9 15.8 10.1 14.6 10.1 12.8 C10.1 10.8 11.4 9.3 12 7.3 Z" fill="#FFFFFF" opacity="0.34"/>' +
       '</symbol>',
-    /* AI steward — the friendly bee */
+    /* AI — the friendly bee */
     bee: '<symbol id="ic-bee" viewBox="0 0 24 24">' +
       '<path d="M4.6 11.2 C4.3 10.1 3.7 9.3 2.8 8.7 M6.3 11.1 C6.5 9.9 7 9.1 7.8 8.4" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round"/>' +
       '<ellipse cx="9.1" cy="7.5" rx="2.5" ry="3.7" transform="rotate(-24 9.1 7.5)" fill="currentColor" opacity="0.32"/>' +

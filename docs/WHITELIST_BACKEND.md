@@ -1,6 +1,6 @@
 # 白名单收集后端 — 5 分钟部署指南
 
-> **当前生效模式（v2.1）**：`WL_ENDPOINT` 已指向 FormSubmit AJAX 端点
+> **当前生效模式（v2.2）**：`WL_ENDPOINT` 已指向 FormSubmit AJAX 端点
 > `https://formsubmit.co/ajax/eneatlnc@gmail.com` —— 无需注册、无需部署服务器，
 > 每条白名单登记会自动以邮件送达运营邮箱；`OPS_MAIL` 同时启用 mailto 兜底按钮。
 >

@@ -1,4 +1,4 @@
-/* Havix page — AI stewardship charter gate demo */
+/* Havix page — AI charter gate demo */
 (function () {
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
@@ -71,7 +71,7 @@
       '<div class="gs-title">' + t("Checking charter…", "正在核对宪章…") + "</div>" +
       '<div class="gs-sub mono">' + L.charter + "</div>";
 
-    line('<span class="k">STEWARD</span> <span class="v">' + name + "</span>");
+    line('<span class="k">AI</span> <span class="v">' + name + "</span>");
     line('&nbsp;&nbsp;<span class="t">charter lookup →</span> ' + L.charter);
 
     setTimeout(function () {
@@ -94,7 +94,7 @@
   if (btns.length && gate && log) {
     btns.forEach(function (b) { b.addEventListener("click", function () { run(b); }); });
     line('<span class="k">SYSTEM</span> <span class="ok">' + t("charter v1.4 loaded · 99.9% of routine ops auto-execute · red lines hard-coded", "宪章 v1.4 已载入 · 99.9% 例行操作自动执行 · 红线硬编码") + "</span>");
-    setGate(svg("bee", "🐝"), t("Steward idle", "管家待命"), t("Select an action to see the charter decide", "选择一个动作，看宪章如何裁决"), false);
+    setGate(svg("bee", "🐝"), t("AI idle", "AI 待命"), t("Select an action to see the charter decide", "选择一个动作，看宪章如何裁决"), false);
     gate.classList.remove("ok");
     gate.classList.add("idle");
   }

@@ -13,7 +13,7 @@
     { k: "vote", ch: "parliament", en: ["Parliament vote", "Weighted on-chain vote — weight follows your soulbound SBT rank, not your $SPARK balance. Votes cannot be bought, whales cannot rig the floor."], zh: ["议会表决", "链上加权表决 —— 权重跟随灵魂绑定的 SBT 权级，而非 $SPARK 余额。选票买不到，巨鲸压不动。"] },
     { k: "elders", ch: "elders", en: ["Elder review", "The Elders hold a veto for charter violations only. Veto sends the proposal back — with written reasons."], zh: ["元老院复审", "元老院仅可因宪章违规行使否决。否决将提案打回 —— 并附书面理由。"] },
     { k: "timelock", ch: "chain", en: ["Timelock", "The queued call sits in a public timelock. Anyone can inspect exactly what will execute — and front-run nothing."], zh: ["时间锁", "排队的调用进入公开时间锁。任何人都能看清将要执行什么 —— 且无从抢跑。"] },
-    { k: "exec", ch: "chain", en: ["Execute", "The Safe multisig treasury executes. 3-of-5 signatures required — and the AI stewards can only act inside this frame."], zh: ["执行", "Safe 多签金库执行。需 3/5 签名 —— AI 管家也只能在此框架内行动。"] }
+    { k: "exec", ch: "chain", en: ["Execute", "The Safe multisig treasury executes. 3-of-5 signatures required — and the AI can only act inside this frame."], zh: ["执行", "Safe 多签金库执行。需 3/5 签名 —— AI 也只能在此框架内行动。"] }
   ];
 
   var stageBox = $("stageBox");
@@ -98,7 +98,7 @@
     var NOTES = {
       lo: { en: "Entry rank — voice, not yet force.", zh: "入门权级 —— 有其声，未有其力。" },
       mid: { en: "A working citizen: proposals carry momentum.", zh: "实干公民：提案自带势能。" },
-      hi: { en: "Steward-class weight — earned, soulbound, unsellable.", zh: "管家级权重 —— 挣来的、灵魂绑定的、不可出售的。" }
+      hi: { en: "AI-class weight — earned, soulbound, unsellable.", zh: "AI 级权重 —— 挣来的、灵魂绑定的、不可出售的。" }
     };
     rankChips.forEach(function (b) {
       b.addEventListener("click", function () {
