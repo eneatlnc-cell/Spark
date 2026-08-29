@@ -85,10 +85,36 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
 | 补传漏网记录 | `spark.html?export=1` → ↻ SYNC |
 | 合并邮件回传 | 同上 → 粘贴 JSON → MERGE |
 
+## 预售进度条（`/progress` 端点）
+
+首页与预售页的认购进度条由 `assets/presale-progress.js` 驱动，软顶 $500K /
+硬顶 $1M。上线前它如实显示 0%（白名单阶段文案）；要让进度条动起来：
+
+1. 部署本 Worker 后，编辑 `assets/presale-progress.js` 顶部：
+   ```js
+   var PP_ENDPOINT = "https://spark-whitelist.<你的子域>.workers.dev/progress";
+   ```
+   提交、push —— 进度条即接通实时数据（`GET /progress` 为公开端点，只返回
+   聚合数字：已认购金额 / 软硬顶 / 白名单人数，无任何个人信息）。
+
+2. 预售进行中，运营方更新认购额（USD）：
+   ```bash
+   curl -X POST "https://spark-whitelist.<你的子域>.workers.dev/progress?t=<ADMIN_TOKEN>" \
+        -H "Content-Type: application/json" \
+        -d '{"raised": 505000}'
+   ```
+   数值钳制在 `[0, 1000000]`；写入后全站进度条自动跟随（金额上链前由运营方
+   申报，接入链上数据源后可改为合约直读）。
+
+3. 未部署 Worker 时的替代：直接改 `presale-progress.js` 里的 `PP_FALLBACK`
+   静态快照（`{ raised: 0, count: null }`），同样能让进度条显示 —— 只是每次
+   更新都要重新提交发布。
+
 ## 数据与隐私口径（对外可公示）
 
 - 只收集三个字段：钱包地址、邮箱、意向档位（+ 时间戳与语言）。
 - 无 cookie、无指纹、无第三方分析脚本；本 Worker 不存 IP。
+- `/progress` 只输出聚合数字（已认购金额、白名单人数），不含任何个人数据。
 - 推荐短码 `SL-XXXXXX` 由钱包地址确定性推导（FNV-1a），服务端重新推导校验，
   客户端报什么码都不影响树的形状 —— 防推荐关系伪造。
 - 提交以钱包地址为键幂等 upsert：重复提交 / 网络重试不会产生重复记录。

@@ -231,6 +231,20 @@
       </p>
     </div>
 
+    <!-- Presale progress — dynamic, driven by assets/presale-progress.js -->
+    <div class="pp-wrap reveal" data-pp>
+      <div class="pp-head">
+        <div class="pp-label"><i data-ic="flame"></i><span class="en">Presale Progress</span><span class="zh">预售进度</span></div>
+        <div class="pp-num"><b data-pp-raised>$0</b><span class="pp-pct" data-pp-pct>0%</span><span class="en">of $1,000,000 hard cap</span><span class="zh">/ 硬顶 $1,000,000</span></div>
+      </div>
+      <div class="pp-track" data-pp-track role="progressbar" aria-valuemin="0" aria-valuemax="1000000" aria-valuenow="0" aria-label="Presale subscription progress">
+        <div class="pp-fill" data-pp-fill></div>
+        <div class="pp-soft" data-pp-soft><span class="pp-tick"></span><span class="pp-cap">SOFT · $500K <span class="en">SOFT CAP</span><span class="zh">软顶</span></span></div>
+        <div class="pp-hard"><span class="pp-cap">HARD · $1M <span class="en">HARD CAP</span><span class="zh">硬顶</span></span></div>
+      </div>
+      <div class="pp-foot"><span data-pp-phase><span class="en">Whitelist open — subscriptions settle on-chain once the presale begins.</span><span class="zh">白名单开放中 —— 预售开启后认购上链结算。</span></span></div>
+    </div>
+
     <div class="alloc-wrap reveal">
       <div class="alloc-grid">
         <div id="allocChart" class="alloc-chart" role="img" aria-label="Spark allocation pie: presale 10% (2.5% at TGE + 7.5% nine-month vesting), IDO 20% (5% at TGE + 15% nine-month vesting), DEX liquidity 10%, community incentives 10%, DAO reserve 50% (fuel subsidies 15%, ecosystem grants 15%, relay and infrastructure 10%, AI liquidity and endowment 10%, release capped at 5 percent per year by charter)"></div>
@@ -443,5 +457,6 @@
 <script defer>document.addEventListener("DOMContentLoaded", function () { if (window.SLAllocChart) { window.SLAllocChart("allocChart"); } });</script>
 <script src="assets/site.js"></script>
 <script src="assets/whitelist.js"></script>
+<script src="assets/presale-progress.js"></script>
 </body>
 </html>

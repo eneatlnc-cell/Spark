@@ -761,6 +761,29 @@ footer { border-top: 1px solid var(--rule); padding: 54px 0 44px; margin-top: 40
 .gate-btn .gi .icn { width: 1.15rem; height: 1.15rem; }
 .hero-actions .btn .icn { width: 1.05rem; height: 1.05rem; }
 
+/* ============ presale progress (assets/presale-progress.js) ============ */
+.pp-wrap { margin: 0 auto 30px; padding: 18px 20px 14px; max-width: 760px; border: 1px solid var(--rule); border-radius: 16px; background: rgba(19, 11, 38, 0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.pp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.pp-label { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.pp-label .icn { width: 1.05rem; height: 1.05rem; color: var(--amber); }
+.pp-num { font-family: var(--font-mono); font-size: 12px; color: var(--muted); display: inline-flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.pp-num b { color: var(--amber); font-size: clamp(18px, 3vw, 23px); font-weight: 700; }
+.pp-pct { color: var(--muted); }
+.pp-track { position: relative; height: 14px; border-radius: 99px; background: rgba(167, 157, 196, 0.12); border: 1px solid var(--rule); }
+.pp-fill { position: absolute; top: 1px; bottom: 1px; left: 1px; width: 0; max-width: calc(100% - 2px); border-radius: 99px; background: var(--grad-spark); transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.pp-fill.live { box-shadow: 0 0 18px rgba(245, 158, 11, 0.4); }
+.pp-fill.live::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, 0.38) 50%, transparent 75%); background-size: 200% 100%; animation: ppShimmer 2.6s linear infinite; }
+@keyframes ppShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.pp-soft { position: absolute; top: -6px; bottom: -6px; left: 50%; width: 0; pointer-events: none; }
+.pp-soft .pp-tick { position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; border-left: 2px dashed rgba(167, 157, 196, 0.6); }
+.pp-soft.on .pp-tick { border-color: var(--amber); box-shadow: 0 0 9px rgba(245, 158, 11, 0.7); }
+.pp-cap { position: absolute; top: calc(100% + 7px); left: 50%; transform: translateX(-50%); white-space: nowrap; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.09em; color: var(--muted); }
+.pp-hard { position: absolute; top: -6px; bottom: -6px; right: 0; pointer-events: none; }
+.pp-hard .pp-cap { left: auto; right: 0; transform: none; color: #FBBF24; }
+.pp-foot { margin-top: 30px; display: flex; justify-content: space-between; align-items: baseline; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+.pp-foot a { color: var(--amber); font-weight: 700; text-decoration: none; }
+.pp-foot a:hover { text-decoration: underline; }
+
 /* ============ print ============ */
 @media print {
   nav, .aurora, .marquee-wrap, .lab-tip, .film-wrap video, .loopstrip { display: none !important; }

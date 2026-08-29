@@ -13,6 +13,12 @@
      Server-side upsert keyed by wallet — retries are idempotent.
    · GET  /list?t=<ADMIN_TOKEN>   → JSON array (operator export)
    · GET  /count?t=<ADMIN_TOKEN>   → { count } (for dashboards)
+   · GET  /progress                → { raised, softCap, hardCap, count, ts }
+     PUBLIC, aggregate-only (drives the site's presale progress bar,
+     assets/presale-progress.js). raised = operator-declared USD total
+     until an on-chain source exists.
+   · POST /progress?t=<ADMIN_TOKEN> body = JSON { raised } → set the
+     current raised total (USD). Clamped to [0, hardCap].
    · Everything else → 404.
 
    Deploy (≈5 min, see docs/WHITELIST_BACKEND.md):
@@ -32,6 +38,10 @@ const CORS = {
 };
 
 const TIERS = new Set(["Ember", "Flame", "Supernova"]);
+
+/* Presale caps (USD) — must match assets/presale-progress.js */
+const SOFT_CAP = 500000;
+const HARD_CAP = 1000000;
 
 /* Same validation mindset as the client — never trust input. */
 function sanitize(rec) {
@@ -71,6 +81,21 @@ export default {
     /* preflight safety net (text/plain doesn't need it, but be liberal) */
     if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
 
+    /* ---- presale progress (public read, operator write) ----
+       Aggregate-only: raised is an operator-declared USD total (until an
+       on-chain source exists), count is the whitelist size. No PII. */
+    if (url.pathname === "/progress" && request.method === "GET") {
+      const raised = Number(await env.WHITELIST.get("progress:raised")) || 0;
+      const list = await env.WHITELIST.list({ prefix: "wl:" });
+      return new Response(JSON.stringify({
+        raised: Math.max(0, Math.min(raised, HARD_CAP)),
+        softCap: SOFT_CAP,
+        hardCap: HARD_CAP,
+        count: list.keys.length,
+        ts: Date.now()
+      }), { headers: CORS });
+    }
+
     if (url.pathname === "/submit" && request.method === "POST") {
       let raw;
       try { raw = JSON.parse(await request.text()); }
@@ -97,6 +122,20 @@ export default {
     const token = url.searchParams.get("t") ||
       (request.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
     if (token && token === env.ADMIN_TOKEN) {
+      /* set the presale progress (raised, USD) — drives the public bar */
+      if (url.pathname === "/progress" && request.method === "POST") {
+        let raw;
+        try { raw = JSON.parse(await request.text()); }
+        catch { return new Response(JSON.stringify({ ok: false, error: "bad_json" }), { status: 400, headers: CORS }); }
+        const raised = Number(raw && raw.raised);
+        if (!Number.isFinite(raised) || raised < 0) {
+          return new Response(JSON.stringify({ ok: false, error: "bad_raised" }), { status: 400, headers: CORS });
+        }
+        const clamped = Math.min(raised, HARD_CAP);
+        await env.WHITELIST.put("progress:raised", String(clamped));
+        await env.WHITELIST.put("progress:ts", String(Date.now()));
+        return new Response(JSON.stringify({ ok: true, raised: clamped }), { status: 200, headers: CORS });
+      }
       if (url.pathname === "/count" && request.method === "GET") {
         const list = await env.WHITELIST.list({ prefix: "wl:" });
         return new Response(JSON.stringify({ count: list.keys.length }), { headers: CORS });
