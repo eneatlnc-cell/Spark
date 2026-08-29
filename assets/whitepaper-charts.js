@@ -44,7 +44,7 @@
       en: "Reserve · relay & infra",         zh: "储备 · 中继与设施",
       uen: "Relay, s-node and infrastructure funding ◇ · release ≤5%/yr by charter", uzh: "中继、s-node 与基础设施经费 ◇ · 宪章释出 ≤5%/年" },
     { value: 10,  short: "100T", full: "100,000,000,000,000",   color: "#7C3AED",
-      en: "Reserve · AI & endowment",   zh: "储备 · AI 与封存",
+      en: "Reserve · AI endowment",   zh: "储备 · AI 封存",
       uen: "Chartered AI liquidity · long endowment ◇ · release ≤5%/yr by charter", uzh: "受宪章 AI 流动性 · 长期封存 ◇ · 宪章释出 ≤5%/年" }
   ];
 
@@ -83,16 +83,17 @@
         },
         series: [{
           type: "pie",
-          radius: ["44%", "68%"],
+          radius: ["36%", "57%"],
           center: ["50%", "46%"],
           avoidLabelOverlap: true,
           minAngle: 4,
           itemStyle: { borderColor: bg, borderWidth: 3 },
           label: {
-            color: muted, fontSize: 11, lineHeight: 15,
+            color: muted, fontSize: 11, lineHeight: 14,
+            width: 132, overflow: "break",
             formatter: function (p) { return p.name + "\n" + p.value + "% · " + p.data.short; }
           },
-          labelLine: { length: 14, length2: 12, lineStyle: { color: rule } },
+          labelLine: { length: 12, length2: 10, lineStyle: { color: rule } },
           emphasis: { scale: true, scaleSize: 5, itemStyle: { shadowBlur: 18, shadowColor: "rgba(0,0,0,0.5)" } },
           data: ALLOC.map(function (d) {
             return { value: d.value, name: z ? d.zh : d.en, short: d.short, full: d.full, itemStyle: { color: d.color } };
