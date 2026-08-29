@@ -24,39 +24,12 @@
 <link rel="stylesheet" href="assets/site.css">
 <style>
 /* ============ gateway hero ============ */
-.gate-hero { min-height: 100vh; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 40px; align-items: center; padding: 130px 0 60px; position: relative; }
-.gate-hero h1 { font-size: clamp(2.5rem, 5.8vw, 4.3rem); }
+.gate-hero { min-height: 100vh; display: flex; align-items: center; padding: 130px 0 60px; position: relative; }
+.gate-hero > .container { width: 100%; display: grid; grid-template-columns: 1.06fr 0.94fr; gap: 52px; align-items: center; }
+.gate-hero h1 { font-size: clamp(2.4rem, 5.4vw, 4rem); }
 .scroll-cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.22em; color: var(--muted); display: flex; flex-direction: column; align-items: center; gap: 6px; text-transform: uppercase; }
 .scroll-cue::after { content: "▾"; animation: cuebob 1.8s ease-in-out infinite; color: var(--pa); }
 @keyframes cuebob { 0%,100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(6px); opacity: 1; } }
-
-/* ============ living orbit ============ */
-.orbit-box { position: relative; aspect-ratio: 1 / 1; max-width: 560px; margin: 0 auto; width: 100%; }
-.o-ring { position: absolute; border-radius: 50%; border: 1.5px dashed rgba(167,157,196,0.28); }
-.o-ring.r1 { inset: 4%; animation: spinslow 70s linear infinite; }
-.o-ring.r2 { inset: 16%; border-color: rgba(236,72,153,0.22); animation: spinslow 48s linear infinite reverse; }
-.o-ring.r3 { inset: 28%; border-style: dotted; border-color: rgba(245,158,11,0.25); animation: spinslow 90s linear infinite; }
-@keyframes spinslow { to { transform: rotate(360deg); } }
-/* comet: a spark of fuel racing around the outer ring */
-.o-comet { position: absolute; inset: 4%; animation: spinslow 13s linear infinite; z-index: 2; pointer-events: none; }
-.o-comet .oc-dot { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #FDE68A; box-shadow: 0 0 16px 5px rgba(245,158,11,0.5); }
-.o-comet .oc-dot::after { content: ""; position: absolute; top: 1px; left: 12px; width: 34px; height: 8px; border-radius: 100px; background: linear-gradient(90deg, rgba(245,158,11,0.55), transparent); }
-.o-core { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 34%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #241403 0%, #160B26 70%); border: 1.6px solid rgba(245,158,11,0.65); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; box-shadow: 0 0 60px rgba(245,158,11,0.28), inset 0 0 40px rgba(245,158,11,0.12); animation: corepulse 3.6s ease-in-out infinite; z-index: 2; }
-@keyframes corepulse { 0%,100% { box-shadow: 0 0 40px rgba(245,158,11,0.22), inset 0 0 40px rgba(245,158,11,0.1); } 50% { box-shadow: 0 0 90px rgba(245,158,11,0.4), inset 0 0 50px rgba(245,158,11,0.18); } }
-.o-core .oc-bolt .icn { display: block; width: clamp(1.5rem, 3.2vw, 2.4rem); height: clamp(1.5rem, 3.2vw, 2.4rem); color: #FDE68A; filter: drop-shadow(0 0 14px rgba(245,158,11,0.7)); }
-.o-core .oc-name { font-family: var(--font-mono); font-weight: 700; font-size: clamp(0.8rem, 1.6vw, 1.05rem); letter-spacing: 0.16em; color: #FDE68A; }
-.o-core .oc-sub { font-family: var(--font-mono); font-size: 0.56rem; letter-spacing: 0.26em; color: var(--amber); text-transform: uppercase; }
-.o-node { position: absolute; width: 21%; aspect-ratio: 1; border-radius: 50%; background: #130B26; border: 1.5px solid var(--nc); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; text-decoration: none; transition: transform .3s, box-shadow .3s; animation: nodefloat 5s ease-in-out infinite; animation-delay: var(--fd); z-index: 3; }
-.o-node:hover { transform: scale(1.12); box-shadow: 0 0 34px var(--nc); }
-.o-node .on-ic .icn { width: clamp(1.05rem, 2.2vw, 1.55rem); height: clamp(1.05rem, 2.2vw, 1.55rem); color: var(--nc); }
-.o-node .on-name { font-family: var(--font-mono); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: var(--ink); }
-@keyframes nodefloat { 0%,100% { translate: 0 0; } 50% { translate: 0 -9px; } }
-.o-node.n-engine { --nc: #EC4899; top: 1%; left: 39.5%; --fd: 0s; }
-.o-node.n-vault  { --nc: #10B981; top: 39.5%; right: 1%; --fd: -1.2s; }
-.o-node.n-aether { --nc: #818CF8; bottom: 1%; left: 39.5%; --fd: -2.4s; }
-.o-node.n-havix  { --nc: #22D3EE; top: 39.5%; left: 1%; --fd: -3.6s; }
-.o-sparkle { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #FDE68A; opacity: .7; animation: twinkle 3s ease-in-out infinite; }
-@keyframes twinkle { 0%,100% { opacity: .15; transform: scale(.7); } 50% { opacity: .9; transform: scale(1.25); } }
 
 /* ============ doors (site map) ============ */
 .door-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 46px; }
@@ -107,7 +80,7 @@
 .fly .fback { font-family: var(--font-mono); color: var(--accent2); font-size: 1.2rem; margin-top: 8px; width: 100%; text-align: center; }
 
 @media (max-width: 1120px) { .door-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 1020px) { .gate-hero { grid-template-columns: 1fr; padding-top: 118px; min-height: auto; } .orbit-box { max-width: 420px; } .scroll-cue { display: none; } .legend-row { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 1020px) { .gate-hero { padding-top: 118px; min-height: auto; } .gate-hero > .container { grid-template-columns: 1fr; gap: 36px; } .dl-panel { max-width: 560px; width: 100%; margin: 0 auto; } .scroll-cue { display: none; } .legend-row { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 760px) { .door-grid { grid-template-columns: 1fr 1fr; } .big-loop .arc-lbl, .big-loop .spoke-lbl { display: none; } }
 @media (max-width: 540px) { .door-grid { grid-template-columns: 1fr; } }
 </style>
@@ -138,59 +111,58 @@
 <!-- ============ GATEWAY HERO (inverted: Engine is the door — CANON.md §8) ============ -->
 <header class="gate-hero">
   <div class="container">
-    <div class="hero-kicker">
-      <span>// THE FIRST DOOR TO MARKET IS AN APP</span>
-      <span class="chip-layer"><span class="en">ENGINE v3.45.1 · SHIPPED</span><span class="zh">Engine v3.45.1 · 已交付</span></span>
-    </div>
-    <h1>
-      <span class="en">Sovereign social,</span>
-      <span class="zh">主权的社交，</span><br>
-      <span class="grad"><span class="en">fueled by SPARK.</span><span class="zh">由 SPARK 驱动。</span></span>
-    </h1>
-    <p class="hero-desc">
-      <span class="en"><strong>Engine</strong> is shipped software, not a promise: end-to-end encrypted social with a daily grant of <strong>1,000 SPARK</strong> per device. <strong>Vault</strong> seals your keys inside offline silicon and countersigns every fuel mint. Behind them stands the loop — <strong>Havix</strong> P2P bedrock, <strong>Germ</strong> AI citizens, <strong>Aether</strong> on-chain governance — every claim traceable to public code.</span>
-      <span class="zh"><strong>Engine</strong> 是已交付的软件，不是承诺：端到端加密社交，每台设备每日领取 <strong>1000 SPARK</strong> 燃料。<strong>Vault</strong> 把密钥封进离线芯片，为每一次燃料铸造联署。它们背后是整条回路——<strong>Havix</strong> P2P 基座、<strong>Germ</strong> AI 公民、<strong>Aether</strong> 链上治理——每一句论断都能回溯到公开代码。</span>
-    </p>
-    <div class="dl-grid">
-      <a data-download="engine"></a>
-      <a data-download="vault"></a>
-    </div>
-    <p class="dl-note">
-      <span class="en">Store review in progress — direct APK links land here the day they clear. Fuel grants start the moment you sign in.</span>
-      <span class="zh">应用商店审核中——直链将在过审当天上线。登录即开始每日领取燃料。</span>
-    </p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#circuit"><span class="en">◈ Trace the loop behind it</span><span class="zh">◈ 追踪它背后的回路</span></a>
-      <a class="btn btn-amber" href="spark.html#subscribe"><i data-ic="flame"></i> <span class="en">Subscribe to Spark</span><span class="zh">认购 Spark</span></a>
-      <a class="btn btn-ghost" href="#film"><span class="en">▶ The demo film</span><span class="zh">▶ 演示影片</span></a>
-    </div>
-    <div class="hero-stats">
-      <div class="hs"><b>2</b><span class="en">shipped apps, today</span><span class="zh">已上线 App</span></div>
-      <div class="hs"><b>1,000</b><span class="en">SPARK granted per day</span><span class="zh">每日发放 SPARK</span></div>
-      <div class="hs"><b>0</b><span class="en">keys ever online</span><span class="zh">私钥永久离线</span></div>
-      <div class="hs"><b>1,000T</b><span class="en">fixed supply at TGE <span style="opacity:.6">(planned)</span></span><span class="zh">TGE 固定总量（规划中）</span></div>
-    </div>
-  </div>
 
-  <!-- living orbit -->
-  <div class="orbit-box" aria-hidden="true">
-    <div class="o-ring r1"></div>
-    <div class="o-ring r2"></div>
-    <div class="o-ring r3"></div>
-    <div class="o-comet"><span class="oc-dot"></span></div>
-    <span class="o-sparkle" style="top:18%; left:24%"></span>
-    <span class="o-sparkle" style="top:70%; left:12%; animation-delay:-1s"></span>
-    <span class="o-sparkle" style="top:12%; left:72%; animation-delay:-2s"></span>
-    <span class="o-sparkle" style="top:82%; left:66%; animation-delay:-.5s"></span>
-    <a class="o-node n-engine" href="engine.html"><span class="on-ic"><i data-ic="ship"></i></span><span class="on-name">ENGINE</span></a>
-    <a class="o-node n-vault" href="vault.html"><span class="on-ic"><i data-ic="shield"></i></span><span class="on-name">VAULT</span></a>
-    <a class="o-node n-aether" href="aether.html"><span class="on-ic"><i data-ic="temple"></i></span><span class="on-name">AETHER</span></a>
-    <a class="o-node n-havix" href="havix.html"><span class="on-ic"><i data-ic="mesh"></i></span><span class="on-name">HAVIX</span></a>
-    <div class="o-core">
-      <span class="oc-bolt"><i data-ic="flame"></i></span>
-      <span class="oc-name">SPARK</span>
-      <span class="oc-sub"><span class="en">the fuel</span><span class="zh">燃料</span></span>
+    <!-- left: the claim -->
+    <div class="gh-main">
+      <div class="hero-kicker">
+        <span>// THE FIRST DOOR TO MARKET IS AN APP</span>
+        <span class="chip-layer"><span class="en">ENGINE v3.45.1 · SHIPPED</span><span class="zh">Engine v3.45.1 · 已交付</span></span>
+      </div>
+      <h1>
+        <span class="en">Sovereign social,</span>
+        <span class="zh">主权的社交，</span><br>
+        <span class="grad"><span class="en">fueled by SPARK.</span><span class="zh">由 SPARK 驱动。</span></span>
+      </h1>
+      <p class="hero-desc">
+        <span class="en"><strong>Engine</strong> is shipped software, not a promise: end-to-end encrypted social with a daily grant of <strong>1,000 SPARK</strong> per device. <strong>Vault</strong> seals your keys inside offline silicon and countersigns every fuel mint. Behind them stands the loop — <strong>Havix</strong> P2P bedrock, <strong>Germ</strong> AI citizens, <strong>Aether</strong> on-chain governance — every claim traceable to public code.</span>
+        <span class="zh"><strong>Engine</strong> 是已交付的软件，不是承诺：端到端加密社交，每台设备每日领取 <strong>1000 SPARK</strong> 燃料。<strong>Vault</strong> 把密钥封进离线芯片，为每一次燃料铸造联署。它们背后是整条回路——<strong>Havix</strong> P2P 基座、<strong>Germ</strong> AI 公民、<strong>Aether</strong> 链上治理——每一句论断都能回溯到公开代码。</span>
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#circuit"><span class="en">◈ Trace the loop behind it</span><span class="zh">◈ 追踪它背后的回路</span></a>
+        <a class="btn btn-amber" href="spark.html#subscribe"><i data-ic="flame"></i> <span class="en">Subscribe to Spark</span><span class="zh">认购 Spark</span></a>
+        <a class="btn btn-ghost" href="#film"><span class="en">▶ The demo film</span><span class="zh">▶ 演示影片</span></a>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><b>2</b><span class="en">shipped apps, today</span><span class="zh">已上线 App</span></div>
+        <div class="hs"><b>1,000</b><span class="en">SPARK granted per day</span><span class="zh">每日发放 SPARK</span></div>
+        <div class="hs"><b>0</b><span class="en">keys ever online</span><span class="zh">私钥永久离线</span></div>
+        <div class="hs"><b>1,000T</b><span class="en">fixed supply at TGE <span style="opacity:.6">(planned)</span></span><span class="zh">TGE 固定总量（规划中）</span></div>
+      </div>
     </div>
+
+    <!-- right: the door itself — download panel -->
+    <aside class="dl-panel" aria-label="Download Engine and Vault">
+      <div class="dl-panel-head">
+        <span class="dl-panel-title"><span class="en">// GET THE APPS</span><span class="zh">// 获取应用</span></span>
+        <span class="dl-panel-chip">ANDROID · APK</span>
+      </div>
+      <div class="dl-grid">
+        <a data-download="engine"></a>
+        <a data-download="vault"></a>
+      </div>
+      <div class="dl-steps">
+        <span class="dl-step"><b>1</b><span class="en">Install Engine</span><span class="zh">装上 Engine</span></span>
+        <span class="dl-arr">→</span>
+        <span class="dl-step"><b>2</b><span class="en">Pair Vault</span><span class="zh">配对 Vault</span></span>
+        <span class="dl-arr">→</span>
+        <span class="dl-step"><b>3</b><span class="en">Claim 1,000/day</span><span class="zh">日领 1000</span></span>
+      </div>
+      <p class="dl-note">
+        <span class="en">Store review in progress — direct APK links land here the day they clear. Fuel grants start the moment you sign in.</span>
+        <span class="zh">应用商店审核中——直链将在过审当天上线。登录即开始每日领取燃料。</span>
+      </p>
+    </aside>
+
   </div>
   <div class="scroll-cue"><span class="en">scroll</span><span class="zh">下滑</span></div>
 </header>

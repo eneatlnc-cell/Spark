@@ -18,8 +18,10 @@
       Empty string "" = nothing registered yet (honest zero).
 
    Behaviour:
-   · count < PP_MIN_COUNT (seed phase) → bar + numbers hidden,
-     whitelist-open caption only (honest zero, no dead 0% bar)
+   · count < PP_MIN_COUNT (seed phase) → full component still renders at
+     $0 with the caps visible — an empty track reads as "open", a
+     collapsed card reads as broken. Set PP_MIN_COUNT > 0 to dim the
+     fill instead of hiding anything.
    · raised > 0  → animated fill (width tween + count-up) + shimmer;
      soft-cap tick ignites once raised ≥ soft cap
    · raised = 0   → whitelist-phase caption (bar stays empty —
@@ -38,11 +40,10 @@
        bar auto-aggregates the whitelist intent amounts (see
        tools/whitelist-worker.js /progress) — no manual updates.
        Empty = offline mode (PP_FALLBACK drives the bar).
-     · PP_MIN_COUNT: seed threshold. Below this many registered
-       wallets the BAR + NUMBERS are hidden (CSS .pp-wrap.seed) and
-       only the "whitelist open" caption shows — an honest early
-       phase instead of a dead 0% bar. Once the whitelist crosses
-       the threshold the full bar fades in. 0 disables gating.
+     · PP_MIN_COUNT: seed threshold. Below this many registered wallets the
+       fill dims slightly (.pp-wrap.seed) — the track, caps and numbers stay
+       visible so the card never collapses. 0 disables gating entirely
+       (recommended default: an honest empty bar beats a hidden one).
      · PP_FALLBACK: snapshot of the last aggregate, used when no
        endpoint / fetch fails. Operators refresh it on redeploy if
        the Worker is not deployed. Set count too, or the gated
@@ -50,7 +51,7 @@
      ------------------------------------------------------------ */
   var PP_ENDPOINT = "https://spark-whitelist.spark-loop-eneatlnc.workers.dev/progress";  /* deployed 2026-08-29 — auto-aggregates whitelist intent */
   var PP_FALLBACK = { raised: 0, count: null };  /* raised: USD intent total; count: whitelist wallets or null */
-  var PP_MIN_COUNT = 10;                         /* hide the bar below N registered wallets (0 = always show) */
+  var PP_MIN_COUNT = 0;                          /* 0 = bar always renders (dims below N via .pp-wrap.seed) */
 
   var SOFT = 500000;                             /* $500K soft cap */
   var HARD = 1000000;                            /* $1M hard cap */
@@ -110,17 +111,19 @@
 
     raised = Math.max(0, Math.min(raised || 0, HARD));
 
-    /* seed gating — below PP_MIN_COUNT registered wallets the bar
-       and numbers hide; only the honest "whitelist open" caption
-       stays. Never fake momentum with a dead 0% bar. */
+    /* seed gating — below PP_MIN_COUNT registered wallets the fill dims;
+       track, caps, numbers and caption all stay visible. The card must
+       never collapse into a stray line of text. */
     var gated = !(PP_MIN_COUNT > 0 ? (Number.isFinite(count) && count >= PP_MIN_COUNT) : true);
     if (wrap) wrap.classList.toggle("seed", gated);
     if (gated) {
       if (phase) phase.innerHTML = phaseHTML(0, count, live);
       if (fill) fill.style.width = "0%";
+      if (raisedEl) raisedEl.textContent = "$0";
+      if (pctEl) pctEl.textContent = "0%";
       if (track) {
         track.setAttribute("aria-valuenow", "0");
-        track.setAttribute("aria-valuetext", "whitelist open");
+        track.setAttribute("aria-valuetext", "whitelist open — $0 of $1,000,000");
       }
       return;
     }

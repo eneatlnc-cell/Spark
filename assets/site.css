@@ -763,9 +763,9 @@ footer { border-top: 1px solid var(--rule); padding: 54px 0 44px; margin-top: 40
 
 /* ============ presale progress (assets/presale-progress.js) ============ */
 .pp-wrap { margin: 0 auto 30px; padding: 18px 20px 14px; max-width: 760px; border: 1px solid var(--rule); border-radius: 16px; background: rgba(19, 11, 38, 0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-/* seed phase (assets/presale-progress.js): bar + numbers hidden below the
-   wallet threshold — honest "whitelist open" caption instead of a dead 0% */
-.pp-wrap.seed .pp-track, .pp-wrap.seed .pp-num { display: none; }
+/* seed phase (assets/presale-progress.js): the full component always renders —
+   an empty track with visible caps reads as "open", a collapsed card reads as broken */
+.pp-wrap.seed .pp-fill { opacity: 0.55; }
 .pp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
 .pp-label { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
 .pp-label .icn { width: 1.05rem; height: 1.05rem; color: var(--amber); }
@@ -795,29 +795,105 @@ footer { border-top: 1px solid var(--rule); padding: 54px 0 44px; margin-top: 40
 }
 
 /* ============================================================
-   DOWNLOAD CARDS — rendered by site.js from the DOWNLOAD config
-   (CANON.md §6). live = store URL present; pending = review state.
+   DOWNLOAD CARDS — refined. Rendered by site.js from the
+   DOWNLOAD config (CANON.md §6). Per-app accent via
+   .dl-engine / .dl-vault (--dlc); live = store URL present,
+   pending = review state (pulsing dot, no link).
    ============================================================ */
 .dl-grid { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 .dl-card {
-  display: inline-flex; align-items: center; gap: 14px;
-  min-width: 268px; padding: 14px 18px;
-  border-radius: 14px; text-decoration: none; cursor: pointer;
-  background: var(--bg2, #14141f); border: 1px solid var(--line, rgba(255,255,255,0.12));
-  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  --dlc: var(--amber, #F59E0B);
+  position: relative; display: flex; align-items: center; gap: 15px;
+  min-width: 300px; padding: 16px 18px;
+  border-radius: 18px; text-decoration: none; overflow: hidden;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid color-mix(in srgb, var(--dlc) 26%, transparent);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
-.dl-card .dl-ic { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(255,255,255,0.06); color: var(--fg, #F2F2F5); flex: none; }
-.dl-card .dl-ic .icn { width: 22px; height: 22px; }
-.dl-card .dl-body { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
-.dl-card .dl-name { font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--fg, #F2F2F5); }
-.dl-card .dl-meta { font-size: 12px; color: var(--mut, #9C9CB0); }
-.dl-card .dl-cta { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--amber, #F59E0B); flex: none; }
-.dl-card.live { border-color: rgba(245,158,11,0.45); }
-.dl-card.live:hover { transform: translateY(-2px); border-color: var(--amber, #F59E0B); box-shadow: 0 10px 28px rgba(245,158,11,0.22); }
-.dl-card.pending { cursor: not-allowed; opacity: 0.78; }
-.dl-card.pending .dl-cta { color: var(--mut, #9C9CB0); }
-.dl-note { text-align: center; font-size: 12px; color: var(--mut, #9C9CB0); margin-top: 10px; }
+.dl-card::before {
+  content: ""; position: absolute; left: 0; top: 16%; bottom: 16%; width: 3px;
+  border-radius: 0 3px 3px 0; background: var(--dlc); opacity: 0.9;
+}
+.dl-card.dl-engine { --dlc: var(--accent2, #EC4899); }
+.dl-card.dl-vault  { --dlc: #10B981; }
+.dl-card .dl-ic {
+  display: flex; align-items: center; justify-content: center; flex: none;
+  width: 50px; height: 50px; border-radius: 15px;
+  background: color-mix(in srgb, var(--dlc) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dlc) 32%, transparent);
+  color: var(--dlc);
+}
+.dl-card .dl-ic .icn { width: 25px; height: 25px; }
+.dl-card .dl-body { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+.dl-card .dl-row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+.dl-card .dl-name { font-size: 16px; font-weight: 800; letter-spacing: 0.02em; color: var(--ink, #F5F3FF); }
+.dl-card .dl-ver {
+  font-family: var(--font-mono, monospace); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--muted, #A79DC4);
+  border: 1px solid var(--rule, rgba(167,157,196,0.3)); border-radius: 100px; padding: 2px 8px;
+}
+.dl-card .dl-tag { font-size: 12px; color: var(--muted, #A79DC4); }
+.dl-card .dl-cta {
+  display: inline-flex; align-items: center; gap: 7px; flex: none;
+  font-family: var(--font-mono, monospace); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.1em; padding: 8px 13px; border-radius: 100px; white-space: nowrap;
+}
+.dl-card .dl-cta-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex: none; }
+.dl-card.live { border-color: color-mix(in srgb, var(--dlc) 55%, transparent); background: color-mix(in srgb, var(--dlc) 7%, rgba(255,255,255,0.03)); }
+.dl-card.live .dl-cta { color: #1A1005; background: var(--dlc); }
+.dl-card.live:hover { transform: translateY(-3px); border-color: var(--dlc); box-shadow: 0 14px 34px color-mix(in srgb, var(--dlc) 28%, transparent); }
+.dl-card.pending { cursor: not-allowed; }
+.dl-card.pending .dl-cta {
+  color: var(--amber, #F59E0B); background: rgba(245,158,11,0.09);
+  border: 1px solid rgba(245,158,11,0.32);
+}
+.dl-card.pending .dl-cta-dot { animation: dlPulse 1.7s ease-in-out infinite; }
+@keyframes dlPulse { 0%,100% { opacity: 0.35; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); } }
+.dl-note { text-align: center; font-size: 11.5px; line-height: 1.65; color: var(--muted, #A79DC4); margin-top: 2px; }
 @media (max-width: 560px) { .dl-card { min-width: 100%; } }
+
+/* ---- download panel — the hero's right-hand "door" (index) ---- */
+.dl-panel {
+  position: relative; display: flex; flex-direction: column; gap: 14px;
+  padding: 24px 22px 20px; border-radius: 24px;
+  border: 1px solid rgba(245,158,11,0.34);
+  background:
+    radial-gradient(130% 90% at 88% -12%, rgba(245,158,11,0.12), transparent 55%),
+    linear-gradient(170deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  box-shadow: 0 34px 90px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+}
+.dl-panel::after {
+  content: ""; position: absolute; top: -1px; left: 24px; right: 40%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,158,11,0.85), transparent);
+}
+.dl-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dl-panel-title {
+  font-family: var(--font-mono, monospace); font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber, #F59E0B);
+}
+.dl-panel-chip {
+  font-family: var(--font-mono, monospace); font-size: 0.58rem; font-weight: 700;
+  letter-spacing: 0.14em; color: var(--muted, #A79DC4);
+  border: 1px solid var(--rule, rgba(167,157,196,0.3)); border-radius: 100px; padding: 3px 10px;
+}
+.dl-panel .dl-grid { flex-direction: column; align-items: stretch; gap: 13px; }
+.dl-panel .dl-card { min-width: 0; width: 100%; padding: 18px 20px; }
+.dl-panel .dl-tag { font-size: 12.5px; }
+.dl-steps {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  padding: 12px 16px; border-radius: 14px;
+  background: rgba(255,255,255,0.025); border: 1px dashed var(--rule, rgba(167,157,196,0.25));
+}
+.dl-step { display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; font-weight: 600; color: var(--muted, #A79DC4); white-space: nowrap; }
+.dl-step b {
+  font-family: var(--font-mono, monospace); font-size: 0.6rem; font-weight: 700; flex: none;
+  width: 19px; height: 19px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(245,158,11,0.13); border: 1px solid rgba(245,158,11,0.38); color: var(--amber, #F59E0B);
+}
+.dl-arr { color: var(--muted, #A79DC4); font-family: var(--font-mono, monospace); font-size: 0.72rem; opacity: 0.55; }
+@media (max-width: 480px) { .dl-steps { flex-wrap: wrap; justify-content: center; } }
 
 /* ---- three doors band (index) ---- */
 .paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }

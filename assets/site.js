@@ -9,8 +9,14 @@
      page then renders the "review pending" state automatically.
      ============================================================ */
   var DOWNLOAD = {
-    engine: { url: null,  ver: "v3.45.1" },
-    vault:  { url: null,  ver: "v3.44.0" }
+    engine: {
+      url: null, ver: "v3.45.1",
+      tagEn: "Sovereign social · E2EE", tagZh: "主权社交 · 端到端加密"
+    },
+    vault: {
+      url: null, ver: "v3.44.0",
+      tagEn: "Offline keybox · TEE-sealed", tagZh: "离线钥匙盒 · TEE 封存"
+    }
   };
 
   function renderDownloads() {
@@ -20,21 +26,25 @@
       if (!cfg) { return; }
       var live = !!cfg.url;
       var ship = id === "vault" ? "shield" : "ship";
-      var nameEn = id === "vault" ? "Download Vault" : "Download Engine";
-      var nameZh = id === "vault" ? "下载 Vault" : "下载 Engine";
-      el.className = "dl-card" + (live ? " live" : " pending");
+      var name = id === "vault" ? "Vault" : "Engine";
+      el.className = "dl-card dl-" + id + (live ? " live" : " pending");
       el.innerHTML =
         '<span class="dl-ic"><i data-ic="' + ship + '"></i></span>' +
         '<span class="dl-body">' +
-          '<b class="dl-name">' + nameEn + nameZh + '</b>' +
-          '<span class="dl-meta">' +
-            '<span class="en">' + (live ? cfg.ver + " · direct APK" : cfg.ver + " · store review in progress") + '</span>' +
-            '<span class="zh">' + (live ? cfg.ver + " · 直链下载" : cfg.ver + " · 应用商店审核中") + '</span>' +
+          '<span class="dl-row">' +
+            '<b class="dl-name">' + name + '</b>' +
+            '<span class="dl-ver">' + cfg.ver + '</span>' +
+          '</span>' +
+          '<span class="dl-tag">' +
+            '<span class="en">' + cfg.tagEn + '</span>' +
+            '<span class="zh">' + cfg.tagZh + '</span>' +
           '</span>' +
         '</span>' +
         '<span class="dl-cta">' +
-          '<span class="en">' + (live ? "GET ↗" : "COMING SOON") + '</span>' +
-          '<span class="zh">' + (live ? "获取 ↗" : "敬请期待") + '</span>' +
+          '<span class="dl-cta-dot"></span>' +
+          (live
+            ? '<span class="en">GET ↗</span><span class="zh">获取 ↗</span>'
+            : '<span class="en">IN REVIEW</span><span class="zh">审核中</span>') +
         '</span>';
       if (live) {
         el.setAttribute("href", cfg.url);
