@@ -13,31 +13,38 @@
    · visitor confirmation: one-click mailto + copy payload (only
      shown when OPS_MAIL is a real address)
    ============================================================
-   DEPLOY NOTE — CURRENT MODE (v2.2): auto-email via FormSubmit. v2.2: site copy — the AI is called just "AI".
-   WL_ENDPOINT points at the FormSubmit AJAX endpoint below, so every
-   whitelist entry is emailed straight to the operator inbox — no
-   signup, no server to run. OPS_MAIL enables the mailto backup.
+   DEPLOY NOTE — CURRENT MODE (v2.3): DUAL-CHANNEL capture.
+   · Channel 1 · email (primary, unchanged): WL_ENDPOINT → FormSubmit
+     AJAX — every entry keeps landing in the operator inbox exactly
+     as before. OPS_MAIL enables the mailto backup.
+   · Channel 2 · KV + progress (optional): WL_WORKER → Cloudflare
+     Worker /submit. When set, each entry is ALSO upserted into the
+     Worker's KV store, where the presale progress bar auto-aggregates
+     the registered intent amounts (tier → USD, summed server-side).
+     Empty string = email-only mode (v2.2 behaviour).
+   The channels are fully independent — one failing never blocks the
+   other, and unsynced entries retry per channel on later visits.
    One-time: click the "Activate Form" link FormSubmit mailed to the
    operator address; until then entries stay local and auto-retry.
-   To upgrade to full data ownership later (KV + /count /list), deploy
-   tools/whitelist-worker.js and swap WL_ENDPOINT — see
-   docs/WHITELIST_BACKEND.md. Deploying the Worker ALSO lets the
-   presale progress bar auto-aggregate the registered intent amounts
-   (tier → USD, summed server-side): set PP_ENDPOINT in
-   assets/presale-progress.js to the Worker's /progress URL and the
-   bar follows every registration by itself.
+   Deploy the Worker (tools/whitelist-worker.js, ≈5 min — see
+   docs/WHITELIST_BACKEND.md), then fill WL_WORKER below and
+   PP_ENDPOINT in assets/presale-progress.js. The email flow is not
+   touched by any of this.
    ============================================================ */
 (function () {
   "use strict";
 
   /* ------------------------------------------------------------
-     CONFIG — the only two lines an operator normally touches.
-     · WL_ENDPOINT: any URL accepting a JSON POST body.
-       Empty string = pure local mode (legacy behaviour).
+     CONFIG — the only three lines an operator normally touches.
+     · WL_ENDPOINT: email channel — any URL accepting a JSON POST
+       (currently FormSubmit AJAX). Empty = pure local mode.
+     · WL_WORKER: KV + progress channel — Cloudflare Worker /submit.
+       Empty string = channel off (email-only capture, v2.2).
      · OPS_MAIL: real mailbox for the optional mailto backup.
        Empty string = mailto button hidden (recommended until set).
      ------------------------------------------------------------ */
-  var WL_ENDPOINT = "https://formsubmit.co/ajax/eneatlnc@gmail.com";  /* FormSubmit → auto-emails every entry to the operator */
+  var WL_ENDPOINT = "https://formsubmit.co/ajax/eneatlnc@gmail.com";  /* channel 1 · FormSubmit → auto-emails every entry to the operator */
+  var WL_WORKER = "";                                                 /* channel 2 · Worker /submit → KV + auto progress bar; "" = off */
   var OPS_MAIL = "eneatlnc@gmail.com";                                /* mailto backup — same inbox */
 
   var KEY = "sl-whitelist-v1";
@@ -93,6 +100,8 @@
         /* 保留既有 synced 标记：本地重复提交不得把已同步降级 */
         if (list[i].synced && !rec.synced) rec.synced = list[i].synced;
         if (list[i].ts_synced && !rec.ts_synced) rec.ts_synced = list[i].ts_synced;
+        /* wsynced 有意不保留：Worker 端 upsert 幂等，重复提交会重新 POST
+           并重新挣回标记——换档位时即使首次 POST 失败，也不会留下 KV 旧档位的假同步 */
         list[i] = rec; break;
       }
     }
@@ -106,6 +115,18 @@
       if (list[i].wallet === wallet) {
         if (ok) { list[i].synced = 1; list[i].ts_synced = Date.now(); }
         else { list[i].synced = 0; }
+        break;
+      }
+    }
+    save(list);
+  }
+  /* Worker 通道的孪生函数（wsynced = 该记录已进 Worker KV，即已被进度聚合计入） */
+  function markWSynced(wallet, ok) {
+    var list = load();
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].wallet === wallet) {
+        if (ok) { list[i].wsynced = 1; list[i].ts_wsynced = Date.now(); }
+        else { list[i].wsynced = 0; }
         break;
       }
     }
@@ -197,17 +218,61 @@
     });
   }
 
+  /* ---------- channel 2 · Worker POST (KV + progress) ----------
+     Same simple-request shape as postRecord. Silent by design: the
+     status line speaks for the EMAIL channel only — this channel
+     just retries in the background (and via the console SYNC). */
+  function postWorker(rec) {
+    if (!WL_WORKER) return Promise.resolve({ ok: false, configured: false });
+    var ctl = (typeof AbortController === "function") ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, SYNC_TIMEOUT) : null;
+    return fetch(WL_WORKER, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify({
+        wallet: rec.wallet, code: rec.code, ref: rec.ref || "",
+        tier: rec.tier || "", email: rec.email, ts: rec.ts
+      }),
+      credentials: "same-origin",
+      redirect: "error",
+      signal: ctl ? ctl.signal : undefined
+    }).then(function (res) {
+      /* the Worker answers with real status codes — 200 is truth */
+      return { ok: res.ok };
+    }).catch(function () {
+      return { ok: false };
+    }).finally(function () {
+      if (timer) clearTimeout(timer);
+    });
+  }
+
   /* Retry unsynced entries (serial, capped so a dead endpoint can't
-     stall page load for minutes). Called on every visit. */
+     stall page load for minutes). Called on every visit. Per-channel:
+     an entry can need the email, the Worker, or both. */
   function syncBacklog() {
-    if (!WL_ENDPOINT) return;
-    var pending = load().filter(function (r) { return !r.synced; }).slice(0, 20);
+    if (!WL_ENDPOINT && !WL_WORKER) return;
+    var pending = load().filter(function (r) {
+      return (WL_ENDPOINT && !r.synced) || (WL_WORKER && !r.wsynced);
+    }).slice(0, 20);
     var chain = Promise.resolve();
     pending.forEach(function (r) {
       chain = chain.then(function () {
-        return postRecord(r).then(function (res) {
-          if (res.ok) markSynced(r.wallet, true);
-        });
+        var p = Promise.resolve();
+        if (WL_ENDPOINT && !r.synced) {
+          p = p.then(function () {
+            return postRecord(r).then(function (res) {
+              if (res.ok) markSynced(r.wallet, true);
+            });
+          });
+        }
+        if (WL_WORKER && !r.wsynced) {
+          p = p.then(function () {
+            return postWorker(r).then(function (res) {
+              if (res.ok) markWSynced(r.wallet, true);
+            });
+          });
+        }
+        return p;
       });
     });
   }
@@ -259,6 +324,14 @@
       okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code.slice(3);
       okBox.classList.add("show");
       okBox.dispatchEvent(new CustomEvent("wl:done", { detail: rec }));
+
+      /* 通道 2 —— Worker KV 登记，静默执行：下方状态行只代表邮件通道，
+         此通道失败不碰任何 UX，记录稍后自动补传 / 运营台 SYNC */
+      if (WL_WORKER) {
+        postWorker(rec).then(function (res) {
+          if (res.ok) markWSynced(rec.wallet, true);
+        });
+      }
 
       /* server capture — status line keeps the user informed either way */
       var submitBtn = form.querySelector(".wl-submit");
@@ -347,15 +420,17 @@
       '<button class="btn btn-amber" id="waMerge">MERGE</button></div>' +
       '<p class="wa-endpoint">' + (WL_ENDPOINT
         ? t("endpoint: <code>" + esc(WL_ENDPOINT) + "</code>", "端点：<code>" + esc(WL_ENDPOINT) + "</code>")
-        : t("<b>WL_ENDPOINT is not configured</b> — entries stay in this browser only. Set it in assets/whitelist.js to start capturing.", "<b>WL_ENDPOINT 未配置</b> —— 记录仅存于本浏览器。在 assets/whitelist.js 中设置后即可开始收集。")) + "</p>";
+        : t("<b>WL_ENDPOINT is not configured</b> — entries stay in this browser only. Set it in assets/whitelist.js to start capturing.", "<b>WL_ENDPOINT 未配置</b> —— 记录仅存于本浏览器。在 assets/whitelist.js 中设置后即可开始收集。")) +
+      (WL_WORKER ? "<br>" + t("worker: <code>" + esc(WL_WORKER) + "</code>", "Worker：<code>" + esc(WL_WORKER) + "</code>") : "") + "</p>";
     var anchor = document.getElementById("subscribe") || document.body;
     anchor.appendChild(panel);
 
     function render() {
       var list = load();
       var synced = list.filter(function (r) { return r.synced; }).length;
+      var inKV = list.filter(function (r) { return r.wsynced; }).length;
       $("waCount").textContent = list.length + (list.length === 1 ? " entry" : " entries") +
-        " · " + synced + " synced";
+        " · " + synced + " synced" + (WL_WORKER ? " · " + inKV + " in KV" : "");
       /* 所有字段先 esc() 再拼 HTML：merge 导入的外部数据可能带任意字符 */
       $("waBody").innerHTML = list.map(function (r) {
         return "<tr><td>" + esc(r.wallet.slice(0, 8) + "…" + r.wallet.slice(-6)) +
@@ -368,21 +443,41 @@
 
     /* manual backlog push — operator repairs a flaky endpoint here */
     $("waSync").addEventListener("click", function () {
-      if (!WL_ENDPOINT) { alert(t("Configure WL_ENDPOINT first (assets/whitelist.js).", "请先配置 WL_ENDPOINT（assets/whitelist.js）。")); return; }
-      var btn = this, pending = load().filter(function (r) { return !r.synced; });
+      if (!WL_ENDPOINT && !WL_WORKER) { alert(t("Configure WL_ENDPOINT / WL_WORKER first (assets/whitelist.js).", "请先配置 WL_ENDPOINT / WL_WORKER（assets/whitelist.js）。")); return; }
+      var btn = this;
+      var pending = load().filter(function (r) {
+        return (WL_ENDPOINT && !r.synced) || (WL_WORKER && !r.wsynced);
+      });
       if (!pending.length) { alert(t("Nothing to sync — all entries are on the server.", "无需同步 —— 全部记录均已在服务器。")); return; }
       btn.disabled = true; var done = 0;
       var chain = Promise.resolve();
       pending.forEach(function (r) {
         chain = chain.then(function () {
-          return postRecord(r).then(function (res) {
-            if (res.ok) { markSynced(r.wallet, true); done++; }
+          var p = Promise.resolve();
+          if (WL_ENDPOINT && !r.synced) {
+            p = p.then(function () {
+              return postRecord(r).then(function (res) {
+                if (res.ok) markSynced(r.wallet, true);
+              });
+            });
+          }
+          if (WL_WORKER && !r.wsynced) {
+            p = p.then(function () {
+              return postWorker(r).then(function (res) {
+                if (res.ok) markWSynced(r.wallet, true);
+              });
+            });
+          }
+          return p.then(function () {
+            /* 从存储重读该钱包，按“已配置的通道都完成”计数 */
+            var fresh = load().filter(function (x) { return x.wallet === r.wallet; })[0] || {};
+            if ((!WL_ENDPOINT || fresh.synced) && (!WL_WORKER || fresh.wsynced)) done++;
           });
         });
       });
       chain.then(function () {
         btn.disabled = false; render();
-        alert(t(done + " / " + pending.length + " entries synced.", "已同步 " + done + " / " + pending.length + " 条。"));
+        alert(t(done + " / " + pending.length + " entries fully synced (email + KV).", "已完整同步 " + done + " / " + pending.length + " 条（邮件 + KV）。"));
       });
     });
     $("waCsv").addEventListener("click", function () { dl("sparkloop-whitelist.csv", csv(load()), "text/csv"); });

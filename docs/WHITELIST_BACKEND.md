@@ -1,8 +1,16 @@
 # 白名单收集后端 — 5 分钟部署指南
 
-> **当前生效模式（v2.2）**：`WL_ENDPOINT` 已指向 FormSubmit AJAX 端点
-> `https://formsubmit.co/ajax/eneatlnc@gmail.com` —— 无需注册、无需部署服务器，
-> 每条白名单登记会自动以邮件送达运营邮箱；`OPS_MAIL` 同时启用 mailto 兜底按钮。
+> **当前生效模式（v2.3）**：双通道收集。
+>
+> - **通道 1 · 邮件（主通道，原样保留）**：`WL_ENDPOINT` 指向 FormSubmit AJAX
+>   端点 `https://formsubmit.co/ajax/eneatlnc@gmail.com` —— 每条白名单登记
+>   仍会自动以邮件送达运营邮箱；`OPS_MAIL` 同时启用 mailto 兜底按钮。
+> - **通道 2 · KV + 进度（可选）**：部署本文的 Worker 后，把 `assets/whitelist.js`
+>   顶部的 `WL_WORKER` 指向 Worker 的 `/submit` —— 登记同时落进 KV 存储，
+>   预售进度条按意向额度**自动聚合**（详见下文进度条一节）。留空 = 仅邮件
+>   模式（v2.2 行为）。
+> - 两通道完全独立：任一通道故障互不影响，未同步的记录按通道各自重试
+>   （下次访问自动补传 / 运营台 SYNC）。
 >
 > - **一次性激活**：FormSubmit 已向该邮箱发送激活邮件，点击其中的 "Activate Form"
 >   后通道正式生效；激活前的提交留在访客本地、下次访问自动补传，不丢数据。
@@ -10,8 +18,8 @@
 >   双击打开 HTML 时收不到邮件属正常现象；部署到 GitHub Pages 后即可。
 > - 数据经 FormSubmit（第三方）中转，字段仅限登记所需（钱包/邮箱/档位/时间戳）。
 >
-> 想升级为数据完全自持（KV 存储 + `/count`、`/list` 运营接口）时，按本文部署
-> Worker 并把 `WL_ENDPOINT` 换成 Worker URL 即可，前端无需其他改动。
+> 想升级时按本文部署 Worker、填好 `WL_WORKER`（**不是**替换 `WL_ENDPOINT`），
+> 邮件通道保持原样即可。
 
 ## 为什么需要这个
 
@@ -69,11 +77,14 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
    # 得到 https://spark-whitelist.<你的子域>.workers.dev
    ```
 
-6. **接通前端**：编辑 `assets/whitelist.js` 顶部：
+6. **接通前端**：编辑 `assets/whitelist.js` 顶部，把**新增的第二通道**指向 Worker：
    ```js
-   var WL_ENDPOINT = "https://spark-whitelist.<你的子域>.workers.dev/submit";
+   var WL_WORKER = "https://spark-whitelist.<你的子域>.workers.dev/submit";
    ```
-   提交、push、发布网站。完成 —— 此后每一条白名单登记都会落进 KV。
+   （`WL_ENDPOINT` 保持指向 FormSubmit —— 邮件照收，双通道并行。）
+   同时把 `assets/presale-progress.js` 的 `PP_ENDPOINT` 指向 `/progress`。
+   提交、push、发布网站。完成 —— 每条登记既进 KV（进度自动聚合），
+   邮件也照常送达。
 
 ## 运营者日常使用
 
@@ -116,14 +127,16 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
    ```
    全量重扫 KV、重建缓存并把精确数字返回（带 `"recounted": true`）。
    缓存键不存在时（首次部署/清空），第一次 `GET /progress` 也会自动触发重算自愈。
-4. 接通前端（部署 Worker 后）：
+4. 接通前端（部署 Worker 后，两行配置）：
    ```js
    /* assets/presale-progress.js 顶部 */
    var PP_ENDPOINT = "https://spark-whitelist.<你的子域>.workers.dev/progress";
+   /* assets/whitelist.js 顶部 —— 新增的第二通道，邮件通道 WL_ENDPOINT 原样保留 */
+   var WL_WORKER = "https://spark-whitelist.<你的子域>.workers.dev/submit";
    ```
-   提交、push —— 此后每一条白名单登记都会自动推进进度条，无需任何人工更新。
-   （同时建议把 `assets/whitelist.js` 的 `WL_ENDPOINT` 指向 Worker 的 `/submit`，
-   让登记数据落进 KV —— FormSubmit 邮件模式下没有可聚合的服务端数据。）
+   提交、push —— 此后每一条白名单登记都会同时：邮件送达运营邮箱（不变）+
+   落进 Worker KV 并自动推进进度条（新增），无需任何人工更新。
+   访客浏览器里尚未入 KV 的旧登记，会在其下次访问页面时自动补传。
 5. 未部署 Worker 时的替代：直接改 `presale-progress.js` 里的 `PP_FALLBACK`
    静态快照（`{ raised: 0, count: null }`），同样能让进度条显示 —— 只是每次
    更新都要重新提交发布。
