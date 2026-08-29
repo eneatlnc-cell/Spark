@@ -13,7 +13,8 @@
    · visitor confirmation: one-click mailto + copy payload (only
      shown when OPS_MAIL is a real address)
    ============================================================
-   DEPLOY NOTE — CURRENT MODE (v2.4): DUAL-CHANNEL capture + wallet proof.
+   DEPLOY NOTE — CURRENT MODE (v2.5): DUAL-CHANNEL capture, NO wallet
+   interaction (aligned with mainstream security guidance).
    · Channel 1 · email (primary, unchanged): WL_ENDPOINT → FormSubmit
      AJAX — every entry keeps landing in the operator inbox exactly
      as before. OPS_MAIL enables the mailto backup.
@@ -24,20 +25,21 @@
      Empty string = email-only mode (v2.2 behaviour).
    The channels are fully independent — one failing never blocks the
    other, and unsynced entries retry per channel on later visits.
-   · WALLET INPUT GUARDS (v2.4):
+   · WALLET INPUT GUARDS (v2.5 — paste-only, no connect / no sign):
+     Industry security guides teach users to treat "connect wallet
+     and sign" prompts on signup pages as a phishing red flag
+     (blind-signed messages can authorise Permit-style transfers).
+     v2.4's connect+sign UI was therefore REMOVED; ownership proof
+     moves to the TGE claim stage, where signing is legitimately
+     necessary. Typo protection stays entirely client-side:
      – EIP-55 checksum: a mixed-case address must match its checksum
        exactly, otherwise the form rejects it (a single wrong letter
        case = probable typo). All-lower / all-upper pass and get
        displayed checksummed on blur.
-     – manual paste asks for one confirm dialog (first/last chars of
-       the checksummed address) before submitting.
-     – optional Connect Wallet (injected EIP-1193 provider: MetaMask,
-       Binance Web3, Rabby…): fills the address from the wallet itself
-       (no typos possible), then SIGN TO VERIFY — the wallet signs a
-       Worker-issued challenge (personal_sign, free, off-chain), the
-       Worker recovers the signer address from the signature and keeps
-       a 7-day "verified" proof on the record. Manual-only visitors are
-       NOT blocked: verification is an optional trust upgrade.
+     – one confirm dialog before submitting (checksummed address,
+       first/last 6 chars) — the human check banks use.
+     The Worker's /challenge + /verify endpoints are kept server-side
+     (dormant, unused by this page — reserved for the TGE claim flow).
    One-time: click the "Activate Form" link FormSubmit mailed to the
    operator address; until then entries stay local and auto-retry.
    Deploy the Worker (tools/whitelist-worker.js, ≈5 min — see
@@ -400,100 +402,14 @@
       mailBtn.style.display = "none";
     }
 
-    /* ---------- 连接钱包 + 签名验证(v2.4,可选增强) ----------
-       injected provider(EIP-1193):MetaMask / 币安 Web3 / Rabby…
-       连接 → 自动填入校验和地址(杜绝手误)→ 可选签名验证:
-       Worker 发挑战 → 钱包 personal_sign(免 Gas、不上链)→
-       Worker 从签名恢复出地址并与声明地址比对,通过则记录
-       7 天所有权证明。手动粘贴路径完全保留;验证失败不拦截登记。 */
-    var WL_BASE = WL_WORKER ? WL_WORKER.replace(/\/submit\/?$/, "") : "";
-    var provider = (typeof window !== "undefined" && window.ethereum) || null;
-    var walletFromProvider = "";   /* 连接钱包填入的地址(小写) */
-    var verifiedWallet = "";       /* 已通过 Worker /verify 的地址(小写) */
-    var connectBtn = $("wlConnect"), signBtn = $("wlSign"), verifyLine = $("wlVerify");
-    function vfyLine(cls, en, zh) {
-      if (!verifyLine) return;
-      verifyLine.hidden = false;
-      verifyLine.className = "wl-hint wl-vfy" + (cls ? " " + cls : "");
-      verifyLine.innerHTML = t(en, zh);
-    }
-    function markLocalVerified(wallet) {
-      var list = load();
-      for (var i = 0; i < list.length; i++) {
-        if (list[i].wallet === wallet) { list[i].verified = 1; break; }
-      }
-      save(list);
-    }
-    if (connectBtn && provider) {
-      if (connectBtn.parentNode) connectBtn.parentNode.hidden = false;  /* 无 provider 时整行保持隐藏 */
-      if (provider.on) provider.on("accountsChanged", function (accs) {
-        if (accs && accs.length) {
-          walletFromProvider = String(accs[0]).toLowerCase();
-          F.wallet.value = toChecksumAddress(accs[0]);
-          if (verifiedWallet !== walletFromProvider) verifiedWallet = "";
-        } else {
-          walletFromProvider = "";
-        }
-      });
-      connectBtn.addEventListener("click", function () {
-        var btn = connectBtn;
-        btn.disabled = true;
-        provider.request({ method: "eth_requestAccounts" }).then(function (accs) {
-          btn.disabled = false;
-          if (!accs || !accs.length) return;
-          walletFromProvider = String(accs[0]).toLowerCase();
-          F.wallet.value = toChecksumAddress(accs[0]);
-          if (signBtn && WL_WORKER) signBtn.hidden = false;
-          vfyLine("", "Wallet connected — address filled in. Sign next to prove you own it (free, off-chain).",
-            "钱包已连接 —— 地址已自动填入。下一步签名即可证明所有权(免 Gas、不上链)。");
-        }).catch(function () {
-          btn.disabled = false;
-          vfyLine("warn", "Connection cancelled — you can still paste the address manually.", "已取消连接 —— 也可继续手动粘贴地址。");
-        });
-      });
-    }
-    if (signBtn) {
-      signBtn.addEventListener("click", function () {
-        if (!WL_WORKER || !provider) return;
-        var w = (walletFromProvider || F.wallet.value).toLowerCase();
-        if (!vWallet(w)) { mark(F.wallet, true); return; }
-        signBtn.disabled = true;
-        vfyLine("", "Requesting a verification challenge…", "正在获取验证挑战…");
-        fetch(WL_BASE + "/challenge?wallet=" + encodeURIComponent(w))
-          .then(function (res) { return res.ok ? res.json() : null; })
-          .then(function (j) {
-            if (!j || !j.message) throw new Error("no_challenge");
-            vfyLine("", "Check your wallet — sign the message to prove ownership. No gas, nothing moves.",
-              "请在钱包中确认签名以证明所有权 —— 不消耗 Gas,不转移任何资产。");
-            return provider.request({ method: "personal_sign", params: [j.message, w] });
-          })
-          .then(function (sig) {
-            return fetch(WL_BASE + "/verify", {
-              method: "POST",
-              headers: { "Content-Type": "text/plain;charset=UTF-8" },
-              body: JSON.stringify({ wallet: w, sig: sig })
-            }).then(function (res) { return res.ok ? res.json() : null; });
-          })
-          .then(function (j) {
-            signBtn.disabled = false;
-            if (j && j.verified) {
-              verifiedWallet = w;
-              markLocalVerified(w);
-              signBtn.hidden = true;
-              vfyLine("ok", "✓ Ownership verified — this wallet is provably yours. The registration carries the proof (valid 7 days).",
-                "✓ 所有权已验证 —— 已证明该钱包归你所有,登记记录将带上验证标记(有效期 7 天)。");
-            } else {
-              vfyLine("warn", "Verification failed — make sure the SAME wallet signs. You can retry, or just register without the proof.",
-                "验证失败 —— 请确认签名的是同一个钱包。可重试;不验证也不影响正常登记。");
-            }
-          })
-          .catch(function () {
-            signBtn.disabled = false;
-            vfyLine("warn", "Verification cancelled or unreachable — registration still works without it.",
-              "已取消或服务暂不可达 —— 不验证也可正常登记。");
-          });
-      });
-    }
+    /* ---------- 无钱包交互(v2.5,对齐主流安全口径) ----------
+       行业安全指引普遍教育用户:登记类页面要求"连接钱包并签名"
+       是钓鱼的高危模式(看不懂的签名一律拒绝;链下签名可被用于
+       Permit 类授权盗转)。因此本表单只接受地址粘贴:
+       – 防手误靠 EIP-55 校验和(混合大小写不匹配即拒绝)+
+         blur 规范为校验和形式 + 提交前确认框(首尾 6 位);
+       – 所有权验证推迟到 TGE 领取阶段(那时签名才是必要的)。
+       Worker 的 /challenge /verify 端点保留但前端不再调用。 */
     /* blur 时把合法地址规范为校验和形式,方便肉眼核对首尾 */
     F.wallet.addEventListener("blur", function () {
       var v = F.wallet.value.trim();
@@ -514,24 +430,17 @@
       }
       if (!vCode(r)) { mark(F.ref, true); return; }
       if (!vEmail(m)) { mark(F.email, true); return; }
-      /* 手动输入 → 提交前二次确认(校验和地址首尾);连接钱包填入的免确认 */
-      if (w.toLowerCase() !== walletFromProvider) {
-        var cw = toChecksumAddress(w);
-        if (!confirm(t("Confirm your wallet address:\n" + cw + "\n\nfirst 6: " + cw.slice(0, 6) + "  ·  last 6: " + cw.slice(-6),
-                       "请核对钱包地址:\n" + cw + "\n\n前 6 位 " + cw.slice(0, 6) + " · 后 6 位 " + cw.slice(-6)))) return;
-      }
+      /* 提交前二次确认 —— 展示校验和地址与首尾 6 位,肉眼核对。
+         v2.5 起所有路径一律确认(纯粘贴流程,无钱包交互) */
+      var cw = toChecksumAddress(w);
+      if (!confirm(t("Confirm your wallet address:\n" + cw + "\n\nfirst 6: " + cw.slice(0, 6) + "  ·  last 6: " + cw.slice(-6),
+                     "请核对钱包地址:\n" + cw + "\n\n前 6 位 " + cw.slice(0, 6) + " · 后 6 位 " + cw.slice(-6)))) return;
       var rec = { wallet: w.toLowerCase(), code: refCode(w), ref: r, tier: tier, email: m, ts: Date.now() };
-      if (verifiedWallet === rec.wallet) rec.verified = 1;   /* 展示用;服务端以自身 KV 判定为准 */
       if (!rec.code || rec.ref === rec.code) { mark(F.ref, true); return; }  /* self-referral blocked */
       upsert(rec);                                   /* local copy ALWAYS first */
       lastRec = rec;
       form.style.display = "none";
       okCode.textContent = rec.code;
-      var okV = $("wlOkV");
-      if (okV) {
-        okV.hidden = !rec.verified;
-        if (rec.verified) okV.innerHTML = t("✓ wallet ownership verified", "✓ 已验证钱包所有权");
-      }
       okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code.slice(3);
       okBox.classList.add("show");
       okBox.dispatchEvent(new CustomEvent("wl:done", { detail: rec }));

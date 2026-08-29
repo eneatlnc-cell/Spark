@@ -551,12 +551,6 @@ table.tbl { width: 100%; border-collapse: collapse; min-width: 640px; font-size:
 @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 .wl-hint { font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
 .wl-hint a { color: var(--amber); text-decoration: none; font-weight: 700; }
-.wl-connect-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.45rem; }
-.wl-cta { padding: 0.36rem 0.8rem; font-size: 0.72rem; }
-.wl-vfy { display: block; margin-top: 0.4rem; font-weight: 700; }
-.wl-vfy.ok { color: #6EE7A0; }
-.wl-vfy.warn { color: var(--amber); }
-.wl-ok-vline { font-size: 0.8rem; font-weight: 700; color: #6EE7A0; }
 .wl-submit { grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
 
 /* success state */
