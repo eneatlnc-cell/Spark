@@ -285,7 +285,7 @@ sup a:hover { text-decoration: underline; }
     <p><span class="en">An SBT-governed DAO kernel on BNB Smart Chain. Weight is earned, not bought: AetherRing mints 14 non-transferable soulbound ranks; three chambers (Council, Parliament, Elders) plus a citizen referendum check one another through a 7-stage proposal lifecycle with an elder veto; the treasury is a 3/5 Safe multisig executing timelocked calls<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>. The deliberate design tension: <mark class="key">governance is soulbound (SBT) while the fuel is a real, issued asset</mark> — whales can buy $SPARK, but $SPARK buys messages, not votes. One contract stands apart: AetherDonation is an <b>external philanthropy channel</b> (USDC tips for public goods) and is independent of the loop's economics.</span>
     <span class="zh">BNB Smart Chain 上的 SBT 治理 DAO 内核。权重靠挣得，而非买得：AetherRing 铸造 14 级不可转让的灵魂绑定权级；三院（理事会、议院、元老院）外加公民公投，经由带元老否决的七阶段提案生命周期相互制衡；金库是执行时间锁调用的 3/5 Safe 多签<sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-5">[5]</a></sup>。刻意的设计张力在于：<mark class="key">治理是灵魂绑定的（SBT），而燃料是真实发行的资产</mark> —— 巨鲸买得起 $SPARK，但 $SPARK 买到的是消息，不是选票。有一个合约置身局外：AetherDonation 是<b>外部慈善通道</b>（面向公共物品的 USDC 打赏），与回路经济相互独立。</span></p>
 
-    <h3><span class="h3k">3.4</span> <span class="en">Havix — the Bedrock</span><span class="zh">Havix —— 基座</span> <span class="wp-note" style="float:right"><span class="en">M10 · closed beta</span><span class="zh">M10 · 封闭内测</span></span></h3>
+    <h3><span class="h3k">3.4</span> <span class="en">Havix — the Bedrock</span><span class="zh">Havix —— 基座</span> <span class="wp-note" style="float:right"><span class="en">validated · standby</span><span class="zh">已验证 · 待命</span></span></h3>
     <p><span class="en">The P2P overlay where the loop's coordination happens: eight modules (identity, message-types, credit, vouch, wiki, arbitration, market, s-node runtime), 1,234 passing tests, and a security audit that closed all 15 findings<sup><a href="#cite-6">[6]</a></sup>. Its charter plane is what puts AI on a legal footing rather than a magical one: routine operations execute automatically with receipts; <mark class="key">red-line operations are physically routed to a human, on-chain vote</mark>. The charter store and interceptor are scheduled as the M11 workstream<sup><a href="#cite-7">[7]</a></sup>.</span>
     <span class="zh">回路协调发生的 P2P 覆盖网络：八个模块（身份、消息类型、信用、担保、维基、仲裁、市场、s-node 运行时）、1,234 项通过的测试、以及一项关闭全部 15 项发现的安全审计<sup><a href="#cite-6">[6]</a></sup>。它的宪章面让 AI 合法而非魔法：例行操作自动执行并留回执；<mark class="key">红线操作被物理地路由至人类的链上表决</mark>。宪章存储与拦截器排定为 M11 工作流<sup><a href="#cite-7">[7]</a></sup>。</span></p>
 
@@ -311,7 +311,13 @@ sup a:hover { text-decoration: underline; }
     <p class="wp-note"><span class="en">◇ Design parameters (vesting lengths, LP lock, fee routing, allowance decay) are recommended defaults of this draft; each is confirmed or amended by governance before the presale opens. On-chain metering rates (1 KB = 10 SPARK, minimum 10 per message; 1,000 daily login grant per calendar day) are fixed in the Engine specification<sup><a href="#cite-2">[2]</a></sup>.</span>
     <span class="zh">◇ 设计参数（锁仓时长、LP 锁定、费用路由、配额衰减）为本草案的推荐默认值；每一项都会在预售开启前由治理确认或修订。链上计量费率（1 KB = 10 SPARK，单条最低 10；每自然日 1,000 登录赠金）固定于 Engine 规格中<sup><a href="#cite-2">[2]</a></sup>。</span></p>
 
-    <h3><span class="h3k">4.2</span> <span class="en">Supply &amp; allocation</span><span class="zh">供给与分配</span></h3>
+    <h3><span class="h3k">4.2</span> <span class="en">Two phases of the same asset — metering ledger, then fixed supply</span><span class="zh">同一资产的两个阶段 —— 先计量账本，后固定供给</span></h3>
+    <p><span class="en">SPARK ships in two deliberate stages, and the sequence is the design. <b>Phase A — metering ledger (live today):</b> inside shipped Engine software, SPARK exists as an off-chain hash-chained ledger. Each device mints <b>1,000 per calendar day</b> through a Vault-countersigned grant — anti-sybil defenses are already in production: a TEE/DRM device anchor, relay-side daily deduplication of unlinkable device hashes, and an amount whitelist enforced at the signing gate. Phase A balances are <mark class="key">not transferable, not tradable, not convertible</mark> — today they are quota, not securities.</span>
+    <span class="zh">SPARK 分两个刻意设计的阶段上线，这个顺序本身就是设计。<b>阶段 A —— 计量账本（今日已生效）：</b>在已交付的 Engine 软件内，SPARK 以链下哈希链账本形态存在。每台设备经 Vault 联署的门控每日铸造 <b>1,000 枚</b>——抗女巫防线已随产品投产：TEE/DRM 设备锚、中继侧对不可链接设备哈希的当日去重、以及签名门口强制执行的金额白名单。阶段 A 余额<mark class="key">不可转让、不可交易、不可兑换</mark>——它此刻是配额，不是证券。</span></p>
+    <p><span class="en"><b>Phase B — TGE mapping (planned):</b> the fixed <b>1,000T supply</b> takes effect at TGE. Initial supply combines the presale, IDO, liquidity and reserve tranches of §4.3 with a snapshot-based mapping of Phase A balances into the community-incentive tranche — specific conversion parameters are draft defaults ◇ confirmed by governance before the presale opens. After TGE, SPARK circulates freely, <b>including open USDC and other stablecoin pairs</b>. The conversion channel is deliberately unbuilt today: device anchoring, daily dedup and amount whitelisting must exist <i>before</i> there is a vault to defend, so that the day convertibility opens, these defenses graduate from quota hygiene to vault gates.</span>
+    <span class="zh"><b>阶段 B —— TGE 映射（规划中）：</b>固定 <b>1000T 总量</b>于 TGE 生效。初始供给由 §4.3 的预售、IDO、流动性与储备份额，加上对阶段 A 余额的快照映射（并入社区激励份额）共同构成——具体折算参数为草案默认值 ◇，在预售开启前由治理确认。TGE 之后，SPARK 自由流通，<b>包括开放 USDC 等稳定币交易对</b>。兑换通道刻意不在今天开发：设备锚、当日去重与金额白名单必须先于被守护的金库存在——兑换开放之日，这些防线即从配额卫生升格为金库大门。</span></p>
+
+    <h3><span class="h3k">4.3</span> <span class="en">Supply &amp; allocation</span><span class="zh">供给与分配</span></h3>
     <p><span class="en">Total supply is fixed at <b>1,000T SPARK (1,000,000,000,000,000 — one thousand trillion)</b>. Allocation follows the 10 / 20 / 10 / 50 / 10 split: presale, IDO, DEX liquidity, DAO reserve, community incentives. There is <mark class="key">no team tranche, no insider allocation, no marketing tranche</mark> — the team's upside is the 50% reserve it shares with the DAO, unlocked only through public governance and capped by charter at ≤5% of the reserve per year.</span>
     <span class="zh">总供给固定为 <b>1000 万亿枚 SPARK（1,000,000,000,000,000）</b>。分配遵循 10 / 20 / 10 / 50 / 10 的切分：预售、IDO、DEX 流动性、DAO 储备、社区激励。<mark class="key">没有团队份额，没有内部人配售，没有营销份额</mark> —— 团队的上行空间就是它与 DAO 共享的那 50% 储备，且只能经公开治理解锁，宪章限定每年释出不超过储备的 5%。</span></p>
 
@@ -359,7 +365,7 @@ sup a:hover { text-decoration: underline; }
       <div class="glass wp-metric"><b>50%</b><span><span class="en">DAO reserve — governance-gated · ≤5%/yr</span><span class="zh">DAO 储备 —— 治理约束 · ≤5%/年</span></span></div>
     </div>
 
-    <h3><span class="h3k">4.3</span> <span class="en">Phase 1 — Presale (10%)</span><span class="zh">阶段一 —— 预售（10%）</span></h3>
+    <h3><span class="h3k">4.4</span> <span class="en">Phase 1 — Presale (10%)</span><span class="zh">阶段一 —— 预售（10%）</span></h3>
     <ul class="plain">
       <li><span class="en"><b>Audience:</b> early core contributors and active community members only. Wallet addresses are collected into a whitelist in advance; start time is announced to the list first.</span><span class="zh"><b>对象：</b>仅限早期核心贡献者与活跃社区成员。钱包地址提前收集进白名单；开始时间优先通知名单成员。</span></li>
       <li><span class="en"><b>Anti-whale:</b> a hard <mark class="key">$500 per-wallet cap</mark>.</span><span class="zh"><b>防巨鲸：</b>硬性<mark class="key">每钱包 $500 上限</mark>。</span></li>
@@ -367,7 +373,7 @@ sup a:hover { text-decoration: underline; }
       <li><span class="en"><b>Execution:</b> when the window opens, whitelisted wallets connect on the official site and subscribe inside the cap.</span><span class="zh"><b>执行：</b>窗口开启后，白名单钱包在官网连接并在限额内认购。</span></li>
     </ul>
 
-    <h3><span class="h3k">4.4</span> <span class="en">Phase 2 — IDO (20%)</span><span class="zh">阶段二 —— IDO（20%）</span></h3>
+    <h3><span class="h3k">4.5</span> <span class="en">Phase 2 — IDO (20%)</span><span class="zh">阶段二 —— IDO（20%）</span></h3>
     <ul class="plain">
       <li><span class="en"><b>Platform:</b> an LBP launchpad of the Fjord Foundry class — the price starts high and decays until demand catches it, which <mark class="key">removes the sniping edge</mark>; no whitelist, no first-block advantage.</span><span class="zh"><b>平台：</b>Fjord Foundry 一类的 LBP 发射台 —— 价格由高走低，直至需求接住它，这<mark class="key">消除了抢跑优势</mark>；没有白名单，没有首块优势。</span></li>
       <li><span class="en"><b>Parameters:</b> token address triple-checked before funding the pool (irreversible); payment in USDT or BNB; a 3–7 day window; per-wallet minimum and maximum caps; starting price above the presale price.</span><span class="zh"><b>参数：</b>向资金池注资前反复核对代币地址（不可逆）；以 USDT 或 BNB 支付；窗口期 3–7 天；每钱包设最小/最大限额；起始价略高于预售价。</span></li>
@@ -375,13 +381,13 @@ sup a:hover { text-decoration: underline; }
       <li><span class="en"><b>Accounting:</b> after the window closes, the subscription list and amounts are reconciled and published before distribution.</span><span class="zh"><b>核算：</b>窗口关闭后，认购名单与金额经核对并在分发前公示。</span></li>
     </ul>
 
-    <h3><span class="h3k">4.5</span> <span class="en">Liquidity &amp; DEX (10%)</span><span class="zh">流动性与 DEX（10%）</span></h3>
+    <h3><span class="h3k">4.6</span> <span class="en">Liquidity &amp; DEX (10%)</span><span class="zh">流动性与 DEX（10%）</span></h3>
     <p><span class="en">At TGE the liquidity tranche seeds the DEX pool, paired against BNB. SPARK is recommended to issue as a BEP-20 token on BNB Chain ◇ — matching the USDT/BNB payment rails of both rounds — with the Aether treasury and governance deployed on the same BNB Smart Chain<sup><a href="#cite-4">[4]</a></sup>, so reserve operations settle natively with no cross-chain bridge<sup><a href="#cite-5">[5]</a></sup>.</span>
     <span class="zh">TGE 时，流动性份额注入 DEX 资金池，与 BNB 配对。SPARK 建议以 BEP-20 形式发行于 BNB Chain ◇ —— 与两轮认购的 USDT/BNB 支付轨道相匹配 —— Aether 金库与治理同链部署于 BNB Smart Chain<sup><a href="#cite-4">[4]</a></sup>，储备操作原生结算，无需跨链桥<sup><a href="#cite-5">[5]</a></sup>。</span></p>
     <div class="addr-pending">token&nbsp;&nbsp;0x · · · pending deployment<br>pool&nbsp;&nbsp;&nbsp;0x · · · pending deployment</div>
     <p class="wp-note"><span class="en">Addresses are published on the Spark page at the moment of deployment. Before that moment, any address claiming to be SPARK is fraudulent.</span><span class="zh">合约地址将在部署那一刻公示于 Spark 页面。在那之前，任何自称 SPARK 的地址都是假冒。</span></p>
 
-    <h3><span class="h3k">4.6</span> <span class="en">Unlock schedule</span><span class="zh">解锁时间表</span></h3>
+    <h3><span class="h3k">4.7</span> <span class="en">Unlock schedule</span><span class="zh">解锁时间表</span></h3>
     <figure class="chart-figure">
       <figcaption><span class="en">Figure 2 — Circulating supply after TGE</span><span class="zh">图 2 —— TGE 之后的流通供给</span></figcaption>
       <div class="figsub"><span class="en">Liquid float: 17.5% at TGE (2.5% presale + 5% IDO + 10% LP), rising by 2.5% per month as both tranches vest and reaching its 40% calendar ceiling at month 9. The 10% incentive tranche settles per program; the remaining 50% moves only by governance, charter-capped at ≤5%/yr.</span><span class="zh">流通量：TGE 时 17.5%（预售 2.5% + IDO 5% + LP 10%），随两份额线性释放每月递增 2.5%，于第 9 个月触及 40% 日历上限。10% 激励份额按计划结算；其余 50% 只随治理而动，宪章限速 ≤5%/年。</span></div>
@@ -390,7 +396,7 @@ sup a:hover { text-decoration: underline; }
     <p><span class="en">The structural promise is a <mark class="key">hard float ceiling</mark>: the calendar can never unlock more than 40% (presale + IDO + LP); the 10% incentive tranche pays out only against verified referrals and activations; and the 50% reserve moves only through a public, vetoable proposal, with the charter capping releases at <b>≤5% of the reserve per year</b>. Early buyers know exactly what the maximum float is.</span>
     <span class="zh">结构性承诺是<mark class="key">流通量硬上限</mark>：任何日历最多解锁 40%（预售 + IDO + LP）；10% 激励份额只对经核验的推荐与激活支付；而 50% 的储备只能经公开的、可否决的提案移动，宪章限定每年释出<b>不超过储备的 5%</b>。早期买家清楚地知道最大流通量是多少。</span></p>
 
-    <h3><span class="h3k">4.7</span> <span class="en">Safeguards &amp; compliance</span><span class="zh">安全机制与合规</span></h3>
+    <h3><span class="h3k">4.8</span> <span class="en">Safeguards &amp; compliance</span><span class="zh">安全机制与合规</span></h3>
     <ul class="plain">
       <li><span class="en"><b>Security:</b> token, presale and LBP contracts must carry audits from a recognized firm before any funds are accepted; reports are published alongside the addresses.</span><span class="zh"><b>安全：</b>代币、预售与 LBP 合约在接收任何资金之前必须经知名机构审计；审计报告随地址一并公示。</span></li>
       <li><span class="en"><b>Transparency:</b> presale and IDO contract addresses and rules are announced before each window opens; the subscription reconciliation is published before TGE distribution.</span><span class="zh"><b>透明：</b>预售与 IDO 的合约地址和规则在各自窗口开启前公告；认购对账在 TGE 分发前公示。</span></li>

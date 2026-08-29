@@ -3,6 +3,51 @@
   var KEY = "sl-lang";
 
   /* ============================================================
+     DOWNLOAD CONFIG — the single place APK store URLs live.
+     Per CANON.md §6: leave a URL null while the listing is in
+     review; every <div data-download="engine|vault"></div> on any
+     page then renders the "review pending" state automatically.
+     ============================================================ */
+  var DOWNLOAD = {
+    engine: { url: null,  ver: "v3.45.1" },
+    vault:  { url: null,  ver: "v3.44.0" }
+  };
+
+  function renderDownloads() {
+    document.querySelectorAll("[data-download]").forEach(function (el) {
+      var id = el.getAttribute("data-download");
+      var cfg = DOWNLOAD[id];
+      if (!cfg) { return; }
+      var live = !!cfg.url;
+      var ship = id === "vault" ? "shield" : "ship";
+      var nameEn = id === "vault" ? "Download Vault" : "Download Engine";
+      var nameZh = id === "vault" ? "下载 Vault" : "下载 Engine";
+      el.className = "dl-card" + (live ? " live" : " pending");
+      el.innerHTML =
+        '<span class="dl-ic"><i data-ic="' + ship + '"></i></span>' +
+        '<span class="dl-body">' +
+          '<b class="dl-name">' + nameEn + nameZh + '</b>' +
+          '<span class="dl-meta">' +
+            '<span class="en">' + (live ? cfg.ver + " · direct APK" : cfg.ver + " · store review in progress") + '</span>' +
+            '<span class="zh">' + (live ? cfg.ver + " · 直链下载" : cfg.ver + " · 应用商店审核中") + '</span>' +
+          '</span>' +
+        '</span>' +
+        '<span class="dl-cta">' +
+          '<span class="en">' + (live ? "GET ↗" : "COMING SOON") + '</span>' +
+          '<span class="zh">' + (live ? "获取 ↗" : "敬请期待") + '</span>' +
+        '</span>';
+      if (live) {
+        el.setAttribute("href", cfg.url);
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener");
+      } else {
+        el.setAttribute("aria-disabled", "true");
+      }
+    });
+  }
+  window.SLDownload = DOWNLOAD;
+
+  /* ============================================================
      SVG ICON SYSTEM — one sprite, injected once per page.
      ship (Engine) · shield (Vault) · temple (Aether) · mesh (Havix)
      flame (Spark) · bee (AI) · crown (sovereignty)
@@ -174,6 +219,9 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     injectSprite();
+    /* download cards first — they carry <i data-ic> placeholders that
+       swapPlaceholders() must still be able to resolve */
+    renderDownloads();
     swapPlaceholders();
 
     /* inputs authored with only data-ph-zh: capture initial placeholder as the EN variant */
@@ -216,7 +264,7 @@
       { id: "engine", href: "engine.html", ic: "ship",   name: "ENGINE", nc: "#EC4899", men: "the App · sovereign social",      mzh: "应用 · 主权社交",      st: "ship", sen: "SHIPPED v3.45.1",          szh: "已交付 v3.45.1" },
       { id: "spark",  href: "spark.html",  ic: "flame",  name: "SPARK",  nc: "#F59E0B", men: "the Fuel · presale + IDO",       mzh: "燃料 · 预售+IDO",      st: "live", sen: "PRESALE + IDO",              szh: "预售 + IDO" },
       { id: "aether", href: "aether.html", ic: "temple", name: "AETHER", nc: "#818CF8", men: "the Parliament · reserve",       mzh: "议会 · 储备",          st: "live", sen: "AUDIT ✓ · MAINNET PENDING", szh: "审计完成 · 待主网" },
-      { id: "havix",  href: "havix.html",  ic: "mesh",   name: "HAVIX",  nc: "#22D3EE", men: "the Bedrock · P2P substrate",   mzh: "基座 · P2P 网络",      st: "beta", sen: "BETA · M10",                 szh: "内测 M10" },
+      { id: "havix",  href: "havix.html",  ic: "mesh",   name: "HAVIX",  nc: "#22D3EE", men: "the Bedrock · P2P substrate",   mzh: "基座 · P2P 网络",    st: "beta", sen: "VALIDATED · STANDBY",        szh: "已验证 · 待命" },
       { id: "germ",   href: null,          ic: "sprout", name: "GERM",   nc: "#A78BFA", men: "the Brain · node AI (future)",  mzh: "大脑 · 节点 AI（远期）", st: "beta", sen: "FUTURE STAGE",               szh: "远期阶段", ghost: true }
     ];
     var pageId = document.body.getAttribute("data-page");
