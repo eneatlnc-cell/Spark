@@ -13,7 +13,7 @@
    · visitor confirmation: one-click mailto + copy payload (only
      shown when OPS_MAIL is a real address)
    ============================================================
-   DEPLOY NOTE — CURRENT MODE (v2.3): DUAL-CHANNEL capture.
+   DEPLOY NOTE — CURRENT MODE (v2.4): DUAL-CHANNEL capture + wallet proof.
    · Channel 1 · email (primary, unchanged): WL_ENDPOINT → FormSubmit
      AJAX — every entry keeps landing in the operator inbox exactly
      as before. OPS_MAIL enables the mailto backup.
@@ -24,6 +24,20 @@
      Empty string = email-only mode (v2.2 behaviour).
    The channels are fully independent — one failing never blocks the
    other, and unsynced entries retry per channel on later visits.
+   · WALLET INPUT GUARDS (v2.4):
+     – EIP-55 checksum: a mixed-case address must match its checksum
+       exactly, otherwise the form rejects it (a single wrong letter
+       case = probable typo). All-lower / all-upper pass and get
+       displayed checksummed on blur.
+     – manual paste asks for one confirm dialog (first/last chars of
+       the checksummed address) before submitting.
+     – optional Connect Wallet (injected EIP-1193 provider: MetaMask,
+       Binance Web3, Rabby…): fills the address from the wallet itself
+       (no typos possible), then SIGN TO VERIFY — the wallet signs a
+       Worker-issued challenge (personal_sign, free, off-chain), the
+       Worker recovers the signer address from the signature and keeps
+       a 7-day "verified" proof on the record. Manual-only visitors are
+       NOT blocked: verification is an optional trust upgrade.
    One-time: click the "Activate Form" link FormSubmit mailed to the
    operator address; until then entries stay local and auto-retry.
    Deploy the Worker (tools/whitelist-worker.js, ≈5 min — see
@@ -72,6 +86,84 @@
   function vWallet(v) { return /^0x[0-9a-fA-F]{40}$/.test(v.trim()); }
   function vEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
   function vCode(v) { return v.trim() === "" || /^SL-[0-9A-Z]{6}$/i.test(v.trim()); }
+
+  /* ---------- EIP-55 checksum (keccak-256, dependency-free) ----------
+     Same code as tools/whitelist-worker.js (tested there against the
+     EIP-55 spec vectors). A mixed-case address whose case pattern
+     doesn't match its own hash is almost certainly a typo — reject. */
+  var MASK64 = (1n << 64n) - 1n;
+  function rotl64(x, n) { return ((x << BigInt(n)) & MASK64) | (x >> BigInt(64 - n)); }
+  var KRC = [
+    0x0000000000000001n, 0x0000000000008082n, 0x800000000000808an, 0x8000000080008000n,
+    0x000000000000808bn, 0x0000000080000001n, 0x8000000080008081n, 0x8000000000008009n,
+    0x000000000000008an, 0x0000000000000088n, 0x0000000080008009n, 0x000000008000000an,
+    0x000000008000808bn, 0x800000000000008bn, 0x8000000000008089n, 0x8000000000008003n,
+    0x8000000000008002n, 0x8000000000000080n, 0x000000000000800an, 0x800000008000000an,
+    0x8000000080008081n, 0x8000000000008080n, 0x0000000080000001n, 0x8000000080008008n
+  ];
+  var KROT = [0, 1, 62, 28, 27, 36, 44, 6, 55, 20, 3, 10, 43, 25, 39, 41, 45, 15, 21, 8, 18, 2, 61, 56, 14];
+  function keccakF(s) {
+    for (var round = 0; round < 24; round++) {
+      var C = [], D = [], x, y, i;
+      for (x = 0; x < 5; x++) C[x] = s[x] ^ s[x + 5] ^ s[x + 10] ^ s[x + 15] ^ s[x + 20];
+      for (x = 0; x < 5; x++) D[x] = C[(x + 4) % 5] ^ rotl64(C[(x + 1) % 5], 1);
+      for (i = 0; i < 25; i++) s[i] ^= D[i % 5];
+      var B = [];
+      for (x = 0; x < 5; x++) for (y = 0; y < 5; y++) {
+        /* pi: B[x,y] = A[(x+3y) mod 5, x]; rho rotates the source lane.
+           Source index = (x+3y)%5 + 5*x; dest index = x + 5*y. */
+        var xp = (x + 3 * y) % 5;
+        var src = xp + 5 * x;
+        B[x + 5 * y] = rotl64(s[src], KROT[src]);
+      }
+      for (i = 0; i < 25; i++) {
+        x = i % 5; y = (i - x) / 5;
+        s[i] = B[i] ^ ((~B[(x + 1) % 5 + 5 * y] & B[(x + 2) % 5 + 5 * y]) & MASK64);
+      }
+      s[0] ^= KRC[round];
+    }
+  }
+  function keccak256(bytes) {
+    var rate = 136;
+    var padded = new Uint8Array(Math.ceil((bytes.length + 1) / rate) * rate);
+    padded.set(bytes);
+    padded[bytes.length] ^= 0x01;
+    padded[padded.length - 1] ^= 0x80;
+    var s = new Array(25); for (var i = 0; i < 25; i++) s[i] = 0n;
+    for (var off = 0; off < padded.length; off += rate) {
+      for (i = 0; i < rate / 8; i++) {
+        var lane = 0n;
+        for (var j = 0; j < 8; j++) lane |= BigInt(padded[off + i * 8 + j]) << BigInt(8 * j);
+        s[i] ^= lane;
+      }
+      keccakF(s);
+    }
+    var out = new Uint8Array(32);
+    for (i = 0; i < 4; i++) for (j = 0; j < 8; j++) {
+      out[i * 8 + j] = Number((s[i] >> BigInt(8 * j)) & 0xFFn);
+    }
+    return out;
+  }
+  var hexOf = function (bytes) {
+    var h = ""; for (var i = 0; i < bytes.length; i++) h += bytes[i].toString(16).padStart(2, "0"); return h;
+  };
+  function toChecksumAddress(addr) {
+    var a = String(addr || "").toLowerCase().replace(/^0x/, "");
+    if (!/^[0-9a-f]{40}$/.test(a)) return null;
+    var h = hexOf(keccak256(new TextEncoder().encode(a)));
+    var out = "0x";
+    for (var i = 0; i < 40; i++) {
+      var c = a[i];
+      out += /[0-9]/.test(c) ? c : (parseInt(h[i], 16) >= 8 ? c.toUpperCase() : c);
+    }
+    return out;
+  }
+  /* 混合大小写必须与校验和一致;全小写/全大写视为未区分大小写,放行 */
+  function checksumOk(v) {
+    var a = String(v || "").trim();
+    if (/^0x[0-9a-f]{40}$/.test(a) || /^0x[0-9A-F]{40}$/.test(a)) return true;
+    return a === toChecksumAddress(a);
+  }
 
   /* 已知档位白名单：merge 只接受这些值，其余清空（数据卫生 + 防注入） */
   var TIERS = ["Ember", "Flame", "Supernova"];
@@ -133,9 +225,9 @@
     save(list);
   }
   function csv(list) {
-    var head = "wallet,referral_code,referrer_code,tier,email,timestamp,synced";
+    var head = "wallet,referral_code,referrer_code,tier,email,timestamp,synced,verified";
     var rows = list.map(function (r) {
-      return [r.wallet, r.code, r.ref || "", r.tier || "", r.email, new Date(r.ts).toISOString(), r.synced ? "yes" : "local-only"].join(",");
+      return [r.wallet, r.code, r.ref || "", r.tier || "", r.email, new Date(r.ts).toISOString(), r.synced ? "yes" : "local-only", r.verified ? "yes" : "no"].join(",");
     });
     return head + "\n" + rows.join("\n");
   }
@@ -308,19 +400,138 @@
       mailBtn.style.display = "none";
     }
 
+    /* ---------- 连接钱包 + 签名验证(v2.4,可选增强) ----------
+       injected provider(EIP-1193):MetaMask / 币安 Web3 / Rabby…
+       连接 → 自动填入校验和地址(杜绝手误)→ 可选签名验证:
+       Worker 发挑战 → 钱包 personal_sign(免 Gas、不上链)→
+       Worker 从签名恢复出地址并与声明地址比对,通过则记录
+       7 天所有权证明。手动粘贴路径完全保留;验证失败不拦截登记。 */
+    var WL_BASE = WL_WORKER ? WL_WORKER.replace(/\/submit\/?$/, "") : "";
+    var provider = (typeof window !== "undefined" && window.ethereum) || null;
+    var walletFromProvider = "";   /* 连接钱包填入的地址(小写) */
+    var verifiedWallet = "";       /* 已通过 Worker /verify 的地址(小写) */
+    var connectBtn = $("wlConnect"), signBtn = $("wlSign"), verifyLine = $("wlVerify");
+    function vfyLine(cls, en, zh) {
+      if (!verifyLine) return;
+      verifyLine.hidden = false;
+      verifyLine.className = "wl-hint wl-vfy" + (cls ? " " + cls : "");
+      verifyLine.innerHTML = t(en, zh);
+    }
+    function markLocalVerified(wallet) {
+      var list = load();
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].wallet === wallet) { list[i].verified = 1; break; }
+      }
+      save(list);
+    }
+    if (connectBtn && provider) {
+      if (connectBtn.parentNode) connectBtn.parentNode.hidden = false;  /* 无 provider 时整行保持隐藏 */
+      if (provider.on) provider.on("accountsChanged", function (accs) {
+        if (accs && accs.length) {
+          walletFromProvider = String(accs[0]).toLowerCase();
+          F.wallet.value = toChecksumAddress(accs[0]);
+          if (verifiedWallet !== walletFromProvider) verifiedWallet = "";
+        } else {
+          walletFromProvider = "";
+        }
+      });
+      connectBtn.addEventListener("click", function () {
+        var btn = connectBtn;
+        btn.disabled = true;
+        provider.request({ method: "eth_requestAccounts" }).then(function (accs) {
+          btn.disabled = false;
+          if (!accs || !accs.length) return;
+          walletFromProvider = String(accs[0]).toLowerCase();
+          F.wallet.value = toChecksumAddress(accs[0]);
+          if (signBtn && WL_WORKER) signBtn.hidden = false;
+          vfyLine("", "Wallet connected — address filled in. Sign next to prove you own it (free, off-chain).",
+            "钱包已连接 —— 地址已自动填入。下一步签名即可证明所有权(免 Gas、不上链)。");
+        }).catch(function () {
+          btn.disabled = false;
+          vfyLine("warn", "Connection cancelled — you can still paste the address manually.", "已取消连接 —— 也可继续手动粘贴地址。");
+        });
+      });
+    }
+    if (signBtn) {
+      signBtn.addEventListener("click", function () {
+        if (!WL_WORKER || !provider) return;
+        var w = (walletFromProvider || F.wallet.value).toLowerCase();
+        if (!vWallet(w)) { mark(F.wallet, true); return; }
+        signBtn.disabled = true;
+        vfyLine("", "Requesting a verification challenge…", "正在获取验证挑战…");
+        fetch(WL_BASE + "/challenge?wallet=" + encodeURIComponent(w))
+          .then(function (res) { return res.ok ? res.json() : null; })
+          .then(function (j) {
+            if (!j || !j.message) throw new Error("no_challenge");
+            vfyLine("", "Check your wallet — sign the message to prove ownership. No gas, nothing moves.",
+              "请在钱包中确认签名以证明所有权 —— 不消耗 Gas,不转移任何资产。");
+            return provider.request({ method: "personal_sign", params: [j.message, w] });
+          })
+          .then(function (sig) {
+            return fetch(WL_BASE + "/verify", {
+              method: "POST",
+              headers: { "Content-Type": "text/plain;charset=UTF-8" },
+              body: JSON.stringify({ wallet: w, sig: sig })
+            }).then(function (res) { return res.ok ? res.json() : null; });
+          })
+          .then(function (j) {
+            signBtn.disabled = false;
+            if (j && j.verified) {
+              verifiedWallet = w;
+              markLocalVerified(w);
+              signBtn.hidden = true;
+              vfyLine("ok", "✓ Ownership verified — this wallet is provably yours. The registration carries the proof (valid 7 days).",
+                "✓ 所有权已验证 —— 已证明该钱包归你所有,登记记录将带上验证标记(有效期 7 天)。");
+            } else {
+              vfyLine("warn", "Verification failed — make sure the SAME wallet signs. You can retry, or just register without the proof.",
+                "验证失败 —— 请确认签名的是同一个钱包。可重试;不验证也不影响正常登记。");
+            }
+          })
+          .catch(function () {
+            signBtn.disabled = false;
+            vfyLine("warn", "Verification cancelled or unreachable — registration still works without it.",
+              "已取消或服务暂不可达 —— 不验证也可正常登记。");
+          });
+      });
+    }
+    /* blur 时把合法地址规范为校验和形式,方便肉眼核对首尾 */
+    F.wallet.addEventListener("blur", function () {
+      var v = F.wallet.value.trim();
+      if (vWallet(v)) F.wallet.value = toChecksumAddress(v);
+    });
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (posting) return;
       var w = F.wallet.value.trim(), r = F.ref.value.trim().toUpperCase(), m = F.email.value.trim();
       if (!vWallet(w)) { mark(F.wallet, true); return; }
+      /* EIP-55:混合大小写与校验和不符 → 几乎必是手误,直接拒绝 */
+      if (!checksumOk(w)) {
+        mark(F.wallet, true);
+        alert(t("Wallet checksum failed — the address looks mistyped. Copy the full address from your wallet and paste it again.",
+                "钱包地址校验失败 —— 可能抄错了个别字符。请从钱包复制完整地址后重新粘贴。"));
+        return;
+      }
       if (!vCode(r)) { mark(F.ref, true); return; }
       if (!vEmail(m)) { mark(F.email, true); return; }
+      /* 手动输入 → 提交前二次确认(校验和地址首尾);连接钱包填入的免确认 */
+      if (w.toLowerCase() !== walletFromProvider) {
+        var cw = toChecksumAddress(w);
+        if (!confirm(t("Confirm your wallet address:\n" + cw + "\n\nfirst 6: " + cw.slice(0, 6) + "  ·  last 6: " + cw.slice(-6),
+                       "请核对钱包地址:\n" + cw + "\n\n前 6 位 " + cw.slice(0, 6) + " · 后 6 位 " + cw.slice(-6)))) return;
+      }
       var rec = { wallet: w.toLowerCase(), code: refCode(w), ref: r, tier: tier, email: m, ts: Date.now() };
+      if (verifiedWallet === rec.wallet) rec.verified = 1;   /* 展示用;服务端以自身 KV 判定为准 */
       if (!rec.code || rec.ref === rec.code) { mark(F.ref, true); return; }  /* self-referral blocked */
       upsert(rec);                                   /* local copy ALWAYS first */
       lastRec = rec;
       form.style.display = "none";
       okCode.textContent = rec.code;
+      var okV = $("wlOkV");
+      if (okV) {
+        okV.hidden = !rec.verified;
+        if (rec.verified) okV.innerHTML = t("✓ wallet ownership verified", "✓ 已验证钱包所有权");
+      }
       okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code.slice(3);
       okBox.classList.add("show");
       okBox.dispatchEvent(new CustomEvent("wl:done", { detail: rec }));
@@ -407,7 +618,7 @@
       '<div class="wa-head"><b>WHITELIST CONSOLE · <span id="waCount"></span></b>' +
       '<span>' + t("operator view — local entries in this browser", "运营视图 —— 本浏览器内的记录") + '</span></div>' +
       '<div class="wa-tablewrap"><table class="wa-table"><thead><tr>' +
-      "<th>wallet</th><th>code</th><th>referrer</th><th>tier</th><th>email</th><th>time</th><th>sync</th></tr>" +
+      "<th>wallet</th><th>code</th><th>referrer</th><th>tier</th><th>email</th><th>time</th><th>sync</th><th>v</th></tr>" +
       '</thead><tbody id="waBody"></tbody></table></div>' +
       '<div class="wa-actions">' +
       '<button class="btn btn-ghost" id="waSync">↻ SYNC</button>' +
@@ -429,15 +640,16 @@
       var list = load();
       var synced = list.filter(function (r) { return r.synced; }).length;
       var inKV = list.filter(function (r) { return r.wsynced; }).length;
+      var ver = list.filter(function (r) { return r.verified; }).length;
       $("waCount").textContent = list.length + (list.length === 1 ? " entry" : " entries") +
-        " · " + synced + " synced" + (WL_WORKER ? " · " + inKV + " in KV" : "");
+        " · " + synced + " synced" + (WL_WORKER ? " · " + inKV + " in KV" : "") + (WL_WORKER ? " · " + ver + " verified" : "");
       /* 所有字段先 esc() 再拼 HTML：merge 导入的外部数据可能带任意字符 */
       $("waBody").innerHTML = list.map(function (r) {
         return "<tr><td>" + esc(r.wallet.slice(0, 8) + "…" + r.wallet.slice(-6)) +
           "</td><td><b>" + esc(r.code) + "</b></td><td>" + esc(r.ref || "—") + "</td><td>" + esc(r.tier || "—") +
           "</td><td>" + esc(r.email) + "</td><td>" + esc(new Date(r.ts).toLocaleString()) + "</td>" +
-          "<td>" + (r.synced ? "✓" : "◌") + "</td></tr>";
-      }).join("") || '<tr><td colspan="7" class="wa-empty">— no entries yet —</td></tr>';
+          "<td>" + (r.synced ? "✓" : "◌") + "</td><td>" + (r.verified ? "✓" : "—") + "</td></tr>";
+      }).join("") || '<tr><td colspan="8" class="wa-empty">— no entries yet —</td></tr>';
     }
     render();
 

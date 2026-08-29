@@ -7,14 +7,16 @@
 > | Worker 地址 | `https://spark-whitelist.spark-loop-eneatlnc.workers.dev` |
 > | 提交接口(前端已接) | `/submit` |
 > | 进度接口(前端已接) | `/progress` |
+> | 挑战下发接口 | `/challenge?wallet=0x…` |
+> | 所有权验证接口 | `/verify` |
 > | KV 命名空间 | `WHITELIST`(`ddac5cd69ede4b1ea0653d5155b6bc43`) |
 > | 部署命令 | 仓库根目录 `npx wrangler deploy`(配置见 `wrangler.toml`) |
 > | ADMIN_TOKEN | 已设置(保存于运营方本地,勿入仓库;泄露后 `npx wrangler secret put ADMIN_TOKEN` 轮换) |
 >
 > 前端 `WL_WORKER` / `PP_ENDPOINT` 均已指向上述地址,无需再改。
 > 以下为原始部署手册(重部署/换号时参考)。
-
-> **当前生效模式（v2.3）**：双通道收集。
+>
+> **当前生效模式（v2.4）**：双通道收集 + 钱包所有权验证 + 进度阈值门控。
 >
 > - **通道 1 · 邮件（主通道，原样保留）**：`WL_ENDPOINT` 指向 FormSubmit AJAX
 >   端点 `https://formsubmit.co/ajax/eneatlnc@gmail.com` —— 每条白名单登记
@@ -154,6 +156,72 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
 5. 未部署 Worker 时的替代：直接改 `presale-progress.js` 里的 `PP_FALLBACK`
    静态快照（`{ raised: 0, count: null }`），同样能让进度条显示 —— 只是每次
    更新都要重新提交发布。
+6. **种子期阈值门控（seed gating）**：`presale-progress.js` 顶部的
+   `PP_MIN_COUNT`（默认 10）控制进度条的可见阈值。登记钱包数低于该值时，
+   进度条与数字全部隐藏，只显示"白名单开放中"文案 —— 避免上线初期一条死
+   死的 0% 条显得冷清。达到阈值后进度条自动淡入。设为 0 则始终显示。
+
+## 钱包所有权验证（v2.4 新增 · `/challenge` + `/verify`）
+
+**为什么要做**：白名单登记最怕手误抄错钱包地址（一个字母就打错币），以及
+"代登记"导致的所有权争议。v2.4 加入可选的钱包验证路径，让用户能证明
+"这个钱包是我的"，记录打上 `verified:1` 标记。
+
+### 交互流程
+
+```
+用户在 spark.html 点 🔗 CONNECT WALLET
+   │
+   ├─ 浏览器检测到 injected provider（MetaMask / 币安 Web3 / Rabby …）
+   │   弹出授权 → 用户确认 → 钱包地址自动填入（EIP-55 校验和形式，零手误）
+   │
+   └─ 出现 ✍ SIGN TO VERIFY 按钮（可选，不验证也能登记）
+         │
+         ▼
+   前端 GET /challenge?wallet=0x…
+         │  Worker 生成 16 字节随机 salt，存入 KV（ch:<wallet>，TTL 15 分钟）
+         │  返回 { ok, salt, message } —— message 是待签文本
+         │
+         ▼
+   钱包 personal_sign(message)  —— 用户在钱包弹窗点确认
+      （免 Gas、不上链、不授权任何交易）
+         │
+         ▼
+   前端 POST /verify { wallet, sig }
+         │
+         ├─ Worker 从 KV 读出该钱包的 salt，重建同样的 message
+         ├─ 用 keccak-256 + secp256k1 从签名恢复出签名者公钥 → 地址
+         └─ 若恢复地址 === 声明地址 → 通过
+              · 写 v:<wallet> = timestamp（KV, TTL 7 天）—— 7 天所有权证明
+              · 删除 ch:<wallet>（挑战单次有效）
+              · 若该钱包已有 wl: 记录，回填 verified:1
+              · 返回 { ok: true, verified: true, address }
+```
+
+### 提交时的行为
+
+- **已通过验证的钱包** → 记录自动带 `verified:1`，成功面板显示
+  "✓ 已验证钱包所有权"绿色行。
+- **未验证的钱包** → 照常登记，只是没有验证标记。手动输入路径完全保留。
+- **验证失败** → 不拦截登记，提示用户重试即可。
+
+### 防手误的三道关卡
+
+| 层级 | 机制 | 位置 |
+|------|------|------|
+| L1 | EIP-55 校验和：混合大小写地址必须与 keccak 哈希逐位匹配，否则拒绝 | 前端 `whitelist.js` + Worker `sanitize()` |
+| L2 | 手动粘贴时弹出确认框，显示校验和地址 + 首尾 6 位，让用户肉眼核对 | 前端 `whitelist.js` |
+| L3 | 连接钱包：地址直接从钱包读出，写入时已是校验和形式，零手误 | 前端 EIP-1193 provider |
+
+### 安全说明
+
+- **纯 JS 密码学**：Worker 里的 keccak-256 和 secp256k1 是零依赖的 BigInt 实现
+  （约 200 行），没有引入任何外部 crypto 库，减少供应链风险。
+- **挑战一次性**：验证成功后立即烧毁 challenge；失败则保留（可重试，不烧 KV 写配额）。
+- **7 天有效期**：`v:<wallet>` 标记 TTL 7 天，足够覆盖预售窗口；过期后用户再次
+  签名即可续期（钱包始终在用户手里，随时可重新证明）。
+- **不上链、不授权**：`personal_sign` 只签一条文本消息，不涉及任何链上交易、
+  不批准任何代币转移。
 
 ## 数据与隐私口径（对外可公示）
 

@@ -551,6 +551,12 @@ table.tbl { width: 100%; border-collapse: collapse; min-width: 640px; font-size:
 @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 .wl-hint { font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
 .wl-hint a { color: var(--amber); text-decoration: none; font-weight: 700; }
+.wl-connect-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.45rem; }
+.wl-cta { padding: 0.36rem 0.8rem; font-size: 0.72rem; }
+.wl-vfy { display: block; margin-top: 0.4rem; font-weight: 700; }
+.wl-vfy.ok { color: #6EE7A0; }
+.wl-vfy.warn { color: var(--amber); }
+.wl-ok-vline { font-size: 0.8rem; font-weight: 700; color: #6EE7A0; }
 .wl-submit { grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
 
 /* success state */
@@ -763,6 +769,9 @@ footer { border-top: 1px solid var(--rule); padding: 54px 0 44px; margin-top: 40
 
 /* ============ presale progress (assets/presale-progress.js) ============ */
 .pp-wrap { margin: 0 auto 30px; padding: 18px 20px 14px; max-width: 760px; border: 1px solid var(--rule); border-radius: 16px; background: rgba(19, 11, 38, 0.55); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+/* seed phase (assets/presale-progress.js): bar + numbers hidden below the
+   wallet threshold — honest "whitelist open" caption instead of a dead 0% */
+.pp-wrap.seed .pp-track, .pp-wrap.seed .pp-num { display: none; }
 .pp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
 .pp-label { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
 .pp-label .icn { width: 1.05rem; height: 1.05rem; color: var(--amber); }
