@@ -1,0 +1,9 @@
+name = "spark-whitelist"
+main = "tools/whitelist-worker.js"
+compatibility_date = "2024-01-01"
+workers_dev = true
+account_id = "7bf0ce5939b8363a4c399c47d74b0028"
+
+[[kv_namespaces]]
+binding = "WHITELIST"
+id = "ddac5cd69ede4b1ea0653d5155b6bc43"

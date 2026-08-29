@@ -1,5 +1,19 @@
 # 白名单收集后端 — 5 分钟部署指南
 
+> **当前实际部署(2026-08-29 已上线)**
+>
+> | 项 | 值 |
+> |---|---|
+> | Worker 地址 | `https://spark-whitelist.spark-loop-eneatlnc.workers.dev` |
+> | 提交接口(前端已接) | `/submit` |
+> | 进度接口(前端已接) | `/progress` |
+> | KV 命名空间 | `WHITELIST`(`ddac5cd69ede4b1ea0653d5155b6bc43`) |
+> | 部署命令 | 仓库根目录 `npx wrangler deploy`(配置见 `wrangler.toml`) |
+> | ADMIN_TOKEN | 已设置(保存于运营方本地,勿入仓库;泄露后 `npx wrangler secret put ADMIN_TOKEN` 轮换) |
+>
+> 前端 `WL_WORKER` / `PP_ENDPOINT` 均已指向上述地址,无需再改。
+> 以下为原始部署手册(重部署/换号时参考)。
+
 > **当前生效模式（v2.3）**：双通道收集。
 >
 > - **通道 1 · 邮件（主通道，原样保留）**：`WL_ENDPOINT` 指向 FormSubmit AJAX

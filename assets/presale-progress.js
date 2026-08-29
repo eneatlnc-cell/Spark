@@ -40,7 +40,7 @@
        endpoint / fetch fails. Operators refresh it on redeploy if
        the Worker is not deployed.
      ------------------------------------------------------------ */
-  var PP_ENDPOINT = "";                          /* e.g. "https://spark-wl.<you>.workers.dev/progress" */
+  var PP_ENDPOINT = "https://spark-whitelist.spark-loop-eneatlnc.workers.dev/progress";  /* deployed 2026-08-29 — auto-aggregates whitelist intent */
   var PP_FALLBACK = { raised: 0, count: null };  /* raised: USD intent total; count: whitelist wallets or null */
 
   var SOFT = 500000;                             /* $500K soft cap */

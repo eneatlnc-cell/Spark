@@ -44,7 +44,7 @@
        Empty string = mailto button hidden (recommended until set).
      ------------------------------------------------------------ */
   var WL_ENDPOINT = "https://formsubmit.co/ajax/eneatlnc@gmail.com";  /* channel 1 · FormSubmit → auto-emails every entry to the operator */
-  var WL_WORKER = "";                                                 /* channel 2 · Worker /submit → KV + auto progress bar; "" = off */
+  var WL_WORKER = "https://spark-whitelist.spark-loop-eneatlnc.workers.dev/submit";   /* channel 2 · Worker /submit → KV + auto progress bar; "" = off */
   var OPS_MAIL = "eneatlnc@gmail.com";                                /* mailto backup — same inbox */
 
   var KEY = "sl-whitelist-v1";
