@@ -16,26 +16,48 @@
 > 前端 `WL_WORKER` / `PP_ENDPOINT` 均已指向上述地址,无需再改。
 > 以下为原始部署手册(重部署/换号时参考)。
 >
-> **当前生效模式（v2.5）**：双通道收集 + **无钱包交互**（对齐主流安全口径）+ 进度阈值门控。
+> **当前生效模式（v2.6）**：双通道收集 + **无钱包交互**（对齐主流安全口径）+ **Webhook 中继** + **进度镜像**。
 >
 > - **通道 1 · 邮件（主通道，原样保留）**：`WL_ENDPOINT` 指向 FormSubmit AJAX
 >   端点 `https://formsubmit.co/ajax/eneatlnc@gmail.com` —— 每条白名单登记
 >   仍会自动以邮件送达运营邮箱；`OPS_MAIL` 同时启用 mailto 兜底按钮。
+>   v2.6 起 payload 附带 `_webhook = WL_WORKER`：FormSubmit 收到提交后，会用
+>   **它自己的服务器**把表单数据再 POST 一份到 Worker `/submit`（信封格式
+>   `{form_data:{…}}`，Worker 已做服务端解包）。这条中继线解决了大陆网络
+>   无法直连 `*.workers.dev` 的问题（该域名在大陆被 DNS 污染，浏览器直连
+>   Worker 基本必失败）—— 提交经 FormSubmit 中转照样进 KV、照样计入进度。
 > - **通道 2 · KV + 进度（可选）**：部署本文的 Worker 后，把 `assets/whitelist.js`
 >   顶部的 `WL_WORKER` 指向 Worker 的 `/submit` —— 登记同时落进 KV 存储，
 >   预售进度条按意向额度**自动聚合**（详见下文进度条一节）。留空 = 仅邮件
->   模式（v2.2 行为）。
+>   模式（v2.2 行为）。按钱包 upsert 保证「浏览器直连 + Webhook 中继」双路
+>   幂等，不会重复计数。
+> - **进度条双数据源（v2.6）**：`assets/presale-progress.js` 先读**同源静态镜像**
+>   `assets/progress.json`（由 `.github/workflows/progress-mirror.yml` 每 15 分钟
+>   从 Worker `/progress` 拉取并提交，GitHub Pages 分发）—— 大陆访客也能秒开
+>   进度条；随后再尝试直连 Worker，网络可达时自动升级为实时数据。
 > - 两通道完全独立：任一通道故障互不影响，未同步的记录按通道各自重试
->   （下次访问自动补传 / 运营台 SYNC）。
+>   （下次访问自动补传 / 运营台 SYNC）。运营台 SYNC 在直连失败时会自动改走
+>   邮件通道的中继线补传进 KV。
 >
-> - **一次性激活**：FormSubmit 已向该邮箱发送激活邮件，点击其中的 "Activate Form"
->   后通道正式生效；激活前的提交留在访客本地、下次访问自动补传，不丢数据。
-> - **Referer 依赖**：FormSubmit 只接受来自 http(s) 页面的提交 —— file:// 直接
->   双击打开 HTML 时收不到邮件属正常现象；部署到 GitHub Pages 后即可。
+> - **一次性激活**：FormSubmit 已激活完毕（2026-08-29 实测提交成功）。
+> - **Referer 说明（v2.6 修复）**：默认浏览器策略在跨域 POST 时只发送裸源
+>   `https://eneatlnc-cell.github.io`（不带 `/Spark/` 路径），导致 FormSubmit
+>   邮件里的 "submitted your form on …" 链接指向根域名 —— 根域名没有站点，
+>   点击报 404「There isn't a GitHub Pages site here」。v2.6 起 `postRecord`
+>   显式携带完整页面 URL 作为 referrer，且 payload 新增 `url` 字段，邮件里的
+>   链接恢复可用。同时根域名已部署 301 跳转仓库（`eneatlnc-cell.github.io`
+>   仓库 → 跳转 `/Spark/`），旧邮件里的裸链接也能打开。
+> - FormSubmit 只接受来自 http(s) 页面的提交 —— file:// 直接双击打开 HTML
+>   时收不到邮件属正常现象；部署到 GitHub Pages 后即可。
 > - 数据经 FormSubmit（第三方）中转，字段仅限登记所需（钱包/邮箱/档位/时间戳）。
 >
 > 想升级时按本文部署 Worker、填好 `WL_WORKER`（**不是**替换 `WL_ENDPOINT`），
 > 邮件通道保持原样即可。
+>
+> **⚠ v2.6 需要重新部署 Worker**（新增 `{form_data:…}` 信封解包，不部署则
+> Webhook 中继会被旧 Worker 以 400 拒绝——邮件通道不受影响，只是大陆提交
+> 进不了 KV）：仓库根目录执行 `npx wrangler deploy`（约 30 秒，ADMIN_TOKEN
+> 等 secrets 不受影响）。
 
 ## 为什么需要这个
 

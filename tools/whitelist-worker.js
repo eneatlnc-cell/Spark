@@ -10,6 +10,8 @@
    Contract (matches assets/whitelist.js + assets/presale-progress.js):
    · POST /submit  body = JSON { wallet, code, ref, tier, email, ts, lang, page }
      sent with Content-Type: text/plain (no CORS preflight).
+     ALSO accepts FormSubmit's webhook envelope { form_data: { …same
+     fields… } } — unwrapped server-side (v2.6 relay, see below).
      Server-side upsert keyed by wallet — retries are idempotent.
      Every upsert ALSO updates the intent aggregate incrementally
      (agg:raised / agg:count), so the progress bar follows the
@@ -425,6 +427,16 @@ export default {
       let raw;
       try { raw = JSON.parse(await request.text()); }
       catch { return json({ ok: false, error: "bad_json" }, 400); }
+      /* FormSubmit webhook relay (v2.6): submissions re-POSTed by
+         FormSubmit's servers arrive wrapped as {form_data:{…}} (that
+         is FormSubmit's fixed webhook envelope). Unwrap it so the SAME
+         /submit contract serves both the browser's flat POST and the
+         relay — mainland visitors can't reach *.workers.dev directly
+         (DNS poisoning), but FormSubmit's servers can. Upsert-by-wallet
+         makes the two paths idempotent: no double counting. */
+      if (raw && typeof raw.form_data === "object" && raw.form_data !== null) {
+        raw = raw.form_data;
+      }
       const rec = sanitize(raw);
       if (!rec) return json({ ok: false, error: "bad_wallet" }, 400);
 

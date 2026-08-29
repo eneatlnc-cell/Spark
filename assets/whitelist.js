@@ -13,7 +13,7 @@
    · visitor confirmation: one-click mailto + copy payload (only
      shown when OPS_MAIL is a real address)
    ============================================================
-   DEPLOY NOTE — CURRENT MODE (v2.5): DUAL-CHANNEL capture, NO wallet
+   DEPLOY NOTE — CURRENT MODE (v2.6): DUAL-CHANNEL capture, NO wallet
    interaction (aligned with mainstream security guidance).
    · Channel 1 · email (primary, unchanged): WL_ENDPOINT → FormSubmit
      AJAX — every entry keeps landing in the operator inbox exactly
@@ -25,6 +25,23 @@
      Empty string = email-only mode (v2.2 behaviour).
    The channels are fully independent — one failing never blocks the
    other, and unsynced entries retry per channel on later visits.
+   · WEBHOOK RELAY (v2.6): *.workers.dev is DNS-poisoned on mainland
+     networks, so the browser POST above often can't reach the Worker
+     there. Every email-channel POST therefore also carries
+     _webhook=WL_WORKER: FormSubmit re-POSTs the submission to the
+     Worker from its OWN servers (unaffected by the visitor's network),
+     and the Worker unwraps the {form_data:{…}} envelope server-side.
+     Upsert-by-wallet keeps browser POST + relay idempotent, so the
+     two paths never double-count. Needs the v2.6 Worker deploy
+     (npx wrangler deploy) — see docs/WHITELIST_BACKEND.md.
+   · REFERRER FIX (v2.6): default browser policy sends only the origin
+     ("https://eneatlnc-cell.github.io") as Referer on cross-origin
+     POSTs, so FormSubmit emails linked to the bare origin — a 404.
+     postRecord now sends the full page URL as the fetch referrer AND
+     as an "url" field, so the email links land on the real page.
+   · SHARE-LINK FIX (v2.6): share links carry the full code
+     (?ref=SL-XXXXXX) and the ?ref= prefill accepts both prefixed and
+     prefix-less codes (older links keep working).
    · WALLET INPUT GUARDS (v2.5 — paste-only, no connect / no sign):
      Industry security guides teach users to treat "connect wallet
      and sign" prompts on signup pages as a phishing red flag
@@ -261,17 +278,40 @@
      with a single Access-Control-Allow-Origin header.
      Returns a promise fulfilled with { ok: boolean }.
      ============================================================ */
+  /* absolute page URL (http/https only) — sent both as the fetch
+     referrer and as a payload field. Default browser policy
+     (strict-origin-when-cross-origin) strips the path on cross-origin
+     POSTs, so FormSubmit's email used to link "submitted your form on
+     https://eneatlnc-cell.github.io" — the bare origin, which GitHub
+     answers with a 404 ("There isn't a GitHub Pages site here") since
+     only the project site /Spark/ exists. With the full referrer the
+     email link lands on the real page. */
+  function pageURL() {
+    return /^https?:$/.test(location.protocol) ? location.origin + location.pathname : "";
+  }
+
   function postRecord(rec) {
     if (!WL_ENDPOINT) return Promise.resolve({ ok: false, configured: false });
+    var url = pageURL();
     var payload = {
       /* FormSubmit control fields (harmless no-ops for the KV worker):
          readable subject, table layout, reply-to the visitor */
       _subject: "SparkLoop whitelist · " + (rec.code || rec.wallet),
       _template: "table",
+      /* server-side relay (v2.6): FormSubmit's webhook re-POSTs every
+         submission to the Worker from ITS OWN servers — which reach
+         *.workers.dev even on visitor networks where it is blocked
+         (e.g. mainland China DNS-poisoning). The Worker upserts by
+         wallet, so browser POST + webhook relay never double-count. */
+      _webhook: WL_WORKER || "",
       wallet: rec.wallet, code: rec.code, ref: rec.ref || "",
       tier: rec.tier || "", email: rec.email, ts: rec.ts,
       date: new Date(rec.ts).toISOString(),
-      lang: lang(), page: location.pathname.split("/").pop() || "spark.html"
+      lang: lang(),
+      page: location.pathname.split("/").pop() || "spark.html",
+      /* full absolute URL — shows up as a working clickable link in the
+         operator's email table regardless of referrer policy */
+      url: url
     };
     if (rec.email) payload._replyto = rec.email;
     /* hard timeout so a hung endpoint can't stall the retry chain */
@@ -292,6 +332,10 @@
       body: JSON.stringify(payload),
       credentials: "same-origin",
       redirect: "error",
+      /* full page URL as referrer (overrides the default origin-only
+         policy for cross-origin POSTs) — makes the "submitted your form
+         on …" link in FormSubmit's email point at the real page */
+      referrer: url || undefined,
       signal: ctl ? ctl.signal : undefined
     }).then(function (res) {
       if (!res.ok) return { ok: false };
@@ -392,9 +436,16 @@
       });
     });
 
-    /* prefill referrer code from ?ref= (viral share links) */
+    /* prefill referrer code from ?ref= (viral share links).
+       v2.6: share links now carry the FULL code (?ref=SL-XXXXXX) but older
+       links without the prefix (?ref=XXXXXX) keep working — both normalize
+       to SL-XXXXXX. (v2.5 bug: the old check required the prefix while the
+       generated links stripped it, so prefill never fired.) */
     var q = new URLSearchParams(location.search).get("ref");
-    if (q && /^SL-[0-9A-Z]{6}$/i.test(q.trim())) F.ref.value = q.trim().toUpperCase();
+    if (q) {
+      var qc = q.trim().toUpperCase().replace(/^SL-/, "");
+      if (/^[0-9A-Z]{6}$/.test(qc)) F.ref.value = "SL-" + qc;
+    }
 
     /* mailto backup button: only meaningful with a real mailbox */
     var mailBtn = $("wlMail");
@@ -441,7 +492,7 @@
       lastRec = rec;
       form.style.display = "none";
       okCode.textContent = rec.code;
-      okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code.slice(3);
+      okShare.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + rec.code;
       okBox.classList.add("show");
       okBox.dispatchEvent(new CustomEvent("wl:done", { detail: rec }));
 
@@ -470,8 +521,8 @@
         if (res.ok) {
           markSynced(rec.wallet, true);
           setSync(syncLine, "ok", t(
-            "✓ Registered. This wallet is on the presale list — confirmation email follows.",
-            "✓ 登记成功。该钱包已进入预售名单 —— 确认邮件随后发送。"));
+            "✓ Registered. This wallet is on the presale list — your referral code is ready below.",
+            "✓ 登记成功。该钱包已进入预售名单 —— 你的推荐短码已在下方生成。"));
         } else {
           setSync(syncLine, "warn", t(
             "⚠ Saved locally — the server is unreachable right now. Your entry will upload automatically the next time you open this page; or press “send confirmation”.",
@@ -507,7 +558,7 @@
       var w = li.value.trim();
       if (!vWallet(w)) { mark(li, true); return; }
       lc.textContent = refCode(w);
-      ls.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + refCode(w).slice(3);
+      ls.value = location.origin + location.pathname.replace(/[^/]*$/, "spark.html") + "?ref=" + refCode(w);
       lo.classList.add("show");
     });
     $("lkCopy").addEventListener("click", function () {
@@ -585,7 +636,15 @@
           if (WL_WORKER && !r.wsynced) {
             p = p.then(function () {
               return postWorker(r).then(function (res) {
-                if (res.ok) markWSynced(r.wallet, true);
+                if (res.ok) { markWSynced(r.wallet, true); return; }
+                /* direct POST unreachable (common on mainland networks,
+                   where *.workers.dev is DNS-poisoned) — relay through the
+                   email channel: FormSubmit's webhook re-POSTs the entry
+                   to the Worker from FormSubmit's own servers. */
+                if (!WL_ENDPOINT) return;
+                return postRecord(r).then(function (res2) {
+                  if (res2.ok) { markSynced(r.wallet, true); markWSynced(r.wallet, true); }
+                });
               });
             });
           }

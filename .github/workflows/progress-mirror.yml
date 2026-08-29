@@ -1,0 +1,63 @@
+name: progress-mirror
+
+# Mirrors the Cloudflare Worker's /progress aggregate into
+# assets/progress.json, so the presale progress bar renders on
+# networks where *.workers.dev is unreachable (notably mainland
+# China, where the domain is DNS-poisoned). GitHub Pages serves the
+# snapshot; assets/presale-progress.js upgrades to live Worker data
+# whenever the visitor's network CAN reach it.
+#
+# The snapshot only changes when the aggregate actually moves
+# (volatile fields like ts are stripped before comparison), so
+# idle periods produce no commits and no Pages rebuilds.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes
+  workflow_dispatch: {}      # manual / API-triggered runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: progress-mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch live progress from the Worker
+        run: |
+          set -euo pipefail
+          curl -fsSL --max-time 30 \
+            "https://spark-whitelist.spark-loop-eneatlnc.workers.dev/progress" \
+            -o /tmp/progress.raw.json
+          echo "--- live /progress ---"
+          cat /tmp/progress.raw.json
+
+      - name: Normalize (strip volatile fields)
+        run: |
+          node -e '
+            const fs = require("fs");
+            const d = JSON.parse(fs.readFileSync("/tmp/progress.raw.json", "utf8"));
+            delete d.ts;          // changes every request — would force a commit every run
+            delete d.recounted;   // operator-only echo
+            fs.writeFileSync("/tmp/progress.json", JSON.stringify(d, null, 2) + "\n");
+          '
+
+      - name: Commit snapshot when the aggregate changed
+        run: |
+          if [ ! -f assets/progress.json ] || ! cmp -s /tmp/progress.json assets/progress.json; then
+            mkdir -p assets
+            cp /tmp/progress.json assets/progress.json
+            git config user.name "progress-mirror-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/progress.json
+            git commit -m "chore: refresh presale progress snapshot"
+            git push
+          else
+            echo "aggregate unchanged — no commit"
+          fi
