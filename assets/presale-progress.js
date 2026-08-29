@@ -1,21 +1,27 @@
 /* ============================================================
    Presale progress bar — dynamic, zero-backend-first.
    ------------------------------------------------------------
-   Renders the subscription progress against the soft/hard caps:
+   Renders the whitelist intent progress against the caps:
      soft cap $500,000 (tick at 50%) · hard cap $1,000,000 (100%)
+
+   The number shown is the AGGREGATE INTENT of the whitelist:
+   every registered wallet's chosen tier (Ember $50 · Flame $100 ·
+   Supernova $500) is summed server-side by the Worker — the bar
+   moves by itself as registrations come in, no operator input.
 
    Data source (in priority order):
    1. PP_ENDPOINT (Cloudflare Worker GET /progress, see
       tools/whitelist-worker.js) — returns
-      { raised, softCap, hardCap, count }  (aggregate, no PII)
-   2. PP_FALLBACK — static operator-edited snapshot.
-      Empty string "" = presale not begun (honest zero).
+      { raised, softCap, hardCap, count, mode:"intent" }
+      (aggregate, no PII). raised = Σ whitelist intent amounts.
+   2. PP_FALLBACK — static operator snapshot of the last aggregate.
+      Empty string "" = nothing registered yet (honest zero).
 
    Behaviour:
    · raised > 0  → animated fill (width tween + count-up) + shimmer;
      soft-cap tick ignites once raised ≥ soft cap
    · raised = 0   → whitelist-phase caption (bar stays empty —
-     the presale has not started; we never fake momentum)
+     nothing aggregated yet; we never fake momentum)
    · endpoint unreachable → fallback snapshot, same rendering
 
    Mount (one instance per page, static markup — SEO/no-JS safe):
@@ -26,14 +32,16 @@
 
   /* ------------------------------------------------------------
      CONFIG — the only block an operator normally touches.
-     · PP_ENDPOINT: deployed Worker /progress URL.
+     · PP_ENDPOINT: deployed Worker /progress URL. Once set, the
+       bar auto-aggregates the whitelist intent amounts (see
+       tools/whitelist-worker.js /progress) — no manual updates.
        Empty = offline mode (PP_FALLBACK drives the bar).
-     · PP_FALLBACK: manual snapshot used when no endpoint /
-       fetch fails. Operators update this during the presale if
+     · PP_FALLBACK: snapshot of the last aggregate, used when no
+       endpoint / fetch fails. Operators refresh it on redeploy if
        the Worker is not deployed.
      ------------------------------------------------------------ */
   var PP_ENDPOINT = "";                          /* e.g. "https://spark-wl.<you>.workers.dev/progress" */
-  var PP_FALLBACK = { raised: 0, count: null };  /* raised: USD; count: whitelist wallets or null */
+  var PP_FALLBACK = { raised: 0, count: null };  /* raised: USD intent total; count: whitelist wallets or null */
 
   var SOFT = 500000;                             /* $500K soft cap */
   var HARD = 1000000;                            /* $1M hard cap */
@@ -55,17 +63,17 @@
     }
     if (raised > 0) {
       return live
-        ? '<span class="en">Live — settled from the presale ledger, updated automatically.</span>' +
-          '<span class="zh">实时 —— 由预售账本结算，自动更新。</span>'
-        : '<span class="en">Subscriptions settling — figure updated by the operator.</span>' +
-          '<span class="zh">认购进行中 —— 数字由运营方更新。</span>';
+        ? '<span class="en">Live — auto-aggregated from whitelist intended amounts. Every registration moves the bar.</span>' +
+          '<span class="zh">实时 —— 按白名单登记的意向额度自动聚合，每条登记都会推动进度条。</span>'
+        : '<span class="en">Snapshot — last known aggregate, refreshed on the next deploy.</span>' +
+          '<span class="zh">快照 —— 最近一次聚合数字，随下次发布刷新。</span>';
     }
     if (Number.isFinite(count) && count > 0) {
-      return '<span class="en">Whitelist open — ' + count + ' wallets registered. The bar starts moving when the presale begins.</span>' +
-             '<span class="zh">白名单开放中 —— 已登记 ' + count + ' 个钱包。预售开启后进度条开始移动。</span>';
+      return '<span class="en">Whitelist open — ' + count + ' wallets registered. Intended amounts aggregate into this bar automatically.</span>' +
+             '<span class="zh">白名单开放中 —— 已登记 ' + count + ' 个钱包，意向额度自动聚合计入进度条。</span>';
     }
-    return '<span class="en">Whitelist open — subscriptions settle on-chain once the presale begins.</span>' +
-           '<span class="zh">白名单开放中 —— 预售开启后认购上链结算。</span>';
+    return '<span class="en">Whitelist open — intended amounts aggregate into this bar as wallets register.</span>' +
+           '<span class="zh">白名单开放中 —— 钱包登记后，意向额度将自动聚合计入进度条。</span>';
   }
 
   /* ---------- fetch with timeout; never throws ---------- */

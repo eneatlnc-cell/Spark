@@ -21,7 +21,11 @@
    operator address; until then entries stay local and auto-retry.
    To upgrade to full data ownership later (KV + /count /list), deploy
    tools/whitelist-worker.js and swap WL_ENDPOINT — see
-   docs/WHITELIST_BACKEND.md.
+   docs/WHITELIST_BACKEND.md. Deploying the Worker ALSO lets the
+   presale progress bar auto-aggregate the registered intent amounts
+   (tier → USD, summed server-side): set PP_ENDPOINT in
+   assets/presale-progress.js to the Worker's /progress URL and the
+   bar follows every registration by itself.
    ============================================================ */
 (function () {
   "use strict";

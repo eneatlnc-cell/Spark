@@ -79,34 +79,52 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
 
 | 操作 | 方法 |
 |------|------|
-| 看总人数 | `GET /count?t=<ADMIN_TOKEN>` |
+| 看总人数 + 意向总额 | `GET /count?t=<ADMIN_TOKEN>` |
 | 导出全部（JSON） | `GET /list?t=<ADMIN_TOKEN>` |
 | 浏览器内导出 CSV | 打开 `spark.html?export=1` → ↓ CSV |
 | 补传漏网记录 | `spark.html?export=1` → ↻ SYNC |
 | 合并邮件回传 | 同上 → 粘贴 JSON → MERGE |
+| 重算聚合缓存 | `GET /progress?t=<ADMIN_TOKEN>&recount=1` |
 
-## 预售进度条（`/progress` 端点）
+## 预售进度条（`/progress` 端点 · 意向额度自动聚合）
 
-首页与预售页的认购进度条由 `assets/presale-progress.js` 驱动，软顶 $500K /
-硬顶 $1M。上线前它如实显示 0%（白名单阶段文案）；要让进度条动起来：
+首页与预售页的进度条由 `assets/presale-progress.js` 驱动，软顶 $500K / 硬顶 $1M。
+**进度不再需要运营方手工申报**：`GET /progress` 返回的 `raised` 是全量白名单
+登记的**意向额度之和** —— 每条登记的档位在服务端映射为金额
+（Ember $50 · Flame $100 · Supernova $500，与预售页档位卡片一致），逐钱包累加：
 
-1. 部署本 Worker 后，编辑 `assets/presale-progress.js` 顶部：
+```
+每条白名单登记 POST /submit
+   │
+   ├─ 记录按钱包 upsert 进 KV（wl:0x…，含 tier）
+   │
+   └─ 聚合缓存同步增量更新：
+        新钱包    → raised += 档位金额, count += 1
+        改档位    → raised += (新档位 − 旧档位)     ← 重试/重复提交 delta=0，天然幂等
+        GET /progress → 直接读缓存（2 次 KV 读），全站进度条实时跟随
+```
+
+要点：
+
+1. **金额由服务端从档位推导**，客户端从不提交金额 —— 篡改请求无法虚抬进度条。
+2. 超过硬顶的**超额认购如实上报**（例如累计意向 $1.2M 时返回 1,200,000），
+   前端渲染时自行钳制在 $1M;`count` 恒为去重后的钱包数。
+3. 聚合缓存放在 `agg:raised` / `agg:count`（与 `wl:` 记录前缀隔离，互不污染）。
+   并发提交存在极小概率的读改写竞争导致漂移 —— 任何时候可一键对账重算：
+   ```bash
+   curl "https://spark-whitelist.<你的子域>.workers.dev/progress?t=<ADMIN_TOKEN>&recount=1"
+   ```
+   全量重扫 KV、重建缓存并把精确数字返回（带 `"recounted": true`）。
+   缓存键不存在时（首次部署/清空），第一次 `GET /progress` 也会自动触发重算自愈。
+4. 接通前端（部署 Worker 后）：
    ```js
+   /* assets/presale-progress.js 顶部 */
    var PP_ENDPOINT = "https://spark-whitelist.<你的子域>.workers.dev/progress";
    ```
-   提交、push —— 进度条即接通实时数据（`GET /progress` 为公开端点，只返回
-   聚合数字：已认购金额 / 软硬顶 / 白名单人数，无任何个人信息）。
-
-2. 预售进行中，运营方更新认购额（USD）：
-   ```bash
-   curl -X POST "https://spark-whitelist.<你的子域>.workers.dev/progress?t=<ADMIN_TOKEN>" \
-        -H "Content-Type: application/json" \
-        -d '{"raised": 505000}'
-   ```
-   数值钳制在 `[0, 1000000]`；写入后全站进度条自动跟随（金额上链前由运营方
-   申报，接入链上数据源后可改为合约直读）。
-
-3. 未部署 Worker 时的替代：直接改 `presale-progress.js` 里的 `PP_FALLBACK`
+   提交、push —— 此后每一条白名单登记都会自动推进进度条，无需任何人工更新。
+   （同时建议把 `assets/whitelist.js` 的 `WL_ENDPOINT` 指向 Worker 的 `/submit`，
+   让登记数据落进 KV —— FormSubmit 邮件模式下没有可聚合的服务端数据。）
+5. 未部署 Worker 时的替代：直接改 `presale-progress.js` 里的 `PP_FALLBACK`
    静态快照（`{ raised: 0, count: null }`），同样能让进度条显示 —— 只是每次
    更新都要重新提交发布。
 
@@ -114,7 +132,7 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
 
 - 只收集三个字段：钱包地址、邮箱、意向档位（+ 时间戳与语言）。
 - 无 cookie、无指纹、无第三方分析脚本；本 Worker 不存 IP。
-- `/progress` 只输出聚合数字（已认购金额、白名单人数），不含任何个人数据。
+- `/progress` 只输出聚合数字（意向额度合计、白名单人数），不含任何个人数据。
 - 推荐短码 `SL-XXXXXX` 由钱包地址确定性推导（FNV-1a），服务端重新推导校验，
   客户端报什么码都不影响树的形状 —— 防推荐关系伪造。
 - 提交以钱包地址为键幂等 upsert：重复提交 / 网络重试不会产生重复记录。
