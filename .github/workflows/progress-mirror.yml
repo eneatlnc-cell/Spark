@@ -12,6 +12,10 @@ name: progress-mirror
 # idle periods produce no commits and no Pages rebuilds.
 
 on:
+  # NOTE (v2.7): a comment-only edit to nudge GitHub into registering
+  # the cron schedule — this workflow was added 2026-08-29 23:42 and the
+  # schedule never fired once in the first hour (0 runs), while a manual
+  # workflow_dispatch ran fine. Re-saving the file re-registers the timer.
   schedule:
     - cron: "*/15 * * * *"   # every 15 minutes
   workflow_dispatch: {}      # manual / API-triggered runs
