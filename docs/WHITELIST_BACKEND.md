@@ -40,19 +40,37 @@
 >   邮件通道的中继线补传进 KV。
 >
 > - **一次性激活**：FormSubmit 已激活完毕（2026-08-29 实测提交成功）。
-> - **Referer 说明（v2.6 修复）**：默认浏览器策略在跨域 POST 时只发送裸源
+> - **Referer 说明（v2.6 尝试修复 → v2.7 真正修复）**：默认浏览器策略在跨域 POST 时只发送裸源
 >   `https://eneatlnc-cell.github.io`（不带 `/Spark/` 路径），导致 FormSubmit
 >   邮件里的 "submitted your form on …" 链接指向根域名 —— 根域名没有站点，
->   点击报 404「There isn't a GitHub Pages site here」。v2.6 起 `postRecord`
->   显式携带完整页面 URL 作为 referrer，且 payload 新增 `url` 字段，邮件里的
->   链接恢复可用。同时根域名已部署 301 跳转仓库（`eneatlnc-cell.github.io`
->   仓库 → 跳转 `/Spark/`），旧邮件里的裸链接也能打开。
+>   点击报 404「There isn't a GitHub Pages site here」。
+>   **v2.6 的修复是无效的**：`fetch(..., {referrer: 完整URL})` 只设置了 referrer
+>   来源，并不能覆盖 **Referrer 策略**——页面默认策略
+>   `strict-origin-when-cross-origin` 对跨域请求仍会裁剪成裸源（已用本地
+>   跨域实证：仅设 referrer 时服务端收到 `http://host/`，加上
+>   `referrerPolicy:"unsafe-url"` 后才收到完整 `http://host/spark.html`）。
+>   **v2.7 起 `postRecord` 同时携带 `referrerPolicy: "unsafe-url"`**，邮件里的
+>   链接恢复可用；`url` payload 字段继续作为邮件表格里的可点击冗余。
+> - **根域名跳转（待部署，v2.7）**：裸源 `https://eneatlnc-cell.github.io/` 目前
+>   实测返回 404（v2.6 文档曾声称「已部署 301 跳转」，实际从未部署，且静态
+>   GitHub Pages 也发不出真 301）。补救：创建名为
+>   `eneatlnc-cell.github.io` 的用户仓库，放入跳转版 `index.html` + `404.html`
+>   （meta refresh + `location.replace` 双保险，文件已随本次修复准备好），
+>   开启 Pages（main 分支 / root）。此后旧邮件里的裸链接、以及任何根域路径
+>   都会落到跳转页并进入 `/Spark/`，不再 404。
 > - FormSubmit 只接受来自 http(s) 页面的提交 —— file:// 直接双击打开 HTML
 >   时收不到邮件属正常现象；部署到 GitHub Pages 后即可。
 > - 数据经 FormSubmit（第三方）中转，字段仅限登记所需（钱包/邮箱/档位/时间戳）。
 >
 > 想升级时按本文部署 Worker、填好 `WL_WORKER`（**不是**替换 `WL_ENDPOINT`），
 > 邮件通道保持原样即可。
+>
+> **⚠ v2.7 需要重新部署 Worker**（`/list` 改为分页信封、`recount` 改用 KV key
+> metadata 零读取扫描、新增 `/has` 端点、`/submit` 写入 tier metadata、移除
+> `day:` 死索引写入）：仓库根目录执行 `npx wrangler deploy`（约 30 秒，
+> ADMIN_TOKEN 等 secrets 不受影响）。不部署则旧 Worker 的 `/list` 在白名单
+> 超过约 47 条后会因免费版「每调用 50 子请求」上限抛错，前端 SYNC 的
+> `/has` 验证也会 404（此时回退为旧行为，邮件通道不受影响）。
 >
 > **⚠ v2.6 需要重新部署 Worker**（新增 `{form_data:…}` 信封解包，不部署则
 > Webhook 中继会被旧 Worker 以 400 拒绝——邮件通道不受影响，只是大陆提交
@@ -129,11 +147,20 @@ Spark 网站是纯静态站。改造前，白名单表单的数据**只存在访
 | 操作 | 方法 |
 |------|------|
 | 看总人数 + 意向总额 | `GET /count?t=<ADMIN_TOKEN>` |
-| 导出全部（JSON） | `GET /list?t=<ADMIN_TOKEN>` |
+| 导出全部（JSON，分页） | `GET /list?t=<ADMIN_TOKEN>` → `{entries, next}`；`next` 非空时带 `&cursor=<next>` 续拉，直到 `next === null`（每页 40 条） |
+| 查单个钱包是否已入 KV | `GET /has?wallet=0x…`（公开端点，只返回 `{ok, has}`） |
 | 浏览器内导出 CSV | 打开 `spark.html?export=1` → ↓ CSV |
 | 补传漏网记录 | `spark.html?export=1` → ↻ SYNC |
 | 合并邮件回传 | 同上 → 粘贴 JSON → MERGE |
 | 重算聚合缓存 | `GET /progress?t=<ADMIN_TOKEN>&recount=1` |
+
+> **为什么 `/list` 要分页（v2.7）**：Cloudflare Workers 免费版限制**每次调用
+> 最多 50 个子请求**，而每次 KV 读取都计为一个子请求（官方 Limits 文档）。
+> 旧版 `/list` 一次性 `Promise.all` 读取全部记录——白名单一旦超过约 47 条，
+> `/list` 与 `recount`（含 `/progress` 缓存丢失时的自愈重算）都会抛
+> "Too many API requests"。v2.7 起：`/submit` 把档位写进 KV key 的
+> **metadata**（`list()` 会内联返回，零额外读取），`recount` 全量扫描只需
+> 每 1000 键 1 个子请求；`/list` 每次最多读 40 条，靠 `cursor` 翻页。
 
 ## 预售进度条（`/progress` 端点 · 意向额度自动聚合）
 

@@ -28,7 +28,16 @@
      (keccak-256 + secp256k1, pure JS, below) and accepts only if
      it equals the claimed wallet. On success: v:<wallet> = 7-day
      flag, challenge deleted, existing wl: record gets verified:1.
-   · GET  /list?t=<ADMIN_TOKEN>   → JSON array (operator export)
+   · GET  /list?t=<ADMIN_TOKEN>   → paged JSON (v2.7): { entries, next }.
+     Read at most 40 records per invocation — KV gets count as
+     subrequests and the free plan caps those at 50/invocation, so the
+     old "Promise.all over every key" version threw once the whitelist
+     passed ~47 wallets. Loop with ?cursor=<next> until next === null.
+   · GET  /has?wallet=0x…         → { ok, has } — does this wallet have
+     a wl: record? PUBLIC but privacy-safe: it reveals one bit and only
+     for an address you must already know (on-chain addresses are public
+     identifiers). Lets the frontend VERIFY the FormSubmit webhook
+     relay landed in KV before marking a record wsynced.
    · GET  /count?t=<ADMIN_TOKEN>  → { count } (for dashboards)
    · GET  /progress  → { raised, softCap, hardCap, count, mode, ts }
      PUBLIC, aggregate-only (drives the site's presale progress bar,
@@ -307,24 +316,45 @@ function codeOf(wallet) {
 /* ============================================================
    INTENT AGGREGATE — the progress bar's source of truth.
    recount(): full re-scan of every wl:* record, summing the
-   server-derived intent amounts. The kv list() API pages at 1000
-   keys, so we loop cursors — correct at any whitelist size.
+   server-derived intent amounts.
+
+   v2.7 — SUBREQUEST BUDGET: KV operations count as subrequests and
+   the free plan caps a single invocation at 50. The old version did
+   one get() per record (Promise.all), so recount()/list() threw
+   "Too many API requests" once the whitelist passed ~47 wallets —
+   and /progress's self-heal path would have died with it. Now
+   /submit stamps each record's tier into KV key METADATA, which
+   list() returns inline: a full scan costs ONE subrequest per 1000
+   keys and zero value reads. Pre-v2.7 records (there are none in
+   production) fall back to bounded value reads — at most
+   LEGACY_MAX per invocation, leftovers reported as legacy_skipped.
    ============================================================ */
+const LIST_PAGE = 40;     /* records read per /list invocation (1 list + 40 gets = 41 < 50) */
+const LEGACY_MAX = 35;    /* bounded value reads for metadata-less records per recount */
+
 async function recount(env) {
-  let raised = 0, count = 0, cursor;
+  let raised = 0, count = 0, legacySkipped = 0;
+  const legacyKeys = [];
+  let cursor;
   do {
     const page = await env.WHITELIST.list({ prefix: "wl:", cursor });
-    const vals = await Promise.all(page.keys.map(k => env.WHITELIST.get(k.name, "json")));
-    for (const v of vals) {
-      if (!v) continue;
+    for (const k of page.keys) {
       count++;
-      raised += intentOf(v.tier);
+      const tier = k.metadata && k.metadata.tier;
+      if (tier) raised += intentOf(tier);
+      else legacyKeys.push(k.name);
     }
     cursor = page.list_complete ? undefined : page.cursor;
   } while (cursor);
+  /* bounded fallback for pre-v2.7 records (no key metadata) */
+  for (const name of legacyKeys.slice(0, LEGACY_MAX)) {
+    const v = await env.WHITELIST.get(name, "json");
+    raised += v ? intentOf(v.tier) : 0;
+  }
+  legacySkipped = Math.max(0, legacyKeys.length - LEGACY_MAX);
   await env.WHITELIST.put(AGG_RAISED, String(raised));
   await env.WHITELIST.put(AGG_COUNT, String(count));
-  return { raised, count };
+  return { raised, count, legacy_skipped: legacySkipped };
 }
 
 /* Read the cached aggregate; if the cache key is missing (fresh
@@ -418,7 +448,9 @@ export default {
       const existing = await env.WHITELIST.get("wl:" + wallet, "json");
       if (existing) {
         existing.verified = 1;
-        await env.WHITELIST.put("wl:" + wallet, JSON.stringify(existing));
+        await env.WHITELIST.put("wl:" + wallet, JSON.stringify(existing), {
+          metadata: { tier: existing.tier }   /* keep key metadata intact (v2.7) */
+        });
       }
       return json({ ok: true, verified: true, address: signer });
     }
@@ -451,7 +483,13 @@ export default {
       /* fresh submit AFTER a successful /verify carries the flag too */
       if (await env.WHITELIST.get("v:" + rec.wallet)) rec.verified = 1;
 
-      await env.WHITELIST.put("wl:" + rec.wallet, JSON.stringify(rec));
+      await env.WHITELIST.put("wl:" + rec.wallet, JSON.stringify(rec), {
+        /* v2.7: tier stamped into key metadata so recount() can scan the
+           whole ledger with ZERO value reads (see subrequest budget
+           note above). A put without metadata would strip it, so every
+           write of a wl: key must carry it. */
+        metadata: { tier: rec.tier }
+      });
 
       /* intent aggregate: new registration adds its tier amount, a
          tier CHANGE moves the total by the difference. Idempotent
@@ -459,10 +497,25 @@ export default {
       const delta = intentOf(rec.tier) - (existing ? intentOf(existing.tier) : 0);
       await applyDelta(env, delta, !existing);
 
-      /* secondary index by day, cheap for counting */
-      const day = new Date().toISOString().slice(0, 10);
-      await env.WHITELIST.put("day:" + day + ":" + rec.wallet, "1");
+      /* v2.7: the old "day:YYYY-MM-DD:<wallet>" secondary index was
+         DEAD CODE — no endpoint ever read it — while costing one KV
+         write per submit (free tier: only 1000 writes/day) and
+         accumulating keys forever with no TTL. Removed. */
       return json({ ok: true, code: rec.code, intent_usd: intentOf(rec.tier), verified: rec.verified ? 1 : 0 });
+    }
+
+    /* ---- relay verification (public) ----
+       One bit: does this wallet have a wl: record? Used by the frontend
+       SYNC flow to VERIFY the FormSubmit webhook relay actually landed
+       in KV before marking wsynced (the relay is asynchronous and
+       best-effort — assuming success silently lost entries otherwise).
+       Privacy-safe: reveals nothing beyond membership of an address
+       the caller already knows; no email / ref / tier is returned. */
+    if (url.pathname === "/has" && request.method === "GET") {
+      const wallet = String(url.searchParams.get("wallet") || "").toLowerCase();
+      if (!validWallet(wallet)) return json({ ok: false, error: "bad_wallet" }, 400);
+      const rec = await env.WHITELIST.get("wl:" + wallet, "json");
+      return json({ ok: true, has: !!rec });
     }
 
     /* operator reads — token-gated, t param OR Authorization bearer both fine */
@@ -474,16 +527,18 @@ export default {
         return json({ count: agg.count, raised: agg.raised, mode: "intent" });
       }
       if (url.pathname === "/list" && request.method === "GET") {
-        const out = [];
-        let cursor;
-        do {
-          const page = await env.WHITELIST.list({ prefix: "wl:", cursor });
-          const vals = await Promise.all(page.keys.map(k => env.WHITELIST.get(k.name, "json")));
-          out.push(...vals.filter(Boolean));
-          cursor = page.list_complete ? undefined : page.cursor;
-        } while (cursor);
-        out.sort((a, b) => (a.first_seen || a.ts) - (b.first_seen || b.ts));
-        return json(out);
+        /* v2.7 — PAGED: reads at most LIST_PAGE records per invocation
+           (1 list + 40 gets = 41 subrequests, under the free plan's 50
+           cap). The old version fetched EVERY record in one go and
+           threw "Too many API requests" past ~47 wallets. Response is
+           now an envelope { entries, next } — loop with
+           ?cursor=<next> until next === null. */
+        const cursor = url.searchParams.get("cursor") || undefined;
+        const page = await env.WHITELIST.list({ prefix: "wl:", cursor, limit: LIST_PAGE });
+        const vals = await Promise.all(page.keys.map(k => env.WHITELIST.get(k.name, "json")));
+        const entries = vals.filter(Boolean);
+        entries.sort((a, b) => (a.first_seen || a.ts) - (b.first_seen || b.ts));
+        return json({ entries, next: page.list_complete ? null : page.cursor });
       }
     }
 

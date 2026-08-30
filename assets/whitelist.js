@@ -34,11 +34,19 @@
      Upsert-by-wallet keeps browser POST + relay idempotent, so the
      two paths never double-count. Needs the v2.6 Worker deploy
      (npx wrangler deploy) — see docs/WHITELIST_BACKEND.md.
-   · REFERRER FIX (v2.6): default browser policy sends only the origin
-     ("https://eneatlnc-cell.github.io") as Referer on cross-origin
-     POSTs, so FormSubmit emails linked to the bare origin — a 404.
-     postRecord now sends the full page URL as the fetch referrer AND
-     as an "url" field, so the email links land on the real page.
+   · REFERRER FIX (v2.6 → corrected in v2.7): default browser policy
+     sends only the origin ("https://eneatlnc-cell.github.io") as Referer
+     on cross-origin POSTs, so FormSubmit emails linked to the bare
+     origin — a 404 ("There isn't a GitHub Pages site here").
+     v2.6 set fetch's `referrer` to the full page URL but that alone
+     does NOT override the POLICY: under the default
+     strict-origin-when-cross-origin, cross-origin POSTs still
+     serialize down to the bare origin (empirically verified — the
+     server saw "https://host/" until referrerPolicy:"unsafe-url"
+     was added). v2.7 adds `referrerPolicy: "unsafe-url"` so the
+     email's "submitted your form on …" link finally points at the
+     real page; the `url` payload field stays as a clickable
+     redundancy in the email table.
    · SHARE-LINK FIX (v2.6): share links carry the full code
      (?ref=SL-XXXXXX) and the ?ref= prefill accepts both prefixed and
      prefix-less codes (older links keep working).
@@ -334,8 +342,16 @@
       redirect: "error",
       /* full page URL as referrer (overrides the default origin-only
          policy for cross-origin POSTs) — makes the "submitted your form
-         on …" link in FormSubmit's email point at the real page */
+         on …" link in FormSubmit's email point at the real page.
+         v2.7 FIX: `referrer` alone is NOT enough. The default policy
+         strict-origin-when-cross-origin serialises cross-origin POSTs
+         down to the bare origin even when a full-URL referrer is set
+         (verified empirically: server received "http://host/" with
+         referrer only, full "http://host/spark.html" once
+         referrerPolicy:"unsafe-url" was added). Without this line the
+         email keeps linking the bare origin — a 404 on GitHub Pages. */
       referrer: url || undefined,
+      referrerPolicy: url ? "unsafe-url" : undefined,
       signal: ctl ? ctl.signal : undefined
     }).then(function (res) {
       if (!res.ok) return { ok: false };
@@ -381,6 +397,52 @@
       return { ok: false };
     }).finally(function () {
       if (timer) clearTimeout(timer);
+    });
+  }
+
+  /* ---------- relay verification (v2.7) ----------
+     WL_HAS — the Worker's public /has endpoint, derived from WL_WORKER.
+     The FormSubmit webhook relay is ASYNCHRONOUS and best-effort: the
+     AJAX POST returning ok only proves the EMAIL channel accepted it,
+     not that the webhook re-POST reached the Worker's KV. SYNC used to
+     mark wsynced on relay success alone — a failed webhook then left
+     the record flagged "in KV" while it wasn't, and it was NEVER
+     retried again (both backlog sync and SYNC skip wsynced entries).
+     /has closes that hole: query it, and only mark wsynced on proof.
+     Returns true (in KV) / false (verified absent) / null (endpoint
+     unreachable — e.g. mainland networks where *.workers.dev is
+     DNS-poisoned: cannot verify, fall back to optimistic marking). */
+  var WL_HAS = WL_WORKER ? WL_WORKER.replace(/\/submit\/?$/, "/has") : "";
+
+  function workerHas(wallet) {
+    if (!WL_HAS) return Promise.resolve(null);
+    var ctl = (typeof AbortController === "function") ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, SYNC_TIMEOUT) : null;
+    return fetch(WL_HAS + "?wallet=" + encodeURIComponent(wallet), {
+      method: "GET",
+      credentials: "same-origin",
+      redirect: "error",
+      signal: ctl ? ctl.signal : undefined
+    }).then(function (res) {
+      if (!res.ok) return null;
+      return res.json().then(function (d) {
+        return d && d.has === true;
+      }, function () { return null; });
+    }).catch(function () {
+      return null;
+    }).finally(function () {
+      if (timer) clearTimeout(timer);
+    });
+  }
+
+  /* poll /has — the webhook fires seconds AFTER FormSubmit answers the
+     browser POST, so give it a few tries before declaring it absent */
+  function waitForKV(wallet, tries, gapMs) {
+    return workerHas(wallet).then(function (seen) {
+      if (seen !== false || tries <= 1) return seen;
+      return new Promise(function (resolve) {
+        setTimeout(function () { resolve(waitForKV(wallet, tries - 1, gapMs)); }, gapMs);
+      });
     });
   }
 
@@ -643,7 +705,18 @@
                    to the Worker from FormSubmit's own servers. */
                 if (!WL_ENDPOINT) return;
                 return postRecord(r).then(function (res2) {
-                  if (res2.ok) { markSynced(r.wallet, true); markWSynced(r.wallet, true); }
+                  if (!res2.ok) return;
+                  markSynced(r.wallet, true);
+                  /* v2.7: the relay itself is async best-effort — VERIFY it
+                     landed before marking wsynced, otherwise a failed
+                     webhook silently drops the KV entry forever (it is
+                     never retried once flagged). Poll /has a few times to
+                     give the webhook time to arrive. Unreachable endpoint
+                     (null) keeps the old optimistic marking — re-relaying
+                     on every SYNC click would spam the operator inbox. */
+                  return waitForKV(r.wallet, 3, 2000).then(function (seen) {
+                    if (seen === true || seen === null) markWSynced(r.wallet, true);
+                  });
                 });
               });
             });
