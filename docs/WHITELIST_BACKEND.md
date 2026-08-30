@@ -1,6 +1,6 @@
 # 白名单收集后端 — 5 分钟部署指南
 
-> **当前实际部署(2026-08-29 已上线)**
+> **当前实际部署(2026-08-30 v2.9 已上线)**
 >
 > | 项 | 值 |
 > |---|---|
@@ -16,21 +16,25 @@
 > 前端 `WL_WORKER` / `PP_ENDPOINT` 均已指向上述地址,无需再改。
 > 以下为原始部署手册(重部署/换号时参考)。
 >
-> **当前生效模式（v2.6）**：双通道收集 + **无钱包交互**（对齐主流安全口径）+ **Webhook 中继** + **进度镜像**。
+> **当前生效模式（v2.9）**：双通道收集 + **无钱包交互**（对齐主流安全口径）+ **Webhook 中继** + **进度镜像**。
 >
-> - **通道 1 · 邮件（主通道，原样保留）**：`WL_ENDPOINT` 指向 FormSubmit AJAX
+> - **通道 1 · 邮件（主通道，v2.9 修复）**：`WL_ENDPOINT` 指向 FormSubmit AJAX
 >   端点 `https://formsubmit.co/ajax/eneatlnc@gmail.com` —— 每条白名单登记
->   仍会自动以邮件送达运营邮箱；`OPS_MAIL` 同时启用 mailto 兜底按钮。
->   v2.6 起 payload 附带 `_webhook = WL_WORKER`：FormSubmit 收到提交后，会用
->   **它自己的服务器**把表单数据再 POST 一份到 Worker `/submit`（信封格式
->   `{form_data:{…}}`，Worker 已做服务端解包）。这条中继线解决了大陆网络
->   无法直连 `*.workers.dev` 的问题（该域名在大陆被 DNS 污染，浏览器直连
->   Worker 基本必失败）—— 提交经 FormSubmit 中转照样进 KV、照样计入进度。
-> - **通道 2 · KV + 进度（可选）**：部署本文的 Worker 后，把 `assets/whitelist.js`
->   顶部的 `WL_WORKER` 指向 Worker 的 `/submit` —— 登记同时落进 KV 存储，
->   预售进度条按意向额度**自动聚合**（详见下文进度条一节）。留空 = 仅邮件
->   模式（v2.2 行为）。按钱包 upsert 保证「浏览器直连 + Webhook 中继」双路
->   幂等，不会重复计数。
+>   自动以邮件送达运营邮箱。**v2.9 之前邮件正文是空的**：FormSubmit 的 /ajax/
+>   端点只在 Content-Type 声明可解析格式时才把载荷解析成邮件字段，原先的
+>   `text/plain`（为规避 CORS 预检而选）被当作不透明文本——提交照样成功
+>   （success:true）、邮件照样发出，但**零字段**：运营邮箱只收到一行
+>   "submitted your form on <url>"，没有任何数据表格。v2.9 起改用
+>   `application/x-www-form-urlencoded`（同为 CORS simple request、免预检，
+>   实测 FormSubmit 完整解析全部字段并发送表格邮件）。`OPS_MAIL` 同时启用
+>   mailto 兜底按钮。
+> - **通道 2 · KV + 进度**：`WL_WORKER` 指向 Worker `/submit`，登记落进 KV，
+>   预售进度条按意向额度自动聚合。payload 附带 `_webhook = WL_WORKER`：
+>   FormSubmit 收到提交后会把它自己的服务器把表单数据再 POST 一份到 Worker
+>   （**v2.9 修复**：FormSubmit 的 webhook 信封把 `form_data` 序列化为 JSON
+>   **字符串**而非嵌套对象——原先只认对象形态的解包逻辑静默拒绝了所有中继，
+>   大陆通道从未真正生效；现两种形态都接受，实测中继落库成功）。按钱包
+>   upsert 保证「浏览器直连 + Webhook 中继」双路幂等，不会重复计数。
 > - **进度条双数据源（v2.6）**：`assets/presale-progress.js` 先读**同源静态镜像**
 >   `assets/progress.json`（由 `.github/workflows/progress-mirror.yml` 每 15 分钟
 >   从 Worker `/progress` 拉取并提交，GitHub Pages 分发）—— 大陆访客也能秒开
@@ -51,13 +55,11 @@
 >   `referrerPolicy:"unsafe-url"` 后才收到完整 `http://host/spark.html`）。
 >   **v2.7 起 `postRecord` 同时携带 `referrerPolicy: "unsafe-url"`**，邮件里的
 >   链接恢复可用；`url` payload 字段继续作为邮件表格里的可点击冗余。
-> - **根域名跳转（待部署，v2.7）**：裸源 `https://eneatlnc-cell.github.io/` 目前
->   实测返回 404（v2.6 文档曾声称「已部署 301 跳转」，实际从未部署，且静态
->   GitHub Pages 也发不出真 301）。补救：创建名为
->   `eneatlnc-cell.github.io` 的用户仓库，放入跳转版 `index.html` + `404.html`
->   （meta refresh + `location.replace` 双保险，文件已随本次修复准备好），
->   开启 Pages（main 分支 / root）。此后旧邮件里的裸链接、以及任何根域路径
->   都会落到跳转页并进入 `/Spark/`，不再 404。
+> - **根域名跳转（已部署，v2.7）**：裸源 `https://eneatlnc-cell.github.io/` 原本
+>   返回 404。现已在账号下创建 `eneatlnc-cell.github.io` 用户仓库（跳转版
+>   `index.html` + `404.html`，meta refresh + `location.replace` 双保险）并开启
+>   Pages —— 旧邮件里的裸链接、以及任何根域路径都会落到跳转页并进入
+>   `/Spark/`，不再 404。
 > - FormSubmit 只接受来自 http(s) 页面的提交 —— file:// 直接双击打开 HTML
 >   时收不到邮件属正常现象；部署到 GitHub Pages 后即可。
 > - 数据经 FormSubmit（第三方）中转，字段仅限登记所需（钱包/邮箱/档位/时间戳）。

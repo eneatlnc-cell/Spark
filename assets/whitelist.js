@@ -329,6 +329,26 @@
       url: url
     };
     if (rec.email) payload._replyto = rec.email;
+    /* v2.9 FIX — the email body was EMPTY. FormSubmit's /ajax/ endpoint
+       only parses the payload into email fields when the Content-Type
+       declares a format it understands. text/plain (originally chosen to
+       keep this POST a CORS "simple request") is treated as an opaque
+       blob: the submission is still accepted (success:true) and an email
+       still goes out, but with ZERO parsed fields — the operator's inbox
+       got a bare "new form submission" note with no data table at all,
+       just the "submitted your form on <url>" link.
+       Verified empirically (2026-08-30, live observation endpoint):
+         text/plain                      → no field parsing, webhook never fires
+         application/x-www-form-urlencoded → all fields parsed, webhook relay
+                                            fires with complete form_data
+       form-urlencoded keeps this a CORS simple request (no preflight,
+       same as text/plain — FormSubmit answers Access-Control-Allow-Origin:*),
+       so nothing else about the request changes. The Worker channel
+       (postWorker) stays text/plain JSON by design. */
+    var body = Object.keys(payload).map(function (k) {
+      var v = payload[k];
+      return encodeURIComponent(k) + "=" + encodeURIComponent(v === null || v === undefined ? "" : String(v));
+    }).join("&");
     /* hard timeout so a hung endpoint can't stall the retry chain */
     var ctl = (typeof AbortController === "function") ? new AbortController() : null;
     var timer = ctl ? setTimeout(function () { ctl.abort(); }, SYNC_TIMEOUT) : null;
@@ -336,15 +356,15 @@
        (privacy identical to 'omit'), while a same-origin endpoint (worker
        reverse-proxied under the site domain) still works — and some
        corporate proxies 401 cookieless requests outright.
-       text/plain keeps this a simple request (no CORS preflight), and
+       form-urlencoded keeps this a simple request (no CORS preflight), and
        FormSubmit accepts it as long as the page is served over http(s) —
        the browser then attaches Referer, which FormSubmit requires.
        From file:// (or privacy tools stripping Referer) the POST is
        rejected; the entry stays local and retries, nothing is lost. */
     return fetch(WL_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: body,
       credentials: "same-origin",
       redirect: "error",
       /* full page URL as referrer (overrides the default origin-only
