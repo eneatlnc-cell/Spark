@@ -311,7 +311,7 @@
     var payload = {
       /* FormSubmit control fields (harmless no-ops for the KV worker):
          readable subject, table layout, reply-to the visitor */
-      _subject: "SparkLoop whitelist · " + (rec.code || rec.wallet),
+      _subject: "Spark Loop whitelist · " + (rec.code || rec.wallet),
       _template: "table",
       /* server-side relay (v2.6): FormSubmit's webhook re-POSTs every
          submission to the Worker from ITS OWN servers — which reach
@@ -642,7 +642,7 @@
       mailBtn.addEventListener("click", function () {
         var rec = lastRec || load().slice(-1)[0] || {};
         location.href = "mailto:" + OPS_MAIL +
-          "?subject=" + encodeURIComponent("SparkLoop whitelist " + rec.code) +
+          "?subject=" + encodeURIComponent("Spark Loop whitelist " + rec.code) +
           "&body=" + encodeURIComponent(JSON.stringify(rec, null, 2));
       });
     }

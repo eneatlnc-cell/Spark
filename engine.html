@@ -23,16 +23,6 @@
 <meta name="twitter:image" content="https://eneatlnc-cell.github.io/Spark/assets/og-card.jpg">
 <link rel="stylesheet" href="assets/site.css">
 <style>
-.bind-stage { border-radius: 26px; border: 1px solid var(--rule); background: linear-gradient(180deg,#0C0718,#0E081D); min-height: 300px; padding: 26px; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,0.45); position: sticky; top: 100px; }
-.stage-head { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent3); margin-bottom: 18px; }
-.stage-scene { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; animation: fadeUp 0.5s ease both; }
-.stage-scene .ss-icon { font-size: 3rem; animation: float 4s ease-in-out infinite; }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.stage-scene .ss-title { font-size: 1.15rem; font-weight: 700; }
-.stage-scene .ss-desc { font-size: 0.86rem; color: var(--muted); max-width: 340px; }
-.stage-scene .ss-mono { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent3); background: rgba(34,211,238,0.07); border: 1px dashed rgba(34,211,238,0.3); border-radius: 10px; padding: 8px 14px; word-break: break-all; }
-.stage-scene .qr-fake { width: 110px; height: 110px; border-radius: 14px; background: repeating-conic-gradient(#F5F3FF 0 25%, #0E081D 0 50%) 0 0 / 22px 22px, #0E081D; border: 6px solid #F5F3FF; box-shadow: 0 10px 30px rgba(139,92,246,0.35); animation: qrscan 2.2s ease infinite; }
-@keyframes qrscan { 0%,100% { box-shadow: 0 10px 30px rgba(139,92,246,0.35); } 50% { box-shadow: 0 10px 30px rgba(52,211,153,0.55); } }
 .relay-topo { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 30px; }
 .topo-card { flex: 1; min-width: 220px; border: 1px solid var(--rule); border-radius: 18px; padding: 20px; background: rgba(255,255,255,0.03); }
 .topo-card b { display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--pa); margin-bottom: 6px; }
@@ -74,7 +64,7 @@
       <span class="zh">主权社交，<br>由</span>
       <span class="grad"><span class="en">physics</span><span class="zh">物理法则</span></span>
       <span class="en"> — not policies.</span>
-      <span class="zh"> 而非政策担保。</span>
+      <span class="zh">而非政策担保。</span>
     </h1>
     <p class="hero-desc">
       <span class="en">Engine is the always-online half of a physically-isolated pair. It holds your public key and fingerprint — <strong>never the private key</strong>. Every identity signature, from relay challenge-response to E2E signaling, is delegated across devices to the offline Vault. The relay only ever routes ciphertext.</span>
@@ -86,11 +76,11 @@
     </div>
     <div class="hero-actions">
       <a class="btn btn-primary" href="#lab"><span class="en"><i data-ic="flame"></i> Enter the live lab</span><span class="zh"><i data-ic="flame"></i> 进入交互实验室</span></a>
-      <a class="btn btn-ghost" href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener">⌘ GitHub / Engine3.0</a>
+      <a class="btn btn-ghost" href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener">↗ GitHub / Engine3.0</a>
       <a class="btn btn-ghost" href="vault.html"><span class="en">Meet its other half → Vault</span><span class="zh">认识另一半 → Vault</span></a>
     </div>
     <div class="hero-stats">
-      <div class="hs"><b>0</b><span class="en">private keys on board</span><span class="zh"> onboard 私钥</span></div>
+      <div class="hs"><b>0</b><span class="en">private keys on board</span><span class="zh">机内私钥</span></div>
       <div class="hs"><b>100%</b><span class="en">Kotlin · Jetpack Compose</span><span class="zh">Kotlin · Jetpack Compose</span></div>
       <div class="hs"><b>200</b><span class="en">max group members</span><span class="zh">群组成员上限</span></div>
       <div class="hs"><b>48KB</b><span class="en">media per message</span><span class="zh">单条媒体消息</span></div>
@@ -103,7 +93,7 @@
   <div class="container">
     <div class="reveal">
       <span class="section-tag">01 / WHY <span class="en">PHYSICAL ISOLATION</span><span class="zh">物理隔离</span></span>
-      <h2 class="section-title"><span class="en">Most "encrypted" IM has a</span><span class="zh">多数"加密"IM 的服务器是</span> <span class="grad"><span class="en">single point of collapse</span><span class="zh">单点溃堤</span></span></h2>
+      <h2 class="section-title"><span class="en">Most "encrypted" IM has a</span><span class="zh">多数“加密”IM 都有一处</span> <span class="grad"><span class="en">single point of collapse</span><span class="zh">单点崩溃</span></span></h2>
       <p class="section-sub">
         <span class="en">Typical encrypted chat puts routing and key custody in the same trust zone — breach the server, take the keys with the ciphertext. Engine ends the gamble the primitive way: <strong>the device that holds keys physically cannot reach the network.</strong></span>
         <span class="zh">传统加密聊天把"路由消息"和"保管密钥"塞进同一个信任域 —— 服务器一破，密钥密文一锅端。Engine 用最朴素的方式终结这场豪赌：<strong>让持钥的设备物理上无法联网。</strong></span>
@@ -118,7 +108,7 @@
           <li><i class="ic">✕</i><span class="en">Server forwards messages <b>and</b> escrows keys / device fingerprints</span><span class="zh">服务器既转发消息，又托管密钥与设备指纹</span></li>
           <li><i class="ic">✕</i><span class="en">One database leak = full conversation history</span><span class="zh">一次拖库 = 全量会话历史泄露</span></li>
           <li><i class="ic">✕</i><span class="en">Accounts bind phone/email; identity can be subpoenaed</span><span class="zh">账号绑定手机/邮箱，身份可被传唤</span></li>
-          <li><i class="ic">✕</i><span class="en">Malicious apps can hijack IPC and forge signatures</span><span class="zh">恶意 App 可抢答 IPC、伪造签名</span></li>
+          <li><i class="ic">✕</i><span class="en">Malicious apps can hijack IPC and forge signatures</span><span class="zh">恶意 App 可劫持 IPC、伪造签名</span></li>
         </ul>
       </div>
       <div class="vs-mid"><span class="line"></span>VS<span class="line"></span></div>
@@ -152,13 +142,13 @@
       <div class="glass arch-card reveal" style="--ac:#EC4899">
         <div class="arch-icon"><i data-ic="ship"></i></div>
         <h3>Engine</h3>
-        <span class="arch-en">App A · online social</span>
+        <span class="arch-en">Engine · online social</span>
         <ul>
           <li><b><span class="en">E2E chat</span><span class="zh">端到端聊天</span></b><span class="en"> — ECDH agreement + AES-256-GCM, AAD-bound anti-replay</span><span class="zh"> —— ECDH 协商 + AES-256-GCM，AAD 绑定防重放</span></li>
           <li><b><span class="en">Pure memory</span><span class="zh">纯内存</span></b><span class="en"> — kill the process, everything evaporates</span><span class="zh"> —— 杀掉进程，一切蒸发</span></li>
           <li><b><span class="en">Groups & gating</span><span class="zh">群组与门禁</span></b><span class="en"> — 200-member cap, invite codes, approval queues</span><span class="zh"> —— 200 人上限、邀请码刷新、审批队列</span></li>
           <li><b><span class="en">Spark emoji</span><span class="zh">Spark 表情</span></b><span class="en"> — 60 refined faces, ≈1KB each, one message, E2E direct</span><span class="zh"> —— 60 张精制小表情，单张 ≈1KB，一条消息端到端直达</span></li>
-          <li><b><span class="en">DID profiles</span><span class="zh">DID 档案</span></b><span class="en"> — identity fingerprint, searchable handle</span><span class="zh"> —— 身份指纹，可检索昵称</span></li>
+          <li><b><span class="en">DID profiles</span><span class="zh">DID 档案</span></b><span class="en"> — identity fingerprint, searchable handle</span><span class="zh"> —— 身份指纹与可检索的用户名</span></li>
         </ul>
         <span class="arch-pkg">com.engine · INTERNET ✓ · persistence ✗</span>
       </div>
@@ -168,7 +158,7 @@
         <h3><span class="en">Relay Server</span><span class="zh">中继服务器</span></h3>
         <span class="arch-en">Relay · stateless postman</span>
         <ul>
-          <li><b>Ktor + Netty</b> <span class="en">WebSocket passthrough with challenge-response login</span><span class="zh">WebSocket 透传 + 挑战应答注册</span></li>
+          <li><b>Ktor + Netty</b> <span class="en">WebSocket passthrough with challenge-response registration</span><span class="zh">WebSocket 透传 + 挑战应答注册</span></li>
           <li><b><span class="en">Never parses payload</span><span class="zh">从不解析载荷</span></b><span class="en"> — routes ciphertext frames by fingerprint only</span><span class="zh"> —— 只按指纹路由密文帧</span></li>
           <li><b><span class="en">Zero state, zero disk</span><span class="zh">零状态零落盘</span></b><span class="en"> — restart wipes it clean; migrate = change DNS</span><span class="zh"> —— 重启即白纸，迁移只需改 DNS</span></li>
           <li><b><span class="en">Guardrails</span><span class="zh">护栏</span></b><span class="en"> — 20 msg/s rate limit · 128KB frames · per-IP quotas</span><span class="zh"> —— 20 msg/s 限速 · 128KB 帧 · 单 IP 配额</span></li>
@@ -180,7 +170,7 @@
       <div class="glass arch-card reveal" style="--ac:#10B981">
         <div class="arch-icon"><i data-ic="shield"></i></div>
         <h3>Vault</h3>
-        <span class="arch-en">App B · offline safe</span>
+        <span class="arch-en">Vault · offline safe</span>
         <ul>
           <li><b><span class="en">No INTERNET permission</span><span class="zh">无联网权限</span></b><span class="en"> — air-gap enforced by Android manifest</span><span class="zh"> —— 由 Android 清单强制的物理断网</span></li>
           <li><b>Keystore (TEE)</b> <span class="en">AES-256 encrypted, double-layer storage</span><span class="zh">AES-256 加密，双层存储</span></li>
@@ -203,7 +193,7 @@
       <h2 class="section-title"><span class="en">Don't read the spec —</span><span class="zh">别看说明书，</span> <span class="grad"><span class="en">send one</span><span class="zh">亲手发一条</span></span></h2>
       <p class="section-sub">
         <span class="en">Two simulated phones and a relay panel that faithfully replays Engine's protocol: watch plaintext become ciphertext, cross the relay as noise, and re-emerge verified on the other side.</span>
-        <span class="zh">两台模拟手机加一块中继面板，忠实复刻 Engine 的协议流程：围观明文如何变成密文、以乱码姿态穿过中继、再经验签在对面复原。</span>
+        <span class="zh">两台模拟手机加一块中继面板，忠实复刻 Engine 的协议流程：围观明文如何变成密文、以乱码姿态穿过中继、再由对端验签后复原。</span>
       </p>
     </div>
 
@@ -272,7 +262,7 @@
           </div>
           <div class="sp-body" id="chatB"></div>
           <div class="quick-chips">
-            <span class="chip" data-msg="Got it — the relay only sees noise 😎" data-zh="收到！中继那边全是乱码 😎"><span class="en">Snark back</span><span class="zh">回个槽</span></span>
+            <span class="chip" data-msg="Got it — the relay only sees noise 😎" data-zh="收到！中继那边全是乱码 😎"><span class="en">Snark back</span><span class="zh">回敬一句</span></span>
             <span class="chip" data-msg="Emoji delivered · ≈1KB direct 🎨" data-zh="表情已送达 · ≈1KB 直达 🎨"><span class="en">Send emoji</span><span class="zh">发个表情</span></span>
           </div>
           <div class="sp-input">
@@ -285,7 +275,7 @@
 
     <p class="sim-caption reveal">
       <span class="en">Every message is sealed with the <b>ECDH session key</b> under <b>AES-256-GCM</b> (AAD binds source/target/seq against replay). The relay sees frames; the receiver verifies the signature and checks monotonic seq before decrypting.</span>
-      <span class="zh">每条消息先经 <b>ECDH 会话密钥</b> 以 <b>AES-256-GCM</b> 加密（AAD 绑定 source/target/seq 防重放）。中继只见帧，接收端先验签并校验 seq 单调递增才解密。</span>
+      <span class="zh">每条消息都以 <b>ECDH 会话密钥</b>、经 <b>AES-256-GCM</b> 加密封装（AAD 绑定 source/target/seq 防重放）。中继只见帧，接收端先验签并校验 seq 单调递增才解密。</span>
     </p>
   </div>
 </section>
@@ -294,8 +284,8 @@
 <section id="features" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag">04 / FEATURES</span>
-      <h2 class="section-title"><span class="en">Social that feels normal,</span><span class="zh">体验如常，</span> <span class="grad"><span class="en">threat model that isn't</span><span class="zh">威胁模型不常</span></span></h2>
+      <span class="section-tag">04 / FEATURES <span class="en">SHIPPED IN v3.4x</span><span class="zh">已随 v3.4x 交付</span></span>
+      <h2 class="section-title"><span class="en">Social that feels normal,</span><span class="zh">体验如常，</span> <span class="grad"><span class="en">threat model that isn't</span><span class="zh">威胁模型却非同寻常</span></span></h2>
       <p class="section-sub">
         <span class="en">Everything below ships in the current v3.4x builds — grouped chat with gatekeeping, the Spark emoji economy, DID profiles, the signed-transaction SPARK wallet, and a markers system that exports only when you say so.</span>
         <span class="zh">以下能力均已随 v3.4x 版本交付 —— 带门禁的群聊、Spark 表情经济、DID 档案、签名交易 SPARK 钱包，以及仅在你主动触发时才导出的标记物系统。</span>
@@ -305,10 +295,10 @@
     <div class="f-grid">
       <div class="glass f-card reveal"><div class="f-ic">👥</div><div><b><span class="en">Groups with gatekeeping</span><span class="zh">带门禁的群聊</span></b><span class="en">200-member groups, refreshable invite codes, pending-approval queues and group detail pages.</span><span class="zh">200 人群组、可刷新邀请码、待审队列与群详情页。</span></div></div>
       <div class="glass f-card reveal"><div class="f-ic">🎨</div><div><b><span class="en">Spark emoji economy</span><span class="zh">Spark 表情经济</span></b><span class="en">Sixty refined emoji, ≈1KB each; an emoji rides one E2E message — no CDN, no link preview leakage.</span><span class="zh">60 张精制小表情，单张 ≈1KB，一条消息端到端直达 —— 无 CDN，无链接预览泄露。</span></div></div>
-      <div class="glass f-card reveal"><div class="f-ic">🪪</div><div><b>DID <span class="en">profiles</span><span class="zh">档案页</span></b><span class="en">Every identity is a key fingerprint with a human face: searchable nickname, avatar, verified fingerprint.</span><span class="zh">每个身份都是带人味的密钥指纹：可检索昵称、头像、已验证指纹。</span></div></div>
-      <div class="glass f-card reveal"><div class="f-ic">🔖</div><div><b><span class="en">Markers system</span><span class="zh">标记物系统</span></b><span class="en">Bookmark and search moments; plain-text export is strictly a user action — the "never write to disk" red line holds.</span><span class="zh">收藏检索关键时刻；明文导出严格由用户触发 —— "从不落盘"红线不破。</span></div></div>
+      <div class="glass f-card reveal"><div class="f-ic">🪪</div><div><b>DID <span class="en">profiles</span><span class="zh">档案页</span></b><span class="en">Every identity is a key fingerprint with a human face: searchable handle, avatar, verified fingerprint.</span><span class="zh">每个身份都是有人情味的密钥指纹：可检索用户名、头像、已验证指纹。</span></div></div>
+      <div class="glass f-card reveal"><div class="f-ic">🔖</div><div><b><span class="en">Markers system</span><span class="zh">标记物系统</span></b><span class="en">Bookmark and search moments; plain-text export is strictly a user action — the "never write to disk" red line holds.</span><span class="zh">收藏、检索聊天时刻；明文导出严格由用户触发 —— “从不落盘”红线不破。</span></div></div>
       <div class="glass f-card reveal"><div class="f-ic">🌓</div><div><b><span class="en">Day / night theming</span><span class="zh">昼夜主题</span></b><span class="en">Unified breathing empty states, night-contrast fixes and FAB polish across the app pair.</span><span class="zh">统一呼吸空态、夜间对比度修复与双端悬浮按钮打磨。</span></div></div>
-      <div class="glass f-card reveal"><div class="f-ic">🧠</div><div><b><span class="en">Pure-memory discipline</span><span class="zh">纯内存纪律</span></b><span class="en">No Room / SQLite / DataStore / FileOutputStream anywhere in the codebase; onTrimMemory wipes keys and GCs.</span><span class="zh">代码库中无任何持久化组件；onTrimMemory 即清钥并 GC。</span></div></div>
+      <div class="glass f-card reveal"><div class="f-ic">🧠</div><div><b><span class="en">Pure-memory discipline</span><span class="zh">纯内存纪律</span></b><span class="en">No Room / SQLite / DataStore / FileOutputStream anywhere in the codebase; onTrimMemory wipes keys and GCs.</span><span class="zh">代码库中无任何持久化组件；onTrimMemory 即清除密钥并触发 GC。</span></div></div>
     </div>
   </div>
 </section>
@@ -317,18 +307,18 @@
 <section id="threat" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag">05 / THREAT MODEL</span>
+      <span class="section-tag">05 / THREAT MODEL <span class="en">SEVEN ATTACKS, SEVEN STOPS</span><span class="zh">七种攻击，七道硬闸</span></span>
       <h2 class="section-title"><span class="en">Seven attacks,</span><span class="zh">七种攻击，</span> <span class="grad"><span class="en">seven hard stops</span><span class="zh">七道硬闸</span></span></h2>
       <p class="section-sub">
         <span class="en">Straight from the repo's v2 security model — each row is a deployed countermeasure, not a roadmap item.</span>
-        <span class="zh">直接摘自仓库 v2 安全模型 —— 每一行都是已部署的对策，而非路线图。</span>
+        <span class="zh">直接摘自仓库 v2 安全模型 —— 每一行都是已部署的对策，而非路线图上的待办项。</span>
       </p>
     </div>
     <div class="table-wrap reveal">
       <table class="tbl">
         <thead><tr><th><span class="en">Threat</span><span class="zh">威胁</span></th><th><span class="en">Countermeasure</span><span class="zh">对策</span></th></tr></thead>
         <tbody>
-          <tr><td><span class="en">Malicious app hijacks IPC</span><span class="zh">恶意 App 抢答 IPC</span></td><td class="en">All IPC delivered to explicit package names with signature-level custom permissions; no BROWSABLE entry points</td><td class="zh">全部 IPC 显式包名投递 + signature 级自定义权限，入口无 BROWSABLE</td></tr>
+          <tr><td><span class="en">Malicious app hijacks IPC</span><span class="zh">恶意 App 劫持 IPC</span></td><td class="en">All IPC delivered to explicit package names with signature-level custom permissions; no BROWSABLE entry points</td><td class="zh">全部 IPC 显式包名投递 + signature 级自定义权限，入口无 BROWSABLE</td></tr>
           <tr><td><span class="en">Forged login / binding callbacks</span><span class="zh">伪造登录/绑定回调</span></td><td class="en">Callbacks must carry ECDSA signature (sessionId‖status‖ts), verified against the bound public key within a ±120s window</td><td class="zh">回调必须携带 ECDSA 签名（sessionId‖status‖ts），Engine 用绑定公钥验签 + ±120s 时间窗</td></tr>
           <tr><td><span class="en">Relay self-claimed identity</span><span class="zh">中继自报身份/顶号</span></td><td class="en">Registration requires challenge-response: HELLO(fingerprint+pubkey) → CHALLENGE → HELLO_AUTH(signature)</td><td class="zh">注册须完成挑战-应答：HELLO(指纹+公钥) → CHALLENGE → HELLO_AUTH(签名)</td></tr>
           <tr><td><span class="en">ECDH MITM key substitution</span><span class="zh">ECDH 公钥中间人替换</span></td><td class="en">SIGNAL carries an identity signature; receivers accept keys only when the signature verifies and the fingerprint matches</td><td class="zh">SIGNAL 信令携带身份签名，接收端验签且指纹匹配才采纳</td></tr>
@@ -345,15 +335,15 @@
 <section id="relay" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag">06 / DEPLOY</span>
-      <h2 class="section-title"><span class="en">A relay you can</span><span class="zh">一个可以</span><span class="grad"><span class="en">throw away</span><span class="zh">随时扔掉</span></span><span class="en"> without consequences</span><span class="zh">而无后果的中继</span></h2>
+      <span class="section-tag">06 / DEPLOY <span class="en">RELAY TOPOLOGY</span><span class="zh">中继拓扑</span></span>
+      <h2 class="section-title"><span class="en">A relay you can</span><span class="zh">一个</span> <span class="grad"><span class="en">throw away</span><span class="zh">随时丢弃</span></span><span class="en"> without consequences</span><span class="zh">而不留后患的中继</span></h2>
       <p class="section-sub">
         <span class="en">Because the relay holds nothing, its location is a performance decision, not a trust decision. The reference deployment parks it in Hong Kong for low East-Asia latency, behind Nginx TLS, bound to localhost only.</span>
         <span class="zh">因为中继什么都不持有，选址只是性能决策，而非信任决策。参考部署将其放在香港以获得东亚低延迟，藏于 Nginx TLS 之后，仅监听本机。</span>
       </p>
     </div>
     <div class="relay-topo reveal">
-      <div class="topo-card"><b>① <span class="en">LOCALHOST-ONLY LISTEN</span><span class="zh">仅监听本机</span></b><span class="en">Relay binds 127.0.0.1:8080; port 8080 is firewalled from the public internet.</span><span class="zh">中继只绑定 127.0.0.1:8080，8080 端口对公网防火墙隔离。</span></div>
+      <div class="topo-card"><b>① <span class="en">LOCALHOST-ONLY LISTEN</span><span class="zh">仅监听本机</span></b><span class="en">Relay binds 127.0.0.1:8080; port 8080 is firewalled from the public internet.</span><span class="zh">中继只绑定 127.0.0.1:8080，8080 端口已被防火墙隔离于公网之外。</span></div>
       <div class="topo-card"><b>② <span class="en">NGINX TLS TERMINATION</span><span class="zh">NGINX 终结 TLS</span></b><span class="en">wss:// exposed via reverse proxy; debug builds allow ws://, release enforces wss:// only.</span><span class="zh">经反向代理对外暴露 wss://；debug 包放行 ws://，release 强制 wss://。</span></div>
       <div class="topo-card"><b>③ <span class="en">SYSTEMD HARDENING</span><span class="zh">SYSTEMD 加固</span></b><span class="en">Dedicated relay user, NoNewPrivileges, ProtectSystem=strict, PrivateTmp, auto-restart.</span><span class="zh">专用 relay 用户、NoNewPrivileges、ProtectSystem=strict、PrivateTmp、自动重启。</span></div>
       <div class="topo-card"><b>④ <span class="en">ZERO-LOCK-IN MIGRATION</span><span class="zh">零锁定迁移</span></b><span class="en">No state, no disk, no accounts — moving the relay is a DNS record change.</span><span class="zh">零状态、零落盘、零账号 —— 迁移中继等于改一条 DNS 记录。</span></div>
@@ -361,7 +351,7 @@
     <div class="callout reveal">
       <span class="co-tag"><span class="en">SPARK ECONOMY BUDGETS</span><span class="zh">SPARK 经济预算</span></span>
       <span class="en">Message budgets are set by <b>SparkEconomy</b>: 40KB text, 48KB media, 128KB envelope ceiling, 200-member groups derived from a 100Mbps relay. The fuel metaphor is literal — <b>every expressive byte rides Spark.</b></span>
-      <span class="zh">消息预算由 <b>SparkEconomy</b> 决定：40KB 文本、48KB 媒体、128KB 信封上限、由 100Mbps 中继推导的 200 人群组。"燃料"不只是比喻 —— <b>每一个表达的字节都由 Spark 承载。</b></span>
+      <span class="zh">消息预算由 <b>SparkEconomy</b> 决定：40KB 文本、48KB 媒体、128KB 信封上限、由 100Mbps 中继推导的 200 人群组。“燃料”不只是比喻 —— <b>每一个用于表达的字节都由 Spark 承载。</b></span>
     </div>
   </div>
 </section>
@@ -370,8 +360,8 @@
 <section id="timeline" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag">07 / TIMELINE</span>
-      <h2 class="section-title"><span class="en">From closed loop to</span><span class="zh">从加密闭环到</span> <span class="grad"><span class="en">living social surface</span><span class="zh">活的社交面</span></span></h2>
+      <span class="section-tag">07 / TIMELINE <span class="en">FROM CLOSED LOOP TO SOCIAL SURFACE</span><span class="zh">从加密闭环到社交生态</span></span>
+      <h2 class="section-title"><span class="en">From closed loop to</span><span class="zh">从加密闭环到</span> <span class="grad"><span class="en">living social surface</span><span class="zh">有生命力的社交生态</span></span></h2>
     </div>
     <div class="tl-wrap reveal">
       <div class="tl-item">
@@ -404,7 +394,7 @@
       </div>
       <div class="tl-item">
         <div class="tl-dot">3.34</div>
-        <div class="tl-body"><b><span class="en">Daily login grant</span><span class="zh">每日登录赠金</span></b><span class="en">1,000 SPARK per calendar day, idempotent and gated by a bound Vault identity; the flame becomes the official symbol.</span><span class="zh">每自然日 1,000 SPARK，当日幂等且以绑定 Vault 身份门控；火焰成为官方符号。</span></div>
+        <div class="tl-body"><b><span class="en">Daily fuel subsidy</span><span class="zh">每日燃料补贴</span></b><span class="en">1,000 SPARK per calendar day, idempotent and gated by a bound Vault identity; the flame becomes the official symbol.</span><span class="zh">每自然日 1,000 SPARK 燃料补贴，当日幂等且以绑定 Vault 身份门控；火焰成为官方符号。</span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">3.37</div>
@@ -416,7 +406,7 @@
       </div>
       <div class="tl-item now">
         <div class="tl-dot">3.45</div>
-        <div class="tl-body"><b><span class="en">Anti-reverse hardening &amp; grant dedup</span><span class="zh">反逆向加固与赠金去重</span></b><span class="en">R8 obfuscation on for every release build; the daily grant is device-anchored inside Vault and deduplicated at the relay by an unlinkable device-day hash — reinstalling both apps no longer refarms SPARK.</span><span class="zh">R8 混淆覆盖全部 release 构建；每日赠金在 Vault 侧设备锚定，并由中继按不可链接的设备日哈希去重 —— 重装双端应用无法再刷出 SPARK。</span></div>
+        <div class="tl-body"><b><span class="en">Anti-reverse hardening &amp; fuel-subsidy dedup</span><span class="zh">反逆向加固与燃料补贴去重</span></b><span class="en">R8 obfuscation on for every release build; the daily fuel subsidy is device-anchored inside Vault and deduplicated at the relay by an unlinkable device-day hash — reinstalling both apps no longer refarms SPARK.</span><span class="zh">R8 混淆覆盖全部 release 构建；每日燃料补贴在 Vault 侧设备锚定，并由中继按不可链接的设备日哈希去重 —— 重装双端应用无法再刷出 SPARK。</span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">2.0+</div>
@@ -431,7 +421,7 @@
     <div class="foot-grid">
       <div>
         <div class="foot-logo"><span class="logo-mark"><i data-ic="flame"></i></span> SparkLoop</div>
-        <p class="foot-desc"><span class="en">An independent interpretation of the eneatlnc-cell circuit. The E2EE protocol stack is open for audit; every claim traces back to code and whitepapers.</span><span class="zh">基于 eneatlnc-cell 回路的独立宣传解读：E2EE 协议栈公开审计，一切事实均可回溯至代码与白皮书。</span></p>
+        <p class="foot-desc"><span class="en">An independent interpretation of the eneatlnc-cell Loop. The E2EE protocol stack is open for audit; every claim traces back to code and whitepapers.</span><span class="zh">对 eneatlnc-cell 回路的独立解读：E2EE 协议栈公开审计，一切事实均可回溯至代码与白皮书。</span></p>
       </div>
       <div>
         <h4><span class="en">Layers</span><span class="zh">分层</span></h4>
@@ -440,7 +430,7 @@
           <li><a href="engine.html">Engine · <span class="en">sovereign social</span><span class="zh">主权社交</span></a></li>
           <li><a href="vault.html">Vault · <span class="en">offline custody</span><span class="zh">离线保管</span></a></li>
           <li><a href="aether.html">Aether · DAO</a></li>
-          <li><a href="havix.html">Havix · <span class="en">L0 substrate</span><span class="zh">L0 基底</span></a></li>
+          <li><a href="havix.html">Havix · <span class="en">L0 · parallel identity</span><span class="zh">L0 · 平行身份</span></a></li>
           <li><a href="spark.html">Spark · <span class="en">the fuel</span><span class="zh">燃料</span></a></li>
           <li><a href="rewards.html">Rewards · <span class="en">referral policy</span><span class="zh">激励政策</span></a></li>
           <li><a href="index.html#circuit"><span class="en">The Web4 Loop</span><span class="zh">Web4 回路</span></a></li>

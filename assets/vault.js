@@ -22,7 +22,7 @@
     }
     function settle() {
       var amt = 10 + Math.floor(Math.random() * 3) * 10; /* 计量批次: 10/20/30 */
-      if (bal - amt < 0) { bal = 985; } /* 演示兜底: 余额回灌 (真实链上由每日登录赠金) */
+      if (bal - amt < 0) { bal = 985; } /* 演示兜底: 余额回灌 (真实链上由每日燃料补贴) */
       bal -= amt;
       epoch += 1;
       renderBal();
