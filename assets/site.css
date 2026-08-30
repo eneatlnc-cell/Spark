@@ -549,6 +549,10 @@ table.tbl { width: 100%; border-collapse: collapse; min-width: 640px; font-size:
 .wl-form input:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,158,11,0.12); }
 .wl-form input.bad { border-color: #FB7185; box-shadow: 0 0 0 3px rgba(251,113,133,0.15); animation: shake 0.3s ease; }
 @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+/* v2.8 · referrer code locked by an invite link (?ref=) — readOnly affordance */
+.wl-form input.locked { border-style: dashed; opacity: 0.88; cursor: not-allowed; background: rgba(245,158,11,0.05); }
+.wl-form input.locked:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,158,11,0.12); }
+.wl-hint b { color: var(--amber); }
 .wl-hint { font-size: 0.7rem; color: var(--muted); line-height: 1.5; }
 .wl-hint a { color: var(--amber); text-decoration: none; font-weight: 700; }
 .wl-submit { grid-column: 1 / -1; justify-self: start; margin-top: 4px; }

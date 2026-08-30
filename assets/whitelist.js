@@ -50,6 +50,13 @@
    · SHARE-LINK FIX (v2.6): share links carry the full code
      (?ref=SL-XXXXXX) and the ?ref= prefill accepts both prefixed and
      prefix-less codes (older links keep working).
+   · REF LOCK (v2.8): the invite-link promise is "the referrer field is
+     pre-filled and can't be changed" (rewards.html 表单自动填好/锁定),
+     but v2.7 left the prefilled field freely editable — a friend could
+     wipe or retarget the code and silently break the referral. A valid
+     ?ref= now sets readOnly + .locked and rewrites the hint; the
+     self-referral guard unlocks the field so nobody is trapped by
+     their own invite link.
    · WALLET INPUT GUARDS (v2.5 — paste-only, no connect / no sign):
      Industry security guides teach users to treat "connect wallet
      and sign" prompts on signup pages as a phishing red flag
@@ -502,11 +509,34 @@
        v2.6: share links now carry the FULL code (?ref=SL-XXXXXX) but older
        links without the prefix (?ref=XXXXXX) keep working — both normalize
        to SL-XXXXXX. (v2.5 bug: the old check required the prefix while the
-       generated links stripped it, so prefill never fired.) */
+       generated links stripped it, so prefill never fired.)
+       v2.8 LOCK: the share-link promise (rewards.html: "the form fills
+       itself… they only enter wallet and email" / 表单自动填好) implies the
+       prefilled code can't be changed, but the field stayed freely
+       editable — a friend could wipe or retarget the code and silently
+       break the referral. A valid ?ref= now sets readOnly + .locked and
+       swaps the hint to say where the code came from. The self-referral
+       guard below calls unlockRef() so a user who opens THEIR OWN invite
+       link isn't trapped with an unfixable readOnly error. */
     var q = new URLSearchParams(location.search).get("ref");
     if (q) {
       var qc = q.trim().toUpperCase().replace(/^SL-/, "");
-      if (/^[0-9A-Z]{6}$/.test(qc)) F.ref.value = "SL-" + qc;
+      if (/^[0-9A-Z]{6}$/.test(qc)) {
+        F.ref.value = "SL-" + qc;
+        F.ref.readOnly = true;
+        F.ref.classList.add("locked");
+        var refHint = F.ref.parentNode && F.ref.parentNode.querySelector(".wl-hint");
+        if (refHint) {
+          refHint.innerHTML =
+            '<span class="en">auto-filled from an invite link — <b>locked</b>, the referral can’t be lost</span>' +
+            '<span class="zh">由邀请链接自动填入 —— <b>已锁定</b>，推荐关系不会丢失</span>';
+        }
+      }
+    }
+    function unlockRef() {
+      if (!F.ref) return;
+      F.ref.readOnly = false;
+      F.ref.classList.remove("locked");
     }
 
     /* mailto backup button: only meaningful with a real mailbox */
@@ -549,7 +579,16 @@
       if (!confirm(t("Confirm your wallet address:\n" + cw + "\n\nfirst 6: " + cw.slice(0, 6) + "  ·  last 6: " + cw.slice(-6),
                      "请核对钱包地址:\n" + cw + "\n\n前 6 位 " + cw.slice(0, 6) + " · 后 6 位 " + cw.slice(-6)))) return;
       var rec = { wallet: w.toLowerCase(), code: refCode(w), ref: r, tier: tier, email: m, ts: Date.now() };
-      if (!rec.code || rec.ref === rec.code) { mark(F.ref, true); return; }  /* self-referral blocked */
+      if (!rec.code || rec.ref === rec.code) {  /* self-referral blocked */
+        /* opened your own invite link? the prefilled code is readOnly, so
+           without unlocking the user is stuck with an unfixable error */
+        if (F.ref.readOnly) {
+          unlockRef();
+          alert(t("This invite link carries your own referral code — the field is now unlocked: clear it or enter another member's code.",
+                  "这个邀请链接带的是你自己的推荐短码 —— 字段已解锁：可清空，或改填其他成员的短码。"));
+        }
+        mark(F.ref, true); return;
+      }
       upsert(rec);                                   /* local copy ALWAYS first */
       lastRec = rec;
       form.style.display = "none";

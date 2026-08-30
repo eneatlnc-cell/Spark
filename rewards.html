@@ -126,7 +126,7 @@
             <input type="text" id="lkShare" readonly aria-label="share link">
             <button class="btn btn-ghost" type="button" id="lkCopy"><span class="en">COPY LINK</span><span class="zh">复制链接</span></button>
           </div>
-          <p class="wl-ok-note" style="margin-top:12px"><span class="en">This link opens the whitelist form with the referrer field pre-filled. A code activates for rewards once its wallet joins the whitelist.</span><span class="zh">此链接打开白名单表单时会自动填好推荐人栏。短码在其钱包加入白名单后即激活奖励资格。</span></p>
+          <p class="wl-ok-note" style="margin-top:12px"><span class="en">This link opens the whitelist form with the referrer field pre-filled and locked. A code activates for rewards once its wallet joins the whitelist.</span><span class="zh">此链接打开白名单表单时会自动填好并锁定推荐人栏。短码在其钱包加入白名单后即激活奖励资格。</span></p>
         </div>
         <div class="lk-expl">
           <div class="lx-row"><b>FNV-1a</b><span><span class="en">the address is hashed with FNV-1a — a tiny, public, 30-line algorithm</span><span class="zh">地址经 FNV-1a 哈希 —— 一个公开的三十行小算法</span></span></div>
@@ -164,7 +164,7 @@
         <span class="sn">02</span>
         <div><span class="who"><span class="en">YOU · SHARE</span><span class="zh">你 · 分享</span></span>
           <b><span class="en">Send your link — the form fills itself</span><span class="zh">发出你的链接 —— 表单自动填好</span></b>
-          <p><span class="en">Your share link carries <span style="font-family:var(--font-mono)">?ref=XXXXXX</span>. When a friend opens it, the referrer field is pre-filled with your code — they only enter wallet and email.</span><span class="zh">分享链接自带 <span style="font-family:var(--font-mono)">?ref=XXXXXX</span>。朋友打开时，推荐人栏已自动填入你的短码 —— 他们只需填钱包和邮箱。</span></p>
+          <p><span class="en">Your share link carries <span style="font-family:var(--font-mono)">?ref=SL-XXXXXX</span>. When a friend opens it, the referrer field is pre-filled with your code and locked — they only enter wallet and email.</span><span class="zh">分享链接自带 <span style="font-family:var(--font-mono)">?ref=SL-XXXXXX</span>。朋友打开时，推荐人栏已自动填入并锁定你的短码 —— 他们只需填钱包和邮箱。</span></p>
         </div>
       </div>
       <div class="glass story-step reveal">
