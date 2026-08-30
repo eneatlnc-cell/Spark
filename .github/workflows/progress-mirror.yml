@@ -12,12 +12,15 @@ name: progress-mirror
 # idle periods produce no commits and no Pages rebuilds.
 
 on:
-  # NOTE (v2.7): a comment-only edit to nudge GitHub into registering
-  # the cron schedule — this workflow was added 2026-08-29 23:42 and the
-  # schedule never fired once in the first hour (0 runs), while a manual
-  # workflow_dispatch ran fine. Re-saving the file re-registers the timer.
+  # NOTE (v2.8): cron moved OFF the quarter-hour marks (7,22,37,52).
+  # GitHub's scheduler delays runs that land on :00/:15/:30/:45 — the
+  # documented high-load times ("schedule your workflow to run at a
+  # different time of the hour"). The previous */15 pattern sat exactly
+  # on every spike: 0 scheduled runs in the first ~90 min (manual
+  # workflow_dispatch ran fine), so this repo's timer was either never
+  # registered or perpetually starved. Offset minutes dodge the queue.
   schedule:
-    - cron: "*/15 * * * *"   # every 15 minutes
+    - cron: "7,22,37,52 * * * *"   # every 15 min, offset from the hour
   workflow_dispatch: {}      # manual / API-triggered runs
 
 permissions:
