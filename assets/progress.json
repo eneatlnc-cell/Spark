@@ -1,7 +1,7 @@
 {
-  "raised": 0,
+  "raised": 100,
   "softCap": 500000,
   "hardCap": 1000000,
-  "count": 0,
+  "count": 1,
   "mode": "intent"
 }
