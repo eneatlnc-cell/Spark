@@ -10,11 +10,13 @@
      ============================================================ */
   var DOWNLOAD = {
     engine: {
-      url: null, ver: "v3.45.1",
+      url: "https://mmnto.oss-cn-hangzhou.aliyuncs.com/Engine-3.57.0-release.apk",
+      ver: "v3.57.0",
       tagEn: "Sovereign social · E2EE", tagZh: "主权社交 · 端到端加密"
     },
     vault: {
-      url: null, ver: "v3.44.0",
+      url: "https://mmnto.oss-cn-hangzhou.aliyuncs.com/Vault-3.56.7-release.apk",
+      ver: "v3.56.7",
       tagEn: "Offline safe · TEE-sealed", tagZh: "离线保险箱 · TEE 封存"
     }
   };
