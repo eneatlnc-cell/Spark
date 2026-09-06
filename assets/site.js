@@ -251,7 +251,9 @@
     if (window.SLI18N) window.SLI18N.currentLang = lang;
     document.documentElement.setAttribute("data-lang", lang);
     document.documentElement.setAttribute("lang", HTML_LANG[lang] || lang);
-    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    /* 布局方向保持 LTR，避免整页镜像翻转（图形化 Web4 电路布局不做全局 RTL 镜像）。
+       阿拉伯语文本的从右往左排版由 CSS 内 htmldata-lang="ar" 单独处理。 */
+    document.documentElement.setAttribute("dir", "ltr");
     try { localStorage.setItem(KEY, lang); } catch (e) {}
     buildLangSelect();
     /* fill static [data-i18n] content.

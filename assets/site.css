@@ -131,11 +131,18 @@ nav {
 }
 .lang-switch .lang-select:hover { background-color: rgba(255,255,255,0.06); }
 .lang-switch .lang-select option { background: #130B26; color: var(--ink); }
-html[dir="rtl"] .lang-switch .lang-select {
+html[data-lang="ar"] .lang-switch .lang-select {
   padding: 4px 11px 4px 22px;
   background-position: 9px 55%, 13px 55%;
 }
-html[dir="rtl"].lang-switch { direction: rtl; }
+html[data-lang="ar"].lang-switch { direction: rtl; }
+
+/* 阿拉伯语（RTL）只对文本排版，不镜像整体布局 */
+html[data-lang="ar"] [data-i18n] {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: embed;
+}
 
 .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.02rem; letter-spacing: 0.01em; flex-shrink: 0; }
 .nav-logo .logo-mark {
