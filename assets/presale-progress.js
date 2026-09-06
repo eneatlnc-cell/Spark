@@ -75,35 +75,36 @@
   function lang() {
     return document.documentElement.getAttribute("data-lang") === "zh" ? "zh" : "en";
   }
+  /* 多语种文案：window.SLL 取自七语种字典（en 为回退），
+     含 {var} 占位符的模板在取值后替换。 */
+  function cap(key, vars) {
+    var s = window.SLL ? window.SLL(key) : key;
+    if (vars) { for (var k in vars) { s = s.split("{" + k + "}").join(String(vars[k])); } }
+    return s;
+  }
   function usd(n) { return "$" + Math.round(n).toLocaleString("en-US"); }
   function pct(n) { return (100 * n / HARD).toFixed(1) + "%"; }
 
-  /* ---------- bilingual phase captions (spans toggled by site.css) ----------
+  /* ---------- phase captions (7-language via window.SLL) ----------
      mode: "live" (Worker responded) · "mirror" (GH-Actions snapshot) ·
            "fallback" (PP_FALLBACK constants) */
   function phaseHTML(raised, count, mode) {
     if (raised >= HARD) {
-      return '<span class="en">Hard cap reached — presale closed, allocations final.</span>' +
-             '<span class="zh">已达硬顶 —— 预售结束，份额定格。</span>';
+      return cap("spark.pp_phase_hard");
     }
     if (raised > 0) {
       if (mode === "live") {
-        return '<span class="en">Live — auto-aggregated from whitelist intended amounts. Every registration moves the bar.</span>' +
-               '<span class="zh">实时 —— 按白名单登记的意向额度自动聚合，每条登记都会推动进度条。</span>';
+        return cap("spark.pp_phase_live");
       }
       if (mode === "mirror") {
-        return '<span class="en">Auto-synced from the whitelist ledger — refreshed every few minutes.</span>' +
-               '<span class="zh">自动同步自白名单台账 —— 每隔数分钟刷新。</span>';
+        return cap("spark.pp_phase_mirror");
       }
-      return '<span class="en">Snapshot — last known aggregate, refreshed on the next deploy.</span>' +
-             '<span class="zh">快照 —— 最近一次聚合数字，随下次发布刷新。</span>';
+      return cap("spark.pp_phase_fallback");
     }
     if (Number.isFinite(count) && count > 0) {
-      return '<span class="en">Whitelist open — ' + count + ' wallets registered. Intended amounts aggregate into this bar automatically.</span>' +
-             '<span class="zh">白名单开放中 —— 已登记 ' + count + ' 个钱包，意向额度自动聚合计入进度条。</span>';
+      return cap("spark.pp_phase_count", { count: count });
     }
-    return '<span class="en">Whitelist open — intended amounts aggregate into this bar as wallets register.</span>' +
-           '<span class="zh">白名单开放中 —— 钱包登记后，意向额度将自动聚合计入进度条。</span>';
+    return cap("spark.pp_phase_open");
   }
 
   /* ---------- fetch with timeout; never throws ---------- */

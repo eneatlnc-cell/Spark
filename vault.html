@@ -72,12 +72,12 @@
     <a class="nav-logo" href="index.html"><span class="logo-mark"><i data-ic="flame"></i></span><span>Spark<span style="color:var(--amber)">Loop</span></span></a>
     <button class="burger" aria-label="menu">☰</button>
     <div class="nav-links">
-      <a href="index.html"><span class="en">Home</span><span class="zh">首页</span></a>
+      <a href="index.html"><span data-i18n="vault.nav_home">Home</span></a>
       <a href="engine.html">Engine</a>
       <a href="vault.html" class="active">Vault</a>
       <a href="aether.html">Aether</a>
       <a href="havix.html">Havix</a>
-      <a href="rewards.html"><span class="en">Rewards</span><span class="zh">激励</span></a>
+      <a href="rewards.html"><span data-i18n="vault.nav_rewards">Rewards</span></a>
       <a class="nav-cta" href="spark.html"><i data-ic="flame"></i> Spark</a>
     </div>
   </div>
@@ -88,31 +88,29 @@
   <div class="container">
     <div class="hero-kicker">
       <span>// CUSTODY LAYER · UNIVERSAL SAFE</span>
-      <span class="chip-layer"><span class="en">offline · air-gapped · sovereign</span><span class="zh">离线 · 断网 · 主权</span></span>
+      <span class="chip-layer"><span data-i18n="vault.chip">offline · air-gapped · sovereign</span></span>
     </div>
     <h1>
-      <span class="en">The safe that</span>
-      <span class="zh">这只保险箱</span>
-      <span class="grad"><span class="en">never talks to the network</span><span class="zh">从不与网络交谈</span></span>
+      <span data-i18n="vault.h1_a">The safe that</span>
+      <span class="grad" data-i18n="vault.h1_grad">never talks to the network</span>
     </h1>
     <p class="hero-desc">
-      <span class="en"><strong>Vault</strong> is the universal offline safe for Engine-class apps. It stores private keys and login signatures with <strong>zero internet permission</strong>, seals them inside the phone's secure silicon, signs with your fingerprint, and moves keys to new hardware through light alone — a QR code. Not "we promise not to connect." <strong>It cannot connect.</strong></span>
-      <span class="zh"><strong>Vault</strong> 是 Engine 这类应用的通用离线保险箱。它以<strong>零联网权限</strong>保管私钥与登录签名，把密钥封进手机的安全芯片，用指纹完成签名，并仅凭一道光 —— 二维码 —— 将私钥迁移到新硬件。不是"我们承诺不联网"，而是<strong>它在物理上就无法联网</strong>。</span>
+      <span data-i18n="vault.hero_desc"><strong>Vault</strong> is the universal offline safe for Engine-class apps. It stores private keys and login signatures with <strong>zero internet permission</strong>, seals them inside the phone's secure silicon, signs with your fingerprint, and moves keys to new hardware through light alone — a QR code. Not "we promise not to connect." <strong>It cannot connect.</strong></span>
     </p>
     <div class="dl-grid">
       <a data-download="vault"></a>
       <a data-download="engine"></a>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#demo"><span class="en">▶ Try the signing ceremony</span><span class="zh">▶ 体验签名仪式</span></a>
-      <a class="btn btn-ghost" href="#migration"><span class="en">⟳ Key migration</span><span class="zh">⟳ 密钥迁移</span></a>
-      <a class="btn btn-ghost" href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener"><span class="en">↗ Audit the crypto layer</span><span class="zh">↗ 审计加密层</span></a>
+      <a class="btn btn-primary" href="#demo"><span data-i18n="vault.btn_ceremony">▶ Try the signing ceremony</span></a>
+      <a class="btn btn-ghost" href="#migration"><span data-i18n="vault.btn_migration">⟳ Key migration</span></a>
+      <a class="btn btn-ghost" href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener"><span data-i18n="vault.btn_audit">↗ Audit the crypto layer</span></a>
     </div>
     <div class="hero-stats">
-      <div class="hs"><b>0</b><span class="en">INTERNET permissions in manifest</span><span class="zh">清单内联网权限</span></div>
-      <div class="hs"><b>TEE</b><span class="en">hardware-sealed keys</span><span class="zh">硬件封存密钥</span></div>
-      <div class="hs"><b>SPARK</b><span class="en">wallet custody & handover</span><span class="zh">钱包托管与交接</span></div>
-      <div class="hs"><b>QR</b><span class="en">the only exit for a key</span><span class="zh">密钥唯一的出口</span></div>
+      <div class="hs"><b>0</b><span data-i18n="vault.stat_internet">INTERNET permissions in manifest</span></div>
+      <div class="hs"><b>TEE</b><span data-i18n="vault.stat_tee">hardware-sealed keys</span></div>
+      <div class="hs"><b>SPARK</b><span data-i18n="vault.stat_wallet">wallet custody &amp; handover</span></div>
+      <div class="hs"><b>QR</b><span data-i18n="vault.stat_qr">the only exit for a key</span></div>
     </div>
   </div>
 </header>
@@ -121,11 +119,10 @@
 <section id="demo">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag pa">01 / LIVE <span class="en">RECREATED FROM THE DEMO FILM</span><span class="zh">依演示视频复现</span></span>
-      <h2 class="section-title"><span class="en">Hold the safe in your hands</span><span class="zh">把保险箱握在手里</span></h2>
+      <span class="section-tag pa">01 / LIVE <span data-i18n="vault.tag_demo">RECREATED FROM THE DEMO FILM</span></span>
+      <h2 class="section-title"><span data-i18n="vault.title_demo">Hold the safe in your hands</span></h2>
       <p class="section-sub">
-        <span class="en">On the left, the real Vault app: the SPARK wallet view — a balance that is nothing but the sum of signed transactions, with handover always one bottom-bar tap away. In the middle, the vault status page listing every app key it guards — press <b>Sign</b> and watch the biometric ceremony. On the right, what the phone itself reports about its own isolation.</span>
-        <span class="zh">左侧是真实的 Vault 应用：SPARK 钱包视图 —— 余额只是签名交易之和，交接永远是底栏一按之遥。中间是保险箱状态页，列出它守护的每一把应用密钥 —— 点<b>签名</b>观看生物识别仪式。右侧是手机对自身隔离状态的自述。</span>
+        <span data-i18n="vault.sub_demo">On the left, the real Vault app: the SPARK wallet view — a balance that is nothing but the sum of signed transactions, with handover always one bottom-bar tap away. In the middle, the vault status page listing every app key it guards — press <b>Sign</b> and watch the biometric ceremony. On the right, what the phone itself reports about its own isolation.</span>
       </p>
     </div>
 
@@ -136,12 +133,12 @@
           <div class="vp-status"><span>VAULT · 9:41</span><span>● OFFLINE</span></div>
           <div class="vp-head">
             <div class="vp-icon">🔥</div>
-            <h4><span class="en">SPARK Wallet</span><span class="zh">SPARK 钱包</span></h4>
-            <div class="vp-sub"><span class="en">Vault custody · signed tx chain</span><span class="zh">Vault 托管 · 签名交易链</span></div>
+            <h4><span data-i18n="vault.wallet_title">SPARK Wallet</span></h4>
+            <div class="vp-sub"><span data-i18n="vault.wallet_sub">Vault custody · signed tx chain</span></div>
           </div>
           <div class="vp-wallet">
             <div class="vp-balance"><span id="sparkBalance">990</span><small>$SPARK</small></div>
-            <div class="vp-bal-sub"><span class="en">balance = Σ signed transactions</span><span class="zh">余额 = 签名交易之和</span></div>
+            <div class="vp-bal-sub"><span data-i18n="vault.wallet_balsub">balance = Σ signed transactions</span></div>
             <div class="vp-txs" id="sparkTxs">
               <div class="vp-tx"><span>TIP</span><em class="pos">+5</em></div>
               <div class="vp-tx"><span>METERED ×3</span><em class="neg">−15</em></div>
@@ -149,8 +146,8 @@
             </div>
           </div>
           <div class="vp-actions">
-            <button class="vp-btn main" id="vaultHandover"><span class="en">⇄ Wallet handover</span><span class="zh">⇄ 钱包交接</span></button>
-            <button class="vp-btn sec"><span class="en">Keys: 3</span><span class="zh">密钥：3</span></button>
+            <button class="vp-btn main" id="vaultHandover"><span data-i18n="vault.wallet_handover">⇄ Wallet handover</span></button>
+            <button class="vp-btn sec"><span data-i18n="vault.wallet_keys">Keys: 3</span></button>
           </div>
         </div>
       </div>
@@ -159,21 +156,21 @@
       <div class="vstat-phone">
         <div class="vs-screen" style="position:relative">
           <div class="vp-status"><span>VAULT · STATUS</span><span>● SEALED</span></div>
-          <div class="vs-title"><span class="en">Guarded keys</span><span class="zh">受守护密钥</span></div>
+          <div class="vs-title"><span data-i18n="vault.vs_title">Guarded keys</span></div>
           <div class="vs-card">
             <div class="vs-app"><div class="app-ic"><i data-ic="ship"></i></div><b>Engine</b></div>
-            <div class="vs-row"><span class="k"><span class="en">fingerprint</span><span class="zh">指纹</span></span><span class="v">e7:21:8c:…:4d</span></div>
-            <div class="vs-row"><span class="k"><span class="en">algorithm</span><span class="zh">算法</span></span><span class="v">ECDSA P-256</span></div>
-            <div class="vs-row"><span class="k"><span class="en">sealed</span><span class="zh">封存</span></span><span class="v"><span class="en">Keystore TEE · AES-256-GCM</span><span class="zh">Keystore TEE · AES-256-GCM</span></span></div>
-            <div class="vs-row" id="sigRow"><span class="k"><span class="en">last request</span><span class="zh">最近请求</span></span><span class="v"><span class="en">waiting…</span><span class="zh">等待中…</span></span></div>
+            <div class="vs-row"><span class="k"><span data-i18n="vault.vs_fingerprint">fingerprint</span></span><span class="v">e7:21:8c:…:4d</span></div>
+            <div class="vs-row"><span class="k"><span data-i18n="vault.vs_algorithm">algorithm</span></span><span class="v">ECDSA P-256</span></div>
+            <div class="vs-row"><span class="k"><span data-i18n="vault.vs_sealed">sealed</span></span><span class="v"><span data-i18n="vault.vs_sealed_val">Keystore TEE · AES-256-GCM</span></span></div>
+            <div class="vs-row" id="sigRow"><span class="k"><span data-i18n="vault.vs_lastreq">last request</span></span><span class="v"><span data-i18n="vault.vs_waiting">waiting…</span></span></div>
           </div>
-          <button class="vs-btn main" id="signBtn">🖋 <span class="en">Sign Engine request</span><span class="zh">签署 Engine 请求</span></button>
-          <button class="vs-btn"><span class="en">⟳ Migrate to new device</span><span class="zh">⟳ 迁移到新设备</span></button>
+          <button class="vs-btn main" id="signBtn">🖋 <span data-i18n="vault.vs_sign">Sign Engine request</span></button>
+          <button class="vs-btn"><span data-i18n="vault.vs_migrate">⟳ Migrate to new device</span></button>
           <!-- 初始必须带 hide 类：CSS 默认为可见态，缺失会把状态页整个盖住且无法关闭 -->
           <div class="bio-overlay hide" id="bioOverlay">
-            <div class="fp"><span class="en">Touch the sensor</span><span class="zh">请触摸指纹传感器</span></div>
-            <b><span class="en">BiometricPrompt</span><span class="zh">生物识别验证</span></b>
-            <span><span class="en">The key never leaves the TEE — it signs inside secure hardware.</span><span class="zh">密钥永不离开 TEE —— 它在安全硬件内部完成签名。</span></span>
+            <div class="fp"><span data-i18n="vault.bio_touch">Touch the sensor</span></div>
+            <b><span data-i18n="vault.bio_title">BiometricPrompt</span></b>
+            <span><span data-i18n="vault.bio_desc">The key never leaves the TEE — it signs inside secure hardware.</span></span>
           </div>
         </div>
       </div>
@@ -182,13 +179,12 @@
       <div class="console-panel">
         <div class="console-head">
           <span class="dots">● ● ●</span>
-          <span class="en">adb shell — air-gap self-check</span>
-          <span class="zh">adb shell — 断网自检</span>
+          <span data-i18n="vault.console_head">adb shell — air-gap self-check</span>
         </div>
         <div id="vaultLog"></div>
       </div>
     </div>
-    <p class="sim-caption reveal"><span class="en"><b>Every event above is local.</b> The console has nothing to report from the network — because there is none.</span><span class="zh"><b>以上所有事件都发生在本地。</b>控制台没有任何网络事件可报 —— 因为根本没有网络。</span></p>
+    <p class="sim-caption reveal"><span data-i18n="vault.sim_caption"><b>Every event above is local.</b> The console has nothing to report from the network — because there is none.</span></p>
   </div>
 </section>
 
@@ -196,20 +192,19 @@
 <section id="guards">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag pa">02 / MANDATE <span class="en">WHAT IT GUARDS</span><span class="zh">守护什么</span></span>
-      <h2 class="section-title"><span class="en">One job: be the</span><span class="zh">一件事：做所有主权应用的</span> <span class="grad"><span class="en">safe of every sovereign app</span><span class="zh">保险箱</span></span></h2>
+      <span class="section-tag pa">02 / MANDATE <span data-i18n="vault.tag_guards">WHAT IT GUARDS</span></span>
+      <h2 class="section-title"><span data-i18n="vault.title_guards_a">One job: be the</span> <span class="grad" data-i18n="vault.title_guards_grad">safe of every sovereign app</span></h2>
       <p class="section-sub">
-        <span class="en">Vault is app-agnostic by design. Anything shaped like Engine — an app that wants online life with offline keys — can delegate its identity to the safe.</span>
-        <span class="zh">Vault 在设计上与应用无关。任何长得像 Engine 的应用 —— 想要"在线生活、离线密钥"的应用 —— 都可以把身份托付给保险箱。</span>
+        <span data-i18n="vault.sub_guards">Vault is app-agnostic by design. Anything shaped like Engine — an app that wants online life with offline keys — can delegate its identity to the safe.</span>
       </p>
     </div>
     <div class="f-grid reveal">
-      <div class="glass f-card"><div class="f-ic">🗝️</div><div><b><span class="en">App private keys</span><span class="zh">应用私钥</span></b><span><span class="en">ECDSA P-256 identities generated by apps like Engine, sealed the moment they arrive.</span><span class="zh">Engine 这类应用生成的 ECDSA P-256 身份，到达即封存。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic">🖋️</div><div><b><span class="en">Login & wallet signatures</span><span class="zh">登录与钱包签名</span></b><span><span class="en">Challenge-response login codes and SPARK wallet transactions — signed inside the safe, never stored online. Every balance change is a signed transaction on an append-only chain.</span><span class="zh">挑战应答登录码与 SPARK 钱包交易 —— 在保险箱内签名，从不在线存储。每一笔余额变动都是追加式签名链上的一笔交易。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic">⟳</div><div><b><span class="en">Device migration bindings</span><span class="zh">换机迁移绑定</span></b><span><span class="en">Signed re-bind records that move your identity to fresh hardware without a cloud backup.</span><span class="zh">带签名的重绑记录，无需云备份即可把身份迁到新硬件。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic">🧿</div><div><b><span class="en">Fingerprint directory</span><span class="zh">指纹目录</span></b><span><span class="en">A local registry of every guarded key, its fingerprint and seal state — visible at a glance.</span><span class="zh">本地登记每一把受守护的密钥、其指纹与封存状态 —— 一目了然。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic">🚫</div><div><b><span class="en">Nothing else</span><span class="zh">别无其他</span></b><span><span class="en">No browsing, no sync, no ads, no telemetry. A safe with a screen, not a smartphone app.</span><span class="zh">不浏览、不同步、无广告、无遥测。是一台带屏幕的保险箱，不是手机应用。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic">🔓</div><div><b><span class="en">Biometric-only unlock</span><span class="zh">仅生物识别解锁</span></b><span><span class="en">Every unseal passes BiometricPrompt with a ±120s freshness window — clock-based replay protection.</span><span class="zh">每次解封都要过生物识别，并校验 ±120 秒时效窗口 —— 按时钟防重放。</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🗝️</div><div><b><span data-i18n="vault.card1_t">App private keys</span></b><span><span data-i18n="vault.card1_d">ECDSA P-256 identities generated by apps like Engine, sealed the moment they arrive.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🖋️</div><div><b><span data-i18n="vault.card2_t">Login &amp; wallet signatures</span></b><span><span data-i18n="vault.card2_d">Challenge-response login codes and SPARK wallet transactions — signed inside the safe, never stored online. Every balance change is a signed transaction on an append-only chain.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">⟳</div><div><b><span data-i18n="vault.card3_t">Device migration bindings</span></b><span><span data-i18n="vault.card3_d">Signed re-bind records that move your identity to fresh hardware without a cloud backup.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🧿</div><div><b><span data-i18n="vault.card4_t">Fingerprint directory</span></b><span><span data-i18n="vault.card4_d">A local registry of every guarded key, its fingerprint and seal state — visible at a glance.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🚫</div><div><b><span data-i18n="vault.card5_t">Nothing else</span></b><span><span data-i18n="vault.card5_d">No browsing, no sync, no ads, no telemetry. A safe with a screen, not a smartphone app.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🔓</div><div><b><span data-i18n="vault.card6_t">Biometric-only unlock</span></b><span><span data-i18n="vault.card6_d">Every unseal passes BiometricPrompt with a ±120s freshness window — clock-based replay protection.</span></span></div></div>
     </div>
   </div>
 </section>
@@ -218,26 +213,25 @@
 <section id="ceremony" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag pa">03 / CEREMONY <span class="en">HOW AN ONLINE APP SIGNS OFFLINE</span><span class="zh">在线应用如何离线签名</span></span>
-      <h2 class="section-title"><span class="en">The key signs.</span><span class="zh">密钥签名，</span> <span class="grad"><span class="en">The key never leaves.</span><span class="zh">密钥不离箱。</span></span></h2>
+      <span class="section-tag pa">03 / CEREMONY <span data-i18n="vault.tag_ceremony">HOW AN ONLINE APP SIGNS OFFLINE</span></span>
+      <h2 class="section-title"><span data-i18n="vault.title_ceremony_a">The key signs.</span> <span class="grad" data-i18n="vault.title_ceremony_grad">The key never leaves.</span></h2>
     </div>
     <div class="pipeline reveal">
-      <span class="pl-chip"><span class="en">Engine needs a signature</span><span class="zh">Engine 需要签名</span></span>
+      <span class="pl-chip"><span data-i18n="vault.pl1">Engine needs a signature</span></span>
       <span class="pl-arrow">→</span>
-      <span class="pl-chip"><span class="en">IPC request + challenge</span><span class="zh">IPC 请求 + 挑战值</span></span>
+      <span class="pl-chip"><span data-i18n="vault.pl2">IPC request + challenge</span></span>
       <span class="pl-arrow">→</span>
-      <span class="pl-chip"><span class="en">BiometricPrompt</span><span class="zh">生物识别</span></span>
+      <span class="pl-chip"><span data-i18n="vault.pl3">BiometricPrompt</span></span>
       <span class="pl-arrow">→</span>
-      <span class="pl-chip hot"><span class="en">TEE unseals & signs</span><span class="zh">TEE 解封并签名</span></span>
+      <span class="pl-chip hot"><span data-i18n="vault.pl4">TEE unseals &amp; signs</span></span>
       <span class="pl-arrow">→</span>
-      <span class="pl-chip"><span class="en">signed callback</span><span class="zh">带签名回调</span></span>
+      <span class="pl-chip"><span data-i18n="vault.pl5">signed callback</span></span>
       <span class="pl-arrow">→</span>
-      <span class="pl-chip"><span class="en">Engine verifies sig + Δt&lt;120s</span><span class="zh">Engine 验签 + Δt&lt;120s</span></span>
+      <span class="pl-chip"><span data-i18n="vault.pl6">Engine verifies sig + Δt&lt;120s</span></span>
     </div>
     <div class="callout reveal">
-      <span class="co-tag"><span class="en">WHY THE ±120s WINDOW MATTERS</span><span class="zh">为什么 ±120 秒窗口很重要</span></span>
-      <span class="en">The callback signature covers <b>sessionId ‖ status ‖ timestamp</b>. Even a stolen callback cannot be replayed minutes later — the clock is part of the proof. The relay never sees the key; Engine never holds the key; <b>only the TEE ever does.</b></span>
-      <span class="zh">回调签名覆盖 <b>sessionId ‖ status ‖ timestamp</b>。即便回调被窃取，也无法在几分钟后重放 —— 时间本身就是证明的一部分。中继看不见密钥，Engine 不持有密钥，<b>只有 TEE 始终持有。</b></span>
+      <span class="co-tag"><span data-i18n="vault.co_tag">WHY THE ±120s WINDOW MATTERS</span></span>
+      <span data-i18n="vault.co_text">The callback signature covers <b>sessionId ‖ status ‖ timestamp</b>. Even a stolen callback cannot be replayed minutes later — the clock is part of the proof. The relay never sees the key; Engine never holds the key; <b>only the TEE ever does.</b></span>
     </div>
   </div>
 </section>
@@ -246,11 +240,10 @@
 <section id="migration">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag pa">04 / MIGRATION <span class="en">NEW PHONE, SAME IDENTITY</span><span class="zh">新手机，同一身份</span></span>
-      <h2 class="section-title"><span class="en">Moving house through</span><span class="zh">搬家只经过</span> <span class="grad"><span class="en">a beam of light</span><span class="zh">一道光</span></span></h2>
+      <span class="section-tag pa">04 / MIGRATION <span data-i18n="vault.tag_migration">NEW PHONE, SAME IDENTITY</span></span>
+      <h2 class="section-title"><span data-i18n="vault.title_mig_a">Moving house through</span> <span class="grad" data-i18n="vault.title_mig_grad">a beam of light</span></h2>
       <p class="section-sub">
-        <span class="en">Private keys are the one thing you must never trust to a cloud. When your hardware changes, Vault walks your identity across devices screen-to-screen — step through it below.</span>
-        <span class="zh">私钥是唯一绝不能托付给云端的东西。换硬件时，Vault 让你的身份在两块屏幕之间徒步迁徙 —— 下面逐步走一遍。</span>
+        <span data-i18n="vault.sub_migration">Private keys are the one thing you must never trust to a cloud. When your hardware changes, Vault walks your identity across devices screen-to-screen — step through it below.</span>
       </p>
     </div>
     <div class="mig-stage reveal">
@@ -260,14 +253,14 @@
       </div>
       <div id="migScene"></div>
       <div class="mig-ctl">
-        <button class="mig-btn" id="migPrev">← <span class="en">Prev</span><span class="zh">上一步</span></button>
-        <button class="mig-btn" id="migNext"><span class="en">Next</span><span class="zh">下一步</span> →</button>
+        <button class="mig-btn" id="migPrev">← <span data-i18n="vault.migprev">Prev</span></button>
+        <button class="mig-btn" id="migNext"><span data-i18n="vault.mignext">Next</span> →</button>
       </div>
     </div>
     <div class="grid-3 reveal" style="margin-top:24px">
-      <div class="glass f-card"><div class="f-ic">🖤</div><div><b><span class="en">FLAG_SECURE</span><span class="zh">FLAG_SECURE</span></b><span><span class="en">The QR screen blacks out screenshots and screen recordings. Shoulder-surfing is the only attack left.</span><span class="zh">二维码页面在截图与录屏时一律黑屏；仅剩的攻击手段只有肩窥偷看。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic"><i data-ic="shield"></i></div><div><b><span class="en">Encrypted payload</span><span class="zh">加密载荷</span></b><span><span class="en">The bind URI carries an encrypted session payload — the raw private key never appears in any URI.</span><span class="zh">绑定 URI 只携带加密会话载荷 —— 裸私钥从不出现在任何 URI 里。</span></span></div></div>
-      <div class="glass f-card"><div class="f-ic"><i data-ic="flame"></i></div><div><b><span class="en">Burn after binding</span><span class="zh">绑定即烧毁</span></b><span><span class="en">Engine calls convertBoundToPublicKeyOnly() — its private-key copy is wiped the moment Vault takes over.</span><span class="zh">Engine 调用 convertBoundToPublicKeyOnly() —— Vault 接管的瞬间，其私钥副本即被擦除。</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic">🖤</div><div><b><span data-i18n="vault.flag_t">FLAG_SECURE</span></b><span><span data-i18n="vault.flag_d">The QR screen blacks out screenshots and screen recordings. Shoulder-surfing is the only attack left.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic"><i data-ic="shield"></i></div><div><b><span data-i18n="vault.payload_t">Encrypted payload</span></b><span><span data-i18n="vault.payload_d">The bind URI carries an encrypted session payload — the raw private key never appears in any URI.</span></span></div></div>
+      <div class="glass f-card"><div class="f-ic"><i data-ic="flame"></i></div><div><b><span data-i18n="vault.burn_t">Burn after binding</span></b><span><span data-i18n="vault.burn_d">Engine calls convertBoundToPublicKeyOnly() — its private-key copy is wiped the moment Vault takes over.</span></span></div></div>
     </div>
   </div>
 </section>
@@ -277,23 +270,22 @@
   <div class="container">
     <div class="reveal">
       <span class="section-tag pa">05 / COMPARISON</span>
-      <h2 class="section-title"><span class="en">Where do keys sleep tonight?</span><span class="zh">今晚你的私钥睡在哪里？</span></h2>
+      <h2 class="section-title"><span data-i18n="vault.title_compare">Where do keys sleep tonight?</span></h2>
     </div>
     <div class="table-wrap reveal">
       <table class="tbl">
-        <thead><tr><th><span class="en">Storage model</span><span class="zh">存储模式</span></th><th><span class="en">Network reach</span><span class="zh">网络可达性</span></th><th><span class="en">Extraction risk</span><span class="zh">提取风险</span></th><th><span class="en">Migration path</span><span class="zh">迁移路径</span></th></tr></thead>
+        <thead><tr><th><span data-i18n="vault.th_storage">Storage model</span></th><th><span data-i18n="vault.th_network">Network reach</span></th><th><span data-i18n="vault.th_extraction">Extraction risk</span></th><th><span data-i18n="vault.th_migration">Migration path</span></th></tr></thead>
         <tbody>
-          <tr><td><span class="en">Browser extension wallet</span><span class="zh">浏览器插件钱包</span></td><td><span class="warn"><span class="en">always online</span><span class="zh">始终在线</span></span></td><td><span class="warn"><span class="en">high — memory &amp; disk readable</span><span class="zh">高 —— 内存与磁盘可读</span></span></td><td><span class="en">seed phrase on paper</span><span class="zh">纸面助记词</span></td></tr>
-          <tr><td><span class="en">Hot server / custodial</span><span class="zh">热服务器 / 托管</span></td><td><span class="warn"><span class="en">24/7 attack surface</span><span class="zh">全天候攻击面</span></span></td><td><span class="warn"><span class="en">systemic — one breach, all keys</span><span class="zh">系统性 —— 一次失守，全部密钥</span></span></td><td><span class="warn"><span class="en">trust the operator</span><span class="zh">信任运营方</span></span></td></tr>
-          <tr><td><span class="en">Cloud key backup</span><span class="zh">云端密钥备份</span></td><td><span class="warn"><span class="en">synced by design</span><span class="zh">设计上就同步</span></span></td><td><span class="warn"><span class="en">account compromise = key compromise</span><span class="zh">账号失守即密钥失守</span></span></td><td><span class="en">re-download</span><span class="zh">重新下载</span></td></tr>
-          <tr><td><b>Vault</b></td><td class="ok"><span class="en">no INTERNET permission</span><span class="zh">无联网权限</span></td><td class="ok"><span class="en">TEE silicon + biometric gate</span><span class="zh">TEE 芯片 + 生物识别门</span></td><td class="ok"><span class="en">QR light channel, signed re-bind</span><span class="zh">QR 光通道 + 签名重绑</span></td></tr>
+          <tr><td><span data-i18n="vault.tr_ext_t">Browser extension wallet</span></td><td><span class="warn"><span data-i18n="vault.tr_ext_reach">always online</span></span></td><td><span class="warn"><span data-i18n="vault.tr_ext_risk">high — memory &amp; disk readable</span></span></td><td><span data-i18n="vault.tr_ext_mig">seed phrase on paper</span></td></tr>
+          <tr><td><span data-i18n="vault.tr_hot_t">Hot server / custodial</span></td><td><span class="warn"><span data-i18n="vault.tr_hot_reach">24/7 attack surface</span></span></td><td><span class="warn"><span data-i18n="vault.tr_hot_risk">systemic — one breach, all keys</span></span></td><td><span class="warn"><span data-i18n="vault.tr_hot_mig">trust the operator</span></span></td></tr>
+          <tr><td><span data-i18n="vault.tr_cloud_t">Cloud key backup</span></td><td><span class="warn"><span data-i18n="vault.tr_cloud_reach">synced by design</span></span></td><td><span class="warn"><span data-i18n="vault.tr_cloud_risk">account compromise = key compromise</span></span></td><td><span data-i18n="vault.tr_cloud_mig">re-download</span></td></tr>
+          <tr><td><b>Vault</b></td><td class="ok"><span data-i18n="vault.tr_vault_reach">no INTERNET permission</span></td><td class="ok"><span data-i18n="vault.tr_vault_risk">TEE silicon + biometric gate</span></td><td class="ok"><span data-i18n="vault.tr_vault_mig">QR light channel, signed re-bind</span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="callout reveal">
-      <span class="co-tag"><span class="en">PHYSICS, NOT PROMISES</span><span class="zh">物理法则，而非口头承诺</span></span>
-      <span class="en">Every other row in that table depends on someone behaving well. Vault's isolation is declared in the Android manifest and enforced by the OS — <b>a packet cannot be sent, so a promise is never needed.</b></span>
-      <span class="zh">表中其余每一行都指望"有人守规矩"。Vault 的隔离写进 Android 清单、由操作系统强制执行 —— <b>数据包发不出去，所以从不需要承诺。</b></span>
+      <span class="co-tag"><span data-i18n="vault.co2_tag">PHYSICS, NOT PROMISES</span></span>
+      <span data-i18n="vault.co2_text">Every other row in that table depends on someone behaving well. Vault's isolation is declared in the Android manifest and enforced by the OS — <b>a packet cannot be sent, so a promise is never needed.</b></span>
     </div>
   </div>
 </section>
@@ -304,23 +296,23 @@
     <div class="foot-grid">
       <div>
         <div class="foot-logo"><span class="logo-mark"><i data-ic="flame"></i></span> SparkLoop</div>
-        <p class="foot-desc"><span class="en">An independent interpretation of the eneatlnc-cell Loop. The E2EE protocol stack is open for audit; every claim traces back to code and whitepapers.</span><span class="zh">对 eneatlnc-cell 回路的独立解读：E2EE 协议栈公开审计，一切事实均可回溯至代码与白皮书。</span></p>
+        <p class="foot-desc"><span data-i18n="vault.foot_desc">An independent interpretation of the eneatlnc-cell Loop. The E2EE protocol stack is open for audit; every claim traces back to code and whitepapers.</span></p>
       </div>
       <div>
-        <h4><span class="en">Layers</span><span class="zh">分层</span></h4>
+        <h4><span data-i18n="vault.foot_layers">Layers</span></h4>
         <ul>
-          <li><a href="index.html"><span class="en">Home</span><span class="zh">首页</span></a></li>
-          <li><a href="engine.html">Engine · <span class="en">sovereign social</span><span class="zh">主权社交</span></a></li>
-          <li><a href="vault.html">Vault · <span class="en">offline custody</span><span class="zh">离线保管</span></a></li>
+          <li><a href="index.html"><span data-i18n="vault.foot_home">Home</span></a></li>
+          <li><a href="engine.html">Engine · <span data-i18n="vault.foot_engine">sovereign social</span></a></li>
+          <li><a href="vault.html">Vault · <span data-i18n="vault.foot_vault">offline custody</span></a></li>
           <li><a href="aether.html">Aether · DAO</a></li>
-          <li><a href="havix.html">Havix · <span class="en">L0 · parallel identity</span><span class="zh">L0 · 平行身份</span></a></li>
-          <li><a href="spark.html">Spark · <span class="en">the fuel</span><span class="zh">燃料</span></a></li>
-          <li><a href="rewards.html">Rewards · <span class="en">referral policy</span><span class="zh">激励政策</span></a></li>
-          <li><a href="index.html#circuit"><span class="en">The Web4 Loop</span><span class="zh">Web4 回路</span></a></li>
+          <li><a href="havix.html">Havix · <span data-i18n="vault.foot_havix">L0 · parallel identity</span></a></li>
+          <li><a href="spark.html">Spark · <span data-i18n="vault.foot_spark">the fuel</span></a></li>
+          <li><a href="rewards.html">Rewards · <span data-i18n="vault.foot_rewards">referral policy</span></a></li>
+          <li><a href="index.html#circuit"><span data-i18n="vault.foot_loop">The Web4 Loop</span></a></li>
         </ul>
       </div>
       <div>
-        <h4><span class="en">Repositories</span><span class="zh">源码仓库</span></h4>
+        <h4><span data-i18n="vault.foot_repos">Repositories</span></h4>
         <ul>
           <li><a href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener">github/Engine3.0 ↗</a></li>
           <li><a href="https://github.com/eneatlnc-cell/Aether" target="_blank" rel="noopener">github/Aether ↗</a></li>
@@ -330,11 +322,13 @@
     </div>
     <div class="foot-bottom">
       <span>© <span class="yr">2026</span> SparkLoop · Apache-2.0</span>
-      <span><span class="en">Keys offline · SBT governance · $SPARK fuel · AI chartered</span><span class="zh">密钥离线 · SBT 治理 · $SPARK 燃料 · AI 有宪章</span></span>
+      <span><span data-i18n="vault.foot_bottom">Keys offline · SBT governance · $SPARK fuel · AI chartered</span></span>
     </div>
   </div>
 </footer>
 
+<script src="assets/site-i18n.js"></script>
+<script src="assets/i18n/i18n-g4-vault.js"></script>
 <script src="assets/site.js"></script>
 <script src="assets/vault.js"></script>
 </body>

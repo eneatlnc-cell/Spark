@@ -78,7 +78,7 @@
 
     /* relay logs the frame — noise only */
     relayLine('<span class="k">MSG</span> from=<span class="v">' + fp + '</span> seq=' + seq + ' len=' + (text.length * 2 + 88) + 'B');
-    relayLine('&nbsp;&nbsp;payload=<span class="v">' + ct.slice(0, 38) + '…</span> <span class="warn">' + (lang() === "zh" ? "不可读" : "unreadable") + '</span>');
+    relayLine('&nbsp;&nbsp;payload=<span class="v">' + ct.slice(0, 38) + '…</span> <span class="warn">' + window.SLL("engine.lab.log_unreadable") + '</span>');
 
     /* receiver decrypts after transit */
     setTimeout(function () {
@@ -106,10 +106,10 @@
 
   /* seed conversation */
   setTimeout(function () {
-    addMsg(chatA, "me", lang() === "zh" ? "今晚的密钥派对来吗？🔑" : "Coming to the key party tonight? 🔑");
-    relayLine('<span class="k">MSG</span> from=<span class="v">e7:21:…:8d</span> seq=1 <span class="warn">' + (lang() === "zh" ? "密文转发" : "ciphertext relayed") + '</span>');
+    addMsg(chatA, "me", window.SLL("engine.lab.seedA"));
+    relayLine('<span class="k">MSG</span> from=<span class="v">e7:21:…:8d</span> seq=1 <span class="warn">' + window.SLL("engine.lab.log_relayed") + '</span>');
   }, 500);
   setTimeout(function () {
-    addMsg(chatB, "peer", lang() === "zh" ? "来！消息已端到端加密 ✨" : "In! This message is E2E encrypted ✨", "✓ Alice · sig ✓ · seq 1 ✓", "ok");
+    addMsg(chatB, "peer", window.SLL("engine.lab.seedB"), "✓ Alice · sig ✓ · seq 1 ✓", "ok");
   }, 1200);
 })();

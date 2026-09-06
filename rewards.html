@@ -59,12 +59,12 @@
     <a class="nav-logo" href="index.html"><span class="logo-mark"><i data-ic="flame"></i></span><span>Spark<span style="color:var(--amber)">Loop</span></span></a>
     <button class="burger" aria-label="menu">☰</button>
     <div class="nav-links">
-      <a href="index.html"><span class="en">Home</span><span class="zh">首页</span></a>
+      <a href="index.html"><span data-i18n="rewards.nav_home">Home</span></a>
       <a href="engine.html">Engine</a>
       <a href="vault.html">Vault</a>
       <a href="aether.html">Aether</a>
       <a href="havix.html">Havix</a>
-      <a href="rewards.html" style="color:var(--amber)"><span class="en">Rewards</span><span class="zh">激励</span></a>
+      <a href="rewards.html" style="color:var(--amber)"><span data-i18n="rewards.nav_rewards">Rewards</span></a>
       <a class="nav-cta" href="spark.html"><i data-ic="flame"></i> Spark</a>
     </div>
   </div>
@@ -76,25 +76,23 @@
     <div class="rw-hero-emoji reveal"><i data-ic="crown"></i></div>
     <div class="hero-kicker" style="justify-content:center">
       <span>// REFERRAL REWARDS</span>
-      <span class="chip-layer"><span class="en">TWO-SIDED BONUS · SETTLED AT TGE</span><span class="zh">双边奖励 · TGE 结算</span></span>
+      <span class="chip-layer"><span data-i18n="rewards.hero_chip">TWO-SIDED BONUS · SETTLED AT TGE</span></span>
     </div>
     <h1>
-      <span class="en">Trust travels</span>
-      <span class="zh">信任结伴</span>
-      <span class="grad"><span class="en">in pairs</span><span class="zh">而行得更远</span></span>
+      <span data-i18n="rewards.hero_h1_1">Trust travels</span>
+      <span class="grad"><span data-i18n="rewards.hero_h1_2">in pairs</span></span>
     </h1>
     <p class="hero-desc" style="margin-left:auto;margin-right:auto">
-      <span class="en">Every whitelist wallet carries a <strong>deterministic short code</strong> — <strong>SL-XXXXXX</strong>, derived from the address itself, not from a database. Share it: when a friend subscribes to the presale with your code, <strong>both wallets earn bonus Spark at TGE</strong>. No server, no signup, no tracking.</span>
-      <span class="zh">每个白名单钱包都自带一个<strong>确定性短码</strong> —— <strong>SL-XXXXXX</strong>，由地址本身推导，而非数据库登记。分享它：朋友凭你的短码认购预售时，<strong>双方钱包都在 TGE 获得奖励 Spark</strong>。无服务器、无注册、无追踪。</span>
+      <span data-i18n="rewards.hero_desc">Every whitelist wallet carries a <strong>deterministic short code</strong> — <strong>SL-XXXXXX</strong>, derived from the address itself, not from a database. Share it: when a friend subscribes to the presale with your code, <strong>both wallets earn bonus Spark at TGE</strong>. No server, no signup, no tracking.</span>
     </p>
     <div class="hero-actions" style="justify-content:center">
-      <a class="btn btn-amber" href="#lookup"><i data-ic="crown"></i> <span class="en">Find my code</span><span class="zh">查我的短码</span></a>
-      <a class="btn btn-ghost" href="spark.html#subscribe"><span class="en">◈ Join the whitelist</span><span class="zh">◈ 加入白名单</span></a>
+      <a class="btn btn-amber" href="#lookup"><i data-ic="crown"></i> <span data-i18n="rewards.find_code">Find my code</span></a>
+      <a class="btn btn-ghost" href="spark.html#subscribe"><span data-i18n="rewards.join_wl">◈ Join the whitelist</span></a>
     </div>
     <div class="hero-stats" style="justify-content:center">
-      <div class="hs"><b>+8% / +4%</b><span class="en">referrer / friend bonus</span><span class="zh">推荐人 / 朋友奖励</span></div>
-      <div class="hs"><b>SL-XXXXXX</b><span class="en">deterministic — no database</span><span class="zh">确定性生成 · 无数据库</span></div>
-      <div class="hs"><b>TGE</b><span class="en">settlement follows the unlock schedule</span><span class="zh">按解锁计划结算</span></div>
+      <div class="hs"><b>+8% / +4%</b><span data-i18n="rewards.hs_ref_bonus">referrer / friend bonus</span></div>
+      <div class="hs"><b>SL-XXXXXX</b><span data-i18n="rewards.hs_deterministic">deterministic — no database</span></div>
+      <div class="hs"><b>TGE</b><span data-i18n="rewards.hs_settlement">settlement follows the unlock schedule</span></div>
     </div>
   </div>
 </header>
@@ -103,11 +101,10 @@
 <section id="lookup">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">01 / CODE FINDER <span class="en">YOUR MEMBER ID IS YOUR WALLET</span><span class="zh">成员 ID 就是钱包本身</span></span>
-      <h2 class="section-title"><span class="en">Look up</span><span class="zh">查询</span> <span class="grad"><span class="en">any referral code</span><span class="zh">任意推荐短码</span></span></h2>
+      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">01 / CODE FINDER <span data-i18n="rewards.tag_memberid">YOUR MEMBER ID IS YOUR WALLET</span></span>
+      <h2 class="section-title"><span data-i18n="rewards.title_lookup">Look up</span> <span class="grad"><span data-i18n="rewards.title_code">any referral code</span></span></h2>
       <p class="section-sub">
-        <span class="en">Codes are not issued — they are <b>computed</b>. The same hash, run anywhere, always yields the same code for the same address. Paste a wallet below; nothing leaves your browser.</span>
-        <span class="zh">短码不是"发放"的，而是<b>算出来</b>的。同一套哈希在任何地方运行，同一地址永远得到同一短码。在下方粘贴钱包地址，数据不会离开你的浏览器。</span>
+        <span data-i18n="rewards.sub_lookup">Codes are not issued — they are <b>computed</b>. The same hash, run anywhere, always yields the same code for the same address. Paste a wallet below; nothing leaves your browser.</span>
       </p>
     </div>
 
@@ -117,29 +114,27 @@
           <input type="text" id="lkWallet" required spellcheck="false" autocomplete="off"
                  placeholder="0x… paste any wallet address"
                  data-ph-zh="0x… 粘贴任意钱包地址">
-          <button class="btn btn-amber" type="submit"><i data-ic="flame"></i> <span class="en">GET CODE</span><span class="zh">生成短码</span></button>
+          <button class="btn btn-amber" type="submit"><i data-ic="flame"></i> <span data-i18n="rewards.get_code">GET CODE</span></button>
         </form>
         <div class="lk-out" id="lkOut">
-          <span class="lk-label"><span class="en">Referral code</span><span class="zh">推荐短码</span></span>
+          <span class="lk-label"><span data-i18n="rewards.ref_code_lbl">Referral code</span></span>
           <div class="lk-code" id="lkCode">SL-······</div>
           <div class="lk-share">
             <input type="text" id="lkShare" readonly aria-label="share link">
-            <button class="btn btn-ghost" type="button" id="lkCopy"><span class="en">COPY LINK</span><span class="zh">复制链接</span></button>
+            <button class="btn btn-ghost" type="button" id="lkCopy"><span data-i18n="rewards.copy_link">COPY LINK</span></button>
           </div>
-          <p class="wl-ok-note" style="margin-top:12px"><span class="en">This link opens the whitelist form with the referrer field pre-filled and locked. A code activates for rewards once its wallet joins the whitelist.</span><span class="zh">此链接打开白名单表单时会自动填好并锁定推荐人栏。短码在其钱包加入白名单后即激活奖励资格。</span></p>
+          <p class="wl-ok-note" style="margin-top:12px"><span data-i18n="rewards.lk_note">This link opens the whitelist form with the referrer field pre-filled and locked. A code activates for rewards once its wallet joins the whitelist.</span></p>
         </div>
         <div class="lk-expl">
-          <div class="lx-row"><b>FNV-1a</b><span><span class="en">the address is hashed with FNV-1a — a tiny, public, 30-line algorithm</span><span class="zh">地址经 FNV-1a 哈希 —— 一个公开的三十行小算法</span></span></div>
-          <div class="lx-row"><b>→ base36</b><span><span class="en">the 32-bit digest maps to six uppercase characters, prefixed SL-</span><span class="zh">32 位摘要映射为六个大写字符，加 SL- 前缀</span></span></div>
-          <div class="lx-row"><b>verifiable</b><span><span class="en">anyone can re-derive any code offline — no server holds the mapping, so none can quietly change it</span><span class="zh">任何人都能离线重算任意短码 —— 没有服务器保管映射，也就没人能悄悄改它</span></span></div>
+          <div class="lx-row"><b>FNV-1a</b><span><span data-i18n="rewards.lk_fnv">the address is hashed with FNV-1a — a tiny, public, 30-line algorithm</span></span></div>
+          <div class="lx-row"><b>→ base36</b><span><span data-i18n="rewards.lk_base36">the 32-bit digest maps to six uppercase characters, prefixed SL-</span></span></div>
+          <div class="lx-row"><b>verifiable</b><span><span data-i18n="rewards.lk_verify">anyone can re-derive any code offline — no server holds the mapping, so none can quietly change it</span></span></div>
         </div>
       </div>
       <div class="callout" style="margin-top:0">
-        <span class="co-tag"><span class="en">WHY DETERMINISTIC CODES</span><span class="zh">为什么用确定性短码</span></span>
-        <span class="en">Issued codes live in a database; databases can be edited, sold or lost. A code that <b>is</b> the wallet can never be re-assigned, forged or revoked by anyone — including us. Your referral identity is as durable as your keys.</span>
-        <span class="zh">"发放"的短码活在数据库里，而数据库可以被改、被卖、被弄丢。一个<b>等于</b>钱包本身的短码，谁都无法重新分配、伪造或吊销 —— 包括我们自己。你的推荐身份与你的密钥一样长久。</span>
-        <span class="en" style="display:block;margin-top:10px;font-size:0.8rem">Lost the code? Changed browsers? Paste the wallet here — same address, same code, every time.</span>
-        <span class="zh" style="display:block;margin-top:10px;font-size:0.8rem">短码丢了？换了浏览器？把钱包地址贴进来 —— 同一地址，永远同一短码。</span>
+        <span class="co-tag"><span data-i18n="rewards.co_deterministic">WHY DETERMINISTIC CODES</span></span>
+        <span data-i18n="rewards.co_issued">Issued codes live in a database; databases can be edited, sold or lost. A code that <b>is</b> the wallet can never be re-assigned, forged or revoked by anyone — including us. Your referral identity is as durable as your keys.</span>
+        <span data-i18n="rewards.co_lost">Lost the code? Changed browsers? Paste the wallet here — same address, same code, every time.</span>
       </div>
     </div>
   </div>
@@ -149,36 +144,36 @@
 <section id="how" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">02 / MECHANICS <span class="en">FOUR STEPS, ZERO MIDDLEMEN</span><span class="zh">四步走，零中间人</span></span>
-      <h2 class="section-title"><span class="en">How a referral</span><span class="zh">一次推荐</span> <span class="grad"><span class="en">lights up</span><span class="zh">如何点亮</span></span></h2>
+      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">02 / MECHANICS <span data-i18n="rewards.tag_mechanics">FOUR STEPS, ZERO MIDDLEMEN</span></span>
+      <h2 class="section-title"><span data-i18n="rewards.title_how">How a referral</span> <span class="grad"><span data-i18n="rewards.title_light">lights up</span></span></h2>
     </div>
     <div class="story">
       <div class="glass story-step reveal">
         <span class="sn">01</span>
-        <div><span class="who"><span class="en">YOU · JOIN</span><span class="zh">你 · 加入</span></span>
-          <b><span class="en">Enter the whitelist with wallet + email</span><span class="zh">凭钱包 + 邮箱进入白名单</span></b>
-          <p><span class="en">On the <a href="spark.html#subscribe" style="color:var(--amber);font-weight:700">Spark page</a>, register the wallet you will subscribe with. Your SL-code activates the moment you join — no extra step, no application form.</span><span class="zh">在<a href="spark.html#subscribe" style="color:var(--amber);font-weight:700">Spark 页</a>登记你用于认购的钱包。加入的那一刻短码即激活 —— 无需额外步骤，无需申请表。</span></p>
+        <div><span class="who"><span data-i18n="rewards.who_join">YOU · JOIN</span></span>
+          <b><span data-i18n="rewards.st1_title">Enter the whitelist with wallet + email</span></b>
+          <p><span data-i18n="rewards.st1_desc">On the <a href="spark.html#subscribe" style="color:var(--amber);font-weight:700">Spark page</a>, register the wallet you will subscribe with. Your SL-code activates the moment you join — no extra step, no application form.</span></p>
         </div>
       </div>
       <div class="glass story-step reveal">
         <span class="sn">02</span>
-        <div><span class="who"><span class="en">YOU · SHARE</span><span class="zh">你 · 分享</span></span>
-          <b><span class="en">Send your link — the form fills itself</span><span class="zh">发出你的链接 —— 表单自动填好</span></b>
-          <p><span class="en">Your share link carries <span style="font-family:var(--font-mono)">?ref=SL-XXXXXX</span>. When a friend opens it, the referrer field is pre-filled with your code and locked — they only enter wallet and email.</span><span class="zh">分享链接自带 <span style="font-family:var(--font-mono)">?ref=SL-XXXXXX</span>。朋友打开时，推荐人栏已自动填入并锁定你的短码 —— 他们只需填钱包和邮箱。</span></p>
+        <div><span class="who"><span data-i18n="rewards.who_share">YOU · SHARE</span></span>
+          <b><span data-i18n="rewards.st2_title">Send your link — the form fills itself</span></b>
+          <p><span data-i18n="rewards.st2_desc">Your share link carries <span style="font-family:var(--font-mono)">?ref=SL-XXXXXX</span>. When a friend opens it, the referrer field is pre-filled with your code and locked — they only enter wallet and email.</span></p>
         </div>
       </div>
       <div class="glass story-step reveal">
         <span class="sn">03</span>
-        <div><span class="who"><span class="en">FRIEND · SUBSCRIBES</span><span class="zh">朋友 · 认购</span></span>
-          <b><span class="en">They register now, subscribe at presale</span><span class="zh">现在登记，预售时认购</span></b>
-          <p><span class="en">Registration holds the referral. It becomes <b>valid</b> when the friend's wallet actually subscribes with USDT/BNB during the presale window, inside the $500 cap.</span><span class="zh">登记即锁定推荐关系。当朋友的钱包在预售窗口内以 USDT/BNB 实际认购（$500 上限内），推荐才算<b>有效</b>。</span></p>
+        <div><span class="who"><span data-i18n="rewards.who_sub">FRIEND · SUBSCRIBES</span></span>
+          <b><span data-i18n="rewards.st3_title">They register now, subscribe at presale</span></b>
+          <p><span data-i18n="rewards.st3_desc">Registration holds the referral. It becomes <b>valid</b> when the friend's wallet actually subscribes with USDT/BNB during the presale window, inside the $500 cap.</span></p>
         </div>
       </div>
       <div class="glass story-step reveal">
         <span class="sn">04</span>
-        <div><span class="who"><span class="en">BOTH WALLETS · EARN</span><span class="zh">双方钱包 · 得奖</span></span>
-          <b><span class="en">Bonus Spark lands at TGE</span><span class="zh">奖励 Spark 于 TGE 到账</span></b>
-          <p><span class="en">Bonus is denominated in Spark at the presale price and settles alongside the unlock schedule — the referrer by their ladder tier, the friend at a flat +4%.</span><span class="zh">奖励按预售价格折算为 Spark，随解锁计划一并结算 —— 推荐人按其阶梯档位，朋友固定 +4%。</span></p>
+        <div><span class="who"><span data-i18n="rewards.who_earn">BOTH WALLETS · EARN</span></span>
+          <b><span data-i18n="rewards.st4_title">Bonus Spark lands at TGE</span></b>
+          <p><span data-i18n="rewards.st4_desc">Bonus is denominated in Spark at the presale price and settles alongside the unlock schedule — the referrer by their ladder tier, the friend at a flat +4%.</span></p>
         </div>
       </div>
     </div>
@@ -189,27 +184,26 @@
 <section id="math" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">03 / REWARD MATH <span class="en">THE MORE YOU LIGHT, THE BRIGHTER YOU BURN</span><span class="zh">点亮越多，燃烧越亮</span></span>
-      <h2 class="section-title"><span class="en">Ladders,</span><span class="zh">阶梯、</span> <span class="grad"><span class="en">not loopholes</span><span class="zh">而非漏洞</span></span></h2>
+      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">03 / REWARD MATH <span data-i18n="rewards.tag_math">THE MORE YOU LIGHT, THE BRIGHTER YOU BURN</span></span>
+      <h2 class="section-title"><span data-i18n="rewards.title_ladder">Ladders,</span> <span class="grad"><span data-i18n="rewards.title_loop">not loopholes</span></span></h2>
       <p class="section-sub">
-        <span class="en">Referrer bonus scales with <b>valid</b> referrals — subscriptions that actually happened, not addresses that merely registered. The friend's bonus stays flat: newcomers never subsidize veterans.</span>
-        <span class="zh">推荐人奖励随<b>有效</b>推荐量增长 —— 只算实际发生的认购，不算仅登记的地址。朋友一端恒定不变：新人从不为老玩家买单。</span>
+        <span data-i18n="rewards.sub_math">Referrer bonus scales with <b>valid</b> referrals — subscriptions that actually happened, not addresses that merely registered. The friend's bonus stays flat: newcomers never subsidize veterans.</span>
       </p>
     </div>
 
     <div class="table-wrap ladder-wrap reveal">
       <table class="tbl">
         <thead><tr>
-          <th><span class="en">Referrer ladder</span><span class="zh">推荐人阶梯</span></th>
-          <th><span class="en">Valid referrals</span><span class="zh">有效推荐数</span></th>
-          <th><span class="en">Your bonus per referral</span><span class="zh">每笔推荐你的奖励</span></th>
-          <th><span class="en">Friend bonus</span><span class="zh">朋友奖励</span></th>
+          <th><span data-i18n="rewards.th_ladder">Referrer ladder</span></th>
+          <th><span data-i18n="rewards.th_valid">Valid referrals</span></th>
+          <th><span data-i18n="rewards.th_bonus">Your bonus per referral</span></th>
+          <th><span data-i18n="rewards.th_friend">Friend bonus</span></th>
         </tr></thead>
         <tbody>
-          <tr><td class="mono">EMBER · <span class="en">Ignite</span><span class="zh">点火</span></td><td>1 – 4</td><td><span class="lb-plus">+6%</span></td><td rowspan="4" style="vertical-align:middle"><span class="lb-plus">+4%</span> <span class="en">always</span><span class="zh">恒定</span></td></tr>
-          <tr><td class="mono">FLAME · <span class="en">Beacon</span><span class="zh">灯塔</span></td><td>5 – 19</td><td><span class="lb-plus">+8%</span> <span style="font-size:0.7rem;color:var(--muted)"><span class="en">← most referrers land here</span><span class="zh">← 多数推荐人在此档</span></span></td></tr>
-          <tr><td class="mono">TORCH · <span class="en">Torch</span><span class="zh">火把</span></td><td>20 – 49</td><td><span class="lb-plus">+10%</span></td></tr>
-          <tr><td class="mono">SUPERNOVA · <span class="en">Wildfire</span><span class="zh">燎原</span></td><td>50 +</td><td><span class="lb-plus">+12%</span></td></tr>
+          <tr><td class="mono">EMBER · <span data-i18n="rewards.tier_ignite">Ignite</span></td><td>1 – 4</td><td><span class="lb-plus">+6%</span></td><td rowspan="4" style="vertical-align:middle"><span class="lb-plus">+4%</span> <span data-i18n="rewards.friend_always">always</span></td></tr>
+          <tr><td class="mono">FLAME · <span data-i18n="rewards.tier_beacon">Beacon</span></td><td>5 – 19</td><td><span class="lb-plus">+8%</span> <span style="font-size:0.7rem;color:var(--muted)"><span data-i18n="rewards.beacon_note">← most referrers land here</span></span></td></tr>
+          <tr><td class="mono">TORCH · <span data-i18n="rewards.tier_torch">Torch</span></td><td>20 – 49</td><td><span class="lb-plus">+10%</span></td></tr>
+          <tr><td class="mono">SUPERNOVA · <span data-i18n="rewards.tier_wildfire">Wildfire</span></td><td>50 +</td><td><span class="lb-plus">+12%</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -217,23 +211,22 @@
     <div class="table-wrap reveal" style="margin-top:22px">
       <table class="tbl">
         <thead><tr>
-          <th><span class="en">Worked example — Beacon tier (+8% / +4%)</span><span class="zh">算例 —— 灯塔档（+8% / +4%）</span></th>
-          <th><span class="en">Friend subscribes</span><span class="zh">朋友认购</span></th>
-          <th><span class="en">Referrer receives</span><span class="zh">推荐人得到</span></th>
-          <th><span class="en">Friend receives</span><span class="zh">朋友得到</span></th>
+          <th><span data-i18n="rewards.example_title">Worked example — Beacon tier (+8% / +4%)</span></th>
+          <th><span data-i18n="rewards.ex_friend">Friend subscribes</span></th>
+          <th><span data-i18n="rewards.ex_referrer">Referrer receives</span></th>
+          <th><span data-i18n="rewards.ex_friend_get">Friend receives</span></th>
         </tr></thead>
         <tbody>
-          <tr><td class="mono">Ember <span class="en">entry</span><span class="zh">点火档认购</span></td><td>$50</td><td class="lb-plus">+$4.00 <span class="en">in Spark</span><span class="zh">等值 Spark</span></td><td class="lb-plus">+$2.00 <span class="en">in Spark</span><span class="zh">等值 Spark</span></td></tr>
-          <tr><td class="mono">Flame <span class="en">entry</span><span class="zh">灯塔档认购</span></td><td>$100</td><td class="lb-plus">+$8.00 <span class="en">in Spark</span><span class="zh">等值 Spark</span></td><td class="lb-plus">+$4.00 <span class="en">in Spark</span><span class="zh">等值 Spark</span></td></tr>
-          <tr><td class="mono">Supernova <span class="en">entry</span><span class="zh">燎原档认购</span></td><td>$500</td><td class="lb-plus">+$40.00 <span class="en">in Spark</span><span class="zh">等值 Spark</span></td><td class="lb-plus">+$20.00 <span class="en">in Spark</span><span class="zh">等值 Spark</span></td></tr>
+          <tr><td class="mono">Ember <span data-i18n="rewards.entry_ember">entry</span></td><td>$50</td><td class="lb-plus">+$4.00 <span data-i18n="rewards.in_spark">in Spark</span></td><td class="lb-plus">+$2.00 <span data-i18n="rewards.in_spark">in Spark</span></td></tr>
+          <tr><td class="mono">Flame <span data-i18n="rewards.entry_ember">entry</span></td><td>$100</td><td class="lb-plus">+$8.00 <span data-i18n="rewards.in_spark">in Spark</span></td><td class="lb-plus">+$4.00 <span data-i18n="rewards.in_spark">in Spark</span></td></tr>
+          <tr><td class="mono">Supernova <span data-i18n="rewards.entry_ember">entry</span></td><td>$500</td><td class="lb-plus">+$40.00 <span data-i18n="rewards.in_spark">in Spark</span></td><td class="lb-plus">+$20.00 <span data-i18n="rewards.in_spark">in Spark</span></td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="callout reveal">
-      <span class="co-tag"><span class="en">SOURCE OF FUNDS · PARAMETERS</span><span class="zh">资金来源 · 参数</span></span>
-      <span class="en">Bonuses are paid in Spark from the dedicated <b>community-incentive tranche — 10% of total supply</b> — never from the presale or IDO pools, so referral growth cannot dilute subscriber allocations. These percentages are the <b>community-proposed parameters</b>; final numbers are ratified by Aether vote and frozen before the presale opens.</span>
-      <span class="zh">奖励以 Spark 支付，来源为<b>专项社区激励份额 —— 总供给的 10%</b> —— 绝不动用预售或 IDO 池，因此推荐增长不会稀释认购者的份额。上述百分比为<b>社区拟定参数</b>；最终数值将在预售开启前经 Aether 表决批准并冻结。</span>
+      <span class="co-tag"><span data-i18n="rewards.co_funds">SOURCE OF FUNDS · PARAMETERS</span></span>
+      <span data-i18n="rewards.co_bonuses">Bonuses are paid in Spark from the dedicated <b>community-incentive tranche — 10% of total supply</b> — never from the presale or IDO pools, so referral growth cannot dilute subscriber allocations. These percentages are the <b>community-proposed parameters</b>; final numbers are ratified by Aether vote and frozen before the presale opens.</span>
     </div>
   </div>
 </section>
@@ -242,39 +235,39 @@
 <section id="rules" style="padding-top:0">
   <div class="container">
     <div class="reveal">
-      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">04 / FAIR PLAY <span class="en">RULES THAT BIND US TOO</span><span class="zh">规则同样约束我们</span></span>
-      <h2 class="section-title"><span class="en">Six guarantees,</span><span class="zh">六项保证，</span> <span class="grad"><span class="en">written in advance</span><span class="zh">预先写明</span></span></h2>
+      <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">04 / FAIR PLAY <span data-i18n="rewards.tag_rules">RULES THAT BIND US TOO</span></span>
+      <h2 class="section-title"><span data-i18n="rewards.title_six">Six guarantees,</span> <span class="grad"><span data-i18n="rewards.title_written">written in advance</span></span></h2>
     </div>
     <div class="rules-grid">
       <div class="glass rule reveal">
         <div class="ru-ic"><i data-ic="check"></i></div>
-        <b><span class="en">One wallet, one code</span><span class="zh">一钱包一短码</span></b>
-        <p><span class="en">The code is derived, not issued — a wallet cannot hold two codes, and nobody can reassign one. Fresh wallets get fresh codes; that's physics, not policy.</span><span class="zh">短码是推导出来的，不是发放的 —— 一个钱包不可能持有两个短码，也没人能改派。新钱包得新短码；这是物理，不是政策。</span></p>
+        <b><span data-i18n="rewards.rule1_title">One wallet, one code</span></b>
+        <p><span data-i18n="rewards.rule1_desc">The code is derived, not issued — a wallet cannot hold two codes, and nobody can reassign one. Fresh wallets get fresh codes; that's physics, not policy.</span></p>
       </div>
       <div class="glass rule reveal">
         <div class="ru-ic"><i data-ic="stop"></i></div>
-        <b><span class="en">Self-referral is impossible</span><span class="zh">自我推荐不可能</span></b>
-        <p><span class="en">The whitelist form rejects a referrer code that equals your own — computed before submission, identical on every device.</span><span class="zh">白名单表单会拒绝与你自身相同的推荐码 —— 提交前即算出，所有设备结果一致。</span></p>
+        <b><span data-i18n="rewards.rule2_title">Self-referral is impossible</span></b>
+        <p><span data-i18n="rewards.rule2_desc">The whitelist form rejects a referrer code that equals your own — computed before submission, identical on every device.</span></p>
       </div>
       <div class="glass rule reveal">
         <div class="ru-ic"><i data-ic="hourglass"></i></div>
-        <b><span class="en">Referrer locks at entry</span><span class="zh">推荐人随登记锁定</span></b>
-        <p><span class="en">The code recorded when you join the whitelist is final. Re-submitting the same wallet updates your email or tier — never your referrer.</span><span class="zh">你加入白名单时记录的推荐码即为最终结果。重复提交同一钱包只更新邮箱或档位 —— 永不更改推荐人。</span></p>
+        <b><span data-i18n="rewards.rule3_title">Referrer locks at entry</span></b>
+        <p><span data-i18n="rewards.rule3_desc">The code recorded when you join the whitelist is final. Re-submitting the same wallet updates your email or tier — never your referrer.</span></p>
       </div>
       <div class="glass rule reveal">
         <div class="ru-ic"><i data-ic="scale"></i></div>
-        <b><span class="en">Valid means paid</span><span class="zh">"有效"以付款为准</span></b>
-        <p><span class="en">A referral counts only when the referred wallet completes a presale subscription within the $500 cap. Registrations alone earn nothing — for anyone.</span><span class="zh">只有当被推荐钱包在 $500 上限内完成预售认购，推荐才计入。仅登记不产生任何奖励 —— 对谁都是。</span></p>
+        <b><span data-i18n="rewards.rule4_title">Valid means paid</span></b>
+        <p><span data-i18n="rewards.rule4_desc">A referral counts only when the referred wallet completes a presale subscription within the $500 cap. Registrations alone earn nothing — for anyone.</span></p>
       </div>
       <div class="glass rule reveal">
         <div class="ru-ic"><i data-ic="shield"></i></div>
-        <b><span class="en">Sybil screening at settlement</span><span class="zh">结算时女巫筛查</span></b>
-        <p><span class="en">Batches of freshly-funded wallets routing to one referrer may be voided at TGE. Honest one-to-one invites are never touched.</span><span class="zh">TGE 结算时，批量新开、资金同源、指向同一推荐人的钱包组可被判定无效。诚实的一对一邀请不受影响。</span></p>
+        <b><span data-i18n="rewards.rule5_title">Sybil screening at settlement</span></b>
+        <p><span data-i18n="rewards.rule5_desc">Batches of freshly-funded wallets routing to one referrer may be voided at TGE. Honest one-to-one invites are never touched.</span></p>
       </div>
       <div class="glass rule reveal">
         <div class="ru-ic"><i data-ic="gavel"></i></div>
-        <b><span class="en">No cap games, no secret edits</span><span class="zh">不玩上限游戏，不搞暗改</span></b>
-        <p><span class="en">Referrals never change the $500 ceiling or presale price. And because codes are deterministic, the reward ledger can be re-derived by anyone — audit us.</span><span class="zh">推荐绝不改变 $500 上限或预售价格。短码是确定性的，奖励账本任何人都能重算 —— 欢迎审计我们。</span></p>
+        <b><span data-i18n="rewards.rule6_title">No cap games, no secret edits</span></b>
+        <p><span data-i18n="rewards.rule6_desc">Referrals never change the $500 ceiling or presale price. And because codes are deterministic, the reward ledger can be re-derived by anyone — audit us.</span></p>
       </div>
     </div>
   </div>
@@ -285,13 +278,13 @@
   <div class="container">
     <div class="reveal">
       <span class="section-tag" style="color:var(--amber);background:rgba(245,158,11,0.08);border-color:rgba(245,158,11,0.3)">05 / FAQ</span>
-      <h2 class="section-title"><span class="en">Asked about</span><span class="zh">被问到的</span> <span class="grad"><span class="en">referrals</span><span class="zh">推荐问题</span></span></h2>
+      <h2 class="section-title"><span data-i18n="rewards.faq_title1">Asked about</span> <span class="grad"><span data-i18n="rewards.faq_title2">referrals</span></span></h2>
     </div>
     <div class="faq-grid">
-      <div class="glass faq reveal"><b><span class="en">Where exactly does my code come from?</span><span class="zh">我的短码到底从哪来？</span></b><span><span class="en">From your address alone: FNV-1a hash → base36 → last six characters, prefixed <span style="font-family:var(--font-mono)">SL-</span>. The whitelist form computes it in your browser; this page's lookup computes it again. Two devices, one answer — that's the point.</span><span class="zh">仅来自你的地址：FNV-1a 哈希 → base36 → 取后六位，加 <span style="font-family:var(--font-mono)">SL-</span> 前缀。白名单表单在你的浏览器里算它，本页查询再算一遍。两台设备一个答案 —— 这正是意义所在。</span></span></div>
-      <div class="glass faq reveal"><b><span class="en">When and how do bonuses pay out?</span><span class="zh">奖励何时、如何发放？</span></b><span><span class="en">At TGE, in Spark, to the two wallets named in the referral — no claims, no forms. The bonus follows the same unlock schedule as the subscription it rewards. Final percentages are frozen by Aether vote before the presale opens.</span><span class="zh">TGE 时以 Spark 发放至推荐关系中的两个钱包 —— 无需领取、无需表格。奖励与其所奖励的认购遵循同一解锁计划。最终百分比在预售开启前经 Aether 表决冻结。</span></span></div>
-      <div class="glass faq reveal"><b><span class="en">I didn't note my code and switched browsers.</span><span class="zh">我没记短码，还换了浏览器。</span></b><span><span class="en">Nothing is lost — the code was never stored, it was computed. Paste your wallet into the lookup above; the same SL-code comes back on any device, forever.</span><span class="zh">什么都没丢 —— 短码从未被存储，它本来就是算出来的。把钱包贴进上方查询，任何设备都会永远返回同一个 SL-短码。</span></span></div>
-      <div class="glass faq reveal"><b><span class="en">Can referrals raise my $500 cap?</span><span class="zh">推荐能提高我的 $500 上限吗？</span></b><span><span class="en">No. The cap is the fairness mechanism of the presale itself — referrals reward participation, they never buy privilege. What grows is your bonus, not your allocation ceiling.</span><span class="zh">不能。上限是预售本身的公平机制 —— 推荐奖励的是参与，从不出售特权。增长的是你的奖励，不是你的认购上限。</span></span></div>
+      <div class="glass faq reveal"><b><span data-i18n="rewards.faq1_q">Where exactly does my code come from?</span></b><span><span data-i18n="rewards.faq1_a">From your address alone: FNV-1a hash → base36 → last six characters, prefixed <span style="font-family:var(--font-mono)">SL-</span>. The whitelist form computes it in your browser; this page's lookup computes it again. Two devices, one answer — that's the point.</span></span></div>
+      <div class="glass faq reveal"><b><span data-i18n="rewards.faq2_q">When and how do bonuses pay out?</span></b><span><span data-i18n="rewards.faq2_a">At TGE, in Spark, to the two wallets named in the referral — no claims, no forms. The bonus follows the same unlock schedule as the subscription it rewards. Final percentages are frozen by Aether vote before the presale opens.</span></span></div>
+      <div class="glass faq reveal"><b><span data-i18n="rewards.faq3_q">I didn't note my code and switched browsers.</span></b><span><span data-i18n="rewards.faq3_a">Nothing is lost — the code was never stored, it was computed. Paste your wallet into the lookup above; the same SL-code comes back on any device, forever.</span></span></div>
+      <div class="glass faq reveal"><b><span data-i18n="rewards.faq4_q">Can referrals raise my $500 cap?</span></b><span><span data-i18n="rewards.faq4_a">No. The cap is the fairness mechanism of the presale itself — referrals reward participation, they never buy privilege. What grows is your bonus, not your allocation ceiling.</span></span></div>
     </div>
   </div>
 </section>
@@ -299,14 +292,13 @@
 <!-- ============ CTA ============ -->
 <section class="cta-band" style="padding-top:20px">
   <div class="container reveal">
-    <h2><span class="en">Fuel travels faster in pairs.</span><span class="zh">燃料结伴，燃得更旺。</span></h2>
+    <h2><span data-i18n="rewards.cta_title">Fuel travels faster in pairs.</span></h2>
     <p class="section-sub" style="margin:0 auto 30px">
-      <span class="en">Join the whitelist, look up your code, and pass the flame. Every referral strengthens the loop — and pays both of you for it.</span>
-      <span class="zh">加入白名单，查出你的短码，把火种传下去。每一次推荐都在增强回路 —— 并让你们双方都因此获得回报。</span>
+      <span data-i18n="rewards.cta_desc">Join the whitelist, look up your code, and pass the flame. Every referral strengthens the loop — and pays both of you for it.</span>
     </p>
     <div class="hero-actions" style="justify-content:center">
-      <a class="btn btn-amber" href="spark.html#subscribe"><i data-ic="flame"></i> <span class="en">Join the whitelist</span><span class="zh">加入白名单</span></a>
-      <a class="btn btn-ghost" href="whitepaper.html"><span class="en">◈ Read the whitepaper</span><span class="zh">◈ 阅读白皮书</span></a>
+      <a class="btn btn-amber" href="spark.html#subscribe"><i data-ic="flame"></i> <span data-i18n="rewards.cta_join">Join the whitelist</span></a>
+      <a class="btn btn-ghost" href="whitepaper.html"><span data-i18n="rewards.cta_wp">◈ Read the whitepaper</span></a>
     </div>
   </div>
 </section>
@@ -317,23 +309,23 @@
     <div class="foot-grid">
       <div>
         <div class="foot-logo"><span class="logo-mark"><i data-ic="flame"></i></span> SparkLoop</div>
-        <p class="foot-desc"><span class="en">An independent interpretation of the eneatlnc-cell Loop. The E2EE protocol stack is open for audit; every claim traces back to code and whitepapers.</span><span class="zh">对 eneatlnc-cell 回路的独立解读：E2EE 协议栈公开审计，一切事实均可回溯至代码与白皮书。</span></p>
+        <p class="foot-desc"><span data-i18n="rewards.foot_desc">An independent interpretation of the eneatlnc-cell Loop. The E2EE protocol stack is open for audit; every claim traces back to code and whitepapers.</span></p>
       </div>
       <div>
-        <h4><span class="en">Layers</span><span class="zh">分层</span></h4>
+        <h4><span data-i18n="rewards.foot_layers">Layers</span></h4>
         <ul>
-          <li><a href="index.html"><span class="en">Home</span><span class="zh">首页</span></a></li>
-          <li><a href="engine.html">Engine · <span class="en">sovereign social</span><span class="zh">主权社交</span></a></li>
-          <li><a href="vault.html">Vault · <span class="en">offline custody</span><span class="zh">离线保管</span></a></li>
+          <li><a href="index.html"><span data-i18n="rewards.nav_home">Home</span></a></li>
+          <li><a href="engine.html">Engine · <span data-i18n="rewards.foot_engine">sovereign social</span></a></li>
+          <li><a href="vault.html">Vault · <span data-i18n="rewards.foot_vault">offline custody</span></a></li>
           <li><a href="aether.html">Aether · DAO</a></li>
-          <li><a href="havix.html">Havix · <span class="en">L0 · parallel identity</span><span class="zh">L0 · 平行身份</span></a></li>
-          <li><a href="spark.html">Spark · <span class="en">the fuel</span><span class="zh">燃料</span></a></li>
-          <li><a href="rewards.html">Rewards · <span class="en">referral policy</span><span class="zh">激励政策</span></a></li>
-          <li><a href="index.html#circuit"><span class="en">The Web4 Loop</span><span class="zh">Web4 回路</span></a></li>
+          <li><a href="havix.html">Havix · <span data-i18n="rewards.foot_havix">L0 · parallel identity</span></a></li>
+          <li><a href="spark.html">Spark · <span data-i18n="rewards.foot_spark_t">the fuel</span></a></li>
+          <li><a href="rewards.html">Rewards · <span data-i18n="rewards.foot_referral">referral policy</span></a></li>
+          <li><a href="index.html#circuit"><span data-i18n="rewards.foot_web4">The Web4 Loop</span></a></li>
         </ul>
       </div>
       <div>
-        <h4><span class="en">Repositories</span><span class="zh">源码仓库</span></h4>
+        <h4><span data-i18n="rewards.foot_repos">Repositories</span></h4>
         <ul>
           <li><a href="https://github.com/eneatlnc-cell/Engine3.0" target="_blank" rel="noopener">github/Engine3.0 ↗</a></li>
           <li><a href="https://github.com/eneatlnc-cell/Aether" target="_blank" rel="noopener">github/Aether ↗</a></li>
@@ -343,11 +335,13 @@
     </div>
     <div class="foot-bottom">
       <span>© <span class="yr">2026</span> SparkLoop · Apache-2.0</span>
-      <span><span class="en">Keys offline · SBT governance · $SPARK fuel · AI chartered</span><span class="zh">密钥离线 · SBT 治理 · $SPARK 燃料 · AI 有宪章</span></span>
+      <span><span data-i18n="rewards.foot_keys">Keys offline · SBT governance · $SPARK fuel · AI chartered</span></span>
     </div>
   </div>
 </footer>
 
+<script src="assets/site-i18n.js"></script>
+<script src="assets/i18n/i18n-g3-spark.js"></script>
 <script src="assets/site.js"></script>
 <script src="assets/whitelist.js"></script>
 </body>

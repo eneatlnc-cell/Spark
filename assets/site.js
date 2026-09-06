@@ -1,6 +1,17 @@
 /* Spark Loop — shared site behaviour: icon system, language switch, reveal, mobile nav */
 (function () {
   var KEY = "sl-lang";
+  var LANGS = (window.SLI18N && window.SLI18N.langs) || [];
+  var DICT = (window.SLI18N && window.SLI18N.dict) || {};
+  var currentLang = (window.SLI18N && window.SLI18N.currentLang) || "en";
+
+  /* i18n lookup: current → en → key itself */
+  function L(key) {
+    var v = (DICT[currentLang] || {})[key];
+    if (v != null && v !== "") return v;
+    return (DICT.en || {})[key] != null ? DICT.en[key] : key;
+  }
+  window.SLL = L;
 
   /* ============================================================
      DOWNLOAD CONFIG — the single place APK store URLs live.
@@ -37,16 +48,12 @@
             '<b class="dl-name">' + name + '</b>' +
             '<span class="dl-ver">' + cfg.ver + '</span>' +
           '</span>' +
-          '<span class="dl-tag">' +
-            '<span class="en">' + cfg.tagEn + '</span>' +
-            '<span class="zh">' + cfg.tagZh + '</span>' +
-          '</span>' +
+          '<span class="dl-tag" data-i18n="dl.tag_' + id + '">' + L("dl.tag_" + id) + '</span>' +
         '</span>' +
         '<span class="dl-cta">' +
           '<span class="dl-cta-dot"></span>' +
-          (live
-            ? '<span class="en">GET ↗</span><span class="zh">获取 ↗</span>'
-            : '<span class="en">IN REVIEW</span><span class="zh">审核中</span>') +
+          '<span data-i18n="' + (live ? "dl.get" : "dl.inreview") + '">' +
+            (live ? L("dl.get") : L("dl.inreview")) + '</span>' +
         '</span>';
       if (live) {
         el.setAttribute("href", cfg.url);
@@ -214,19 +221,49 @@
     });
   }
 
-  /* ---- language ---- */
+  /* ---- language: 7-variant dropdown + dict-driven ---- */
+  var HTML_LANG = { en: "en", zh: "zh-CN", zht: "zh-Hant", ja: "ja", ko: "ko", ar: "ar", es: "es" };
+
+  function buildLangSelect() {
+    document.querySelectorAll(".lang-switch").forEach(function (box) {
+      var sel = box.querySelector("select.lang-select");
+      if (!sel) {
+        sel = document.createElement("select");
+        sel.className = "lang-select";
+        sel.setAttribute("aria-label", "Language / 语言");
+        box.innerHTML = "";
+        box.appendChild(sel);
+        sel.addEventListener("change", function (e) { applyLang(e.target.value); });
+      }
+      sel.innerHTML = "";
+      LANGS.forEach(function (l) {
+        var o = document.createElement("option");
+        o.value = l.id;
+        o.textContent = l.label;
+        if (l.id === currentLang) o.selected = true;
+        sel.appendChild(o);
+      });
+    });
+  }
+
   function applyLang(lang) {
+    currentLang = lang;
+    if (window.SLI18N) window.SLI18N.currentLang = lang;
     document.documentElement.setAttribute("data-lang", lang);
+    document.documentElement.setAttribute("lang", HTML_LANG[lang] || lang);
+    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
     try { localStorage.setItem(KEY, lang); } catch (e) {}
-    var btns = document.querySelectorAll(".lang-switch button");
-    btns.forEach(function (b) {
-      b.classList.toggle("on", b.getAttribute("data-set") === lang);
+    buildLangSelect();
+    /* fill static [data-i18n] content.
+       innerHTML (not textContent) so a key may carry inline markup
+       (e.g. <strong>, gradient spans) identically across all 7 variants. */
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      el.innerHTML = L(el.getAttribute("data-i18n"));
     });
     /* swap placeholders if present */
     document.querySelectorAll("[data-ph-en]").forEach(function (el) {
       el.setAttribute("placeholder", lang === "zh" ? el.getAttribute("data-ph-zh") : el.getAttribute("data-ph-en"));
     });
-    document.documentElement.setAttribute("lang", lang === "zh" ? "zh-CN" : "en");
   }
 
   document.addEventListener("DOMContentLoaded", function () {

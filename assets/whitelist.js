@@ -100,7 +100,13 @@
 
   function $(id) { return document.getElementById(id); }
   function lang() { return document.documentElement.getAttribute("data-lang") === "zh" ? "zh" : "en"; }
-  function t(en, zh) { return lang() === "zh" ? zh : en; }
+  /* 多语种动态文案：window.SLL 取自七语种字典（en 为回退），
+     含 {var} 占位符的模板在取值后替换。 */
+  function cap(key, vars) {
+    var s = window.SLL ? window.SLL(key) : key;
+    if (vars) { for (var k in vars) { s = s.split("{" + k + "}").join(String(vars[k])); } }
+    return s;
+  }
 
   /* ---------- deterministic short code ---------- */
   function refCode(wallet) {
@@ -547,9 +553,7 @@
         F.ref.classList.add("locked");
         var refHint = F.ref.parentNode && F.ref.parentNode.querySelector(".wl-hint");
         if (refHint) {
-          refHint.innerHTML =
-            '<span class="en">auto-filled from an invite link — <b>locked</b>, the referral can’t be lost</span>' +
-            '<span class="zh">由邀请链接自动填入 —— <b>已锁定</b>，推荐关系不会丢失</span>';
+          refHint.innerHTML = cap("spark.ref_locked");
         }
       }
     }
@@ -587,8 +591,7 @@
       /* EIP-55:混合大小写与校验和不符 → 几乎必是手误,直接拒绝 */
       if (!checksumOk(w)) {
         mark(F.wallet, true);
-        alert(t("Wallet checksum failed — the address looks mistyped. Copy the full address from your wallet and paste it again.",
-                "钱包地址校验失败 —— 可能抄错了个别字符。请从钱包复制完整地址后重新粘贴。"));
+        alert(cap("spark.wl_alert_checksum"));
         return;
       }
       if (!vCode(r)) { mark(F.ref, true); return; }
@@ -596,16 +599,14 @@
       /* 提交前二次确认 —— 展示校验和地址与首尾 6 位,肉眼核对。
          v2.5 起所有路径一律确认(纯粘贴流程,无钱包交互) */
       var cw = toChecksumAddress(w);
-      if (!confirm(t("Confirm your wallet address:\n" + cw + "\n\nfirst 6: " + cw.slice(0, 6) + "  ·  last 6: " + cw.slice(-6),
-                     "请核对钱包地址:\n" + cw + "\n\n前 6 位 " + cw.slice(0, 6) + " · 后 6 位 " + cw.slice(-6)))) return;
+      if (!confirm(cap("spark.wl_confirm", { cw: cw, first6: cw.slice(0, 6), last6: cw.slice(-6) }))) return;
       var rec = { wallet: w.toLowerCase(), code: refCode(w), ref: r, tier: tier, email: m, ts: Date.now() };
       if (!rec.code || rec.ref === rec.code) {  /* self-referral blocked */
         /* opened your own invite link? the prefilled code is readOnly, so
            without unlocking the user is stuck with an unfixable error */
         if (F.ref.readOnly) {
           unlockRef();
-          alert(t("This invite link carries your own referral code — the field is now unlocked: clear it or enter another member's code.",
-                  "这个邀请链接带的是你自己的推荐短码 —— 字段已解锁：可清空，或改填其他成员的短码。"));
+          alert(cap("spark.wl_alert_selfref"));
         }
         mark(F.ref, true); return;
       }
@@ -628,26 +629,20 @@
       /* server capture — status line keeps the user informed either way */
       var submitBtn = form.querySelector(".wl-submit");
       if (!WL_ENDPOINT) {
-        setSync(syncLine, "warn", t(
-          "⚠ Entry saved in this browser only — the operator endpoint is not configured yet.",
-          "⚠ 记录仅保存在本浏览器 —— 运营方尚未配置收集端点。"));
+        setSync(syncLine, "warn", cap("spark.wl_noconfig"));
         return;
       }
       posting = true;
       if (submitBtn) submitBtn.disabled = true;
-      setSync(syncLine, "", t("⏳ Registering with the whitelist server…", "⏳ 正在向白名单服务器登记…"));
+      setSync(syncLine, "", cap("spark.wl_registering"));
       postRecord(rec).then(function (res) {
         posting = false;
         if (submitBtn) submitBtn.disabled = false;
         if (res.ok) {
           markSynced(rec.wallet, true);
-          setSync(syncLine, "ok", t(
-            "✓ Registered. This wallet is on the presale list — your referral code is ready below.",
-            "✓ 登记成功。该钱包已进入预售名单 —— 你的推荐短码已在下方生成。"));
+          setSync(syncLine, "ok", cap("spark.wl_registered"));
         } else {
-          setSync(syncLine, "warn", t(
-            "⚠ Saved locally — the server is unreachable right now. Your entry will upload automatically the next time you open this page; or press “send confirmation”.",
-            "⚠ 已在本地保存 —— 服务器暂时不可达。下次打开本页时将自动补传；也可点击“发送确认邮件”。"));
+          setSync(syncLine, "warn", cap("spark.wl_localonly"));
         }
       });
     });
@@ -655,8 +650,8 @@
     /* success actions: copy share link · mailto confirmation */
     $("wlCopy").addEventListener("click", function () {
       okShare.select(); document.execCommand("copy");
-      this.textContent = t("LINK COPIED", "链接已复制");
-      var b = this; setTimeout(function () { b.textContent = t("COPY SHARE LINK", "复制分享链接"); }, 1500);
+      this.textContent = cap("spark.wl_link_copied");
+      var b = this; setTimeout(function () { b.textContent = cap("spark.wl_copy_share"); }, 1500);
     });
     if (mailBtn && OPS_MAIL && !/\.example$/i.test(OPS_MAIL.split("@")[1] || "")) {
       mailBtn.addEventListener("click", function () {
@@ -684,8 +679,8 @@
     });
     $("lkCopy").addEventListener("click", function () {
       ls.select(); document.execCommand("copy");
-      this.textContent = t("COPIED", "已复制");
-      var b = this; setTimeout(function () { b.textContent = t("COPY LINK", "复制链接"); }, 1500);
+      this.textContent = cap("rewards.link_copied");
+      var b = this; setTimeout(function () { b.textContent = cap("rewards.copy_link"); }, 1500);
     });
   }
 
@@ -697,7 +692,7 @@
     panel.className = "wl-admin glass";
     panel.innerHTML =
       '<div class="wa-head"><b>WHITELIST CONSOLE · <span id="waCount"></span></b>' +
-      '<span>' + t("operator view — local entries in this browser", "运营视图 —— 本浏览器内的记录") + '</span></div>' +
+      '<span>' + cap("spark.op_view") + '</span></div>' +
       '<div class="wa-tablewrap"><table class="wa-table"><thead><tr>' +
       "<th>wallet</th><th>code</th><th>referrer</th><th>tier</th><th>email</th><th>time</th><th>sync</th><th>v</th></tr>" +
       '</thead><tbody id="waBody"></tbody></table></div>' +
@@ -707,13 +702,13 @@
       '<button class="btn btn-ghost" id="waJson">↓ JSON</button>' +
       '<button class="btn btn-ghost" id="waCopy">COPY JSON</button>' +
       '<button class="btn btn-ghost" id="waClear">CLEAR</button></div>' +
-      '<div class="wa-import"><span>' + t("merge arrived mailto payloads:", "合并邮件回传的记录：") + '</span>' +
+      '<div class="wa-import"><span>' + cap("spark.op_merge_lbl") + '</span>' +
       '<textarea id="waPaste" rows="3" placeholder=\'[{"wallet":"0x…"}] or one JSON per line\'></textarea>' +
       '<button class="btn btn-amber" id="waMerge">MERGE</button></div>' +
       '<p class="wa-endpoint">' + (WL_ENDPOINT
-        ? t("endpoint: <code>" + esc(WL_ENDPOINT) + "</code>", "端点：<code>" + esc(WL_ENDPOINT) + "</code>")
-        : t("<b>WL_ENDPOINT is not configured</b> — entries stay in this browser only. Set it in assets/whitelist.js to start capturing.", "<b>WL_ENDPOINT 未配置</b> —— 记录仅存于本浏览器。在 assets/whitelist.js 中设置后即可开始收集。")) +
-      (WL_WORKER ? "<br>" + t("worker: <code>" + esc(WL_WORKER) + "</code>", "Worker：<code>" + esc(WL_WORKER) + "</code>") : "") + "</p>";
+        ? cap("spark.op_endpoint", { ep: esc(WL_ENDPOINT) })
+        : cap("spark.op_noconfig")) +
+      (WL_WORKER ? "<br>" + cap("spark.op_worker", { ep: esc(WL_WORKER) }) : "") + "</p>";
     var anchor = document.getElementById("subscribe") || document.body;
     anchor.appendChild(panel);
 
@@ -736,12 +731,12 @@
 
     /* manual backlog push — operator repairs a flaky endpoint here */
     $("waSync").addEventListener("click", function () {
-      if (!WL_ENDPOINT && !WL_WORKER) { alert(t("Configure WL_ENDPOINT / WL_WORKER first (assets/whitelist.js).", "请先配置 WL_ENDPOINT / WL_WORKER（assets/whitelist.js）。")); return; }
+      if (!WL_ENDPOINT && !WL_WORKER) { alert(cap("spark.op_configure")); return; }
       var btn = this;
       var pending = load().filter(function (r) {
         return (WL_ENDPOINT && !r.synced) || (WL_WORKER && !r.wsynced);
       });
-      if (!pending.length) { alert(t("Nothing to sync — all entries are on the server.", "无需同步 —— 全部记录均已在服务器。")); return; }
+      if (!pending.length) { alert(cap("spark.op_nothing")); return; }
       btn.disabled = true; var done = 0;
       var chain = Promise.resolve();
       pending.forEach(function (r) {
@@ -789,18 +784,18 @@
       });
       chain.then(function () {
         btn.disabled = false; render();
-        alert(t(done + " / " + pending.length + " entries fully synced (email + KV).", "已完整同步 " + done + " / " + pending.length + " 条（邮件 + KV）。"));
+        alert(cap("spark.op_synced", { done: done, total: pending.length }));
       });
     });
     $("waCsv").addEventListener("click", function () { dl("sparkloop-whitelist.csv", csv(load()), "text/csv"); });
     $("waJson").addEventListener("click", function () { dl("sparkloop-whitelist.json", JSON.stringify(load(), null, 2), "application/json"); });
     $("waCopy").addEventListener("click", function () {
       navigator.clipboard.writeText(JSON.stringify(load())).catch(function () {});
-      this.textContent = t("COPIED", "已复制");
+      this.textContent = cap("rewards.link_copied");
       var b = this; setTimeout(function () { b.textContent = "COPY JSON"; }, 1500);
     });
     $("waClear").addEventListener("click", function () {
-      if (confirm(t("Erase all whitelist entries in this browser?", "清空本浏览器中的全部白名单记录？"))) { save([]); render(); }
+      if (confirm(cap("spark.op_erase"))) { save([]); render(); }
     });
     $("waMerge").addEventListener("click", function () {
       var txt = $("waPaste").value.trim();
@@ -833,7 +828,7 @@
       });
       save(before); render();
       $("waPaste").value = "";
-      alert(t(add + " merged, " + (arr.length - add) + " skipped (invalid or duplicate).", "合并 " + add + " 条，跳过 " + (arr.length - add) + " 条（无效或重复）。"));
+      alert(cap("spark.op_merged", { add: add, skip: (arr.length - add) }));
     });
   }
 
