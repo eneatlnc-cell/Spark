@@ -172,7 +172,7 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.45.1 (versionCode 43) |
+| Engine 版本 | v3.61.0 (versionCode 73) |
 | Vault 版本 | v3.44.0 (versionCode 14) |
 | Engine3.0 审计库 | v3.45.0-audit |
 | Engine APK URL | **待提供**（上架后填入 `assets/site.js` 的 `DOWNLOAD` 配置） |
