@@ -15,8 +15,8 @@
       tagEn: "Sovereign social · E2EE", tagZh: "主权社交 · 端到端加密"
     },
     vault: {
-      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.57.0/Vault-3.56.7-release.apk",
-      ver: "v3.56.7",
+      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.59.0/Vault-3.59.0-release.apk",
+      ver: "v3.59.0",
       tagEn: "Offline safe · TEE-sealed", tagZh: "离线保险箱 · TEE 封存"
     }
   };
