@@ -189,7 +189,7 @@ sup a:hover { text-decoration: underline; }
       <g class="wpill" style="--pc:#6EE7B7"><rect x="300" y="122" width="120" height="20" rx="10"/><text x="360" y="136" text-anchor="middle">SHIPPED v3.64.6</text></g>
       <!-- Vault -->
       <g class="wnode" style="--nc:#10B981"><rect x="66" y="66" width="140" height="62" rx="10"/><text class="wt" x="136" y="92" text-anchor="middle">Vault</text><text class="ws" x="136" y="111" text-anchor="middle"><tspan class="en">the Safe · keys offline</tspan><tspan class="zh">保险箱 · 密钥离线</tspan></text></g>
-      <g class="wpill" style="--pc:#6EE7B7"><rect x="76" y="136" width="120" height="20" rx="10"/><text x="136" y="150" text-anchor="middle">SHIPPED v3.69.0</text></g>
+      <g class="wpill" style="--pc:#6EE7B7"><rect x="76" y="136" width="120" height="20" rx="10"/><text x="136" y="150" text-anchor="middle">SHIPPED v3.70.0</text></g>
       <!-- Spark -->
       <g class="wnode" style="--nc:#F59E0B"><rect x="470" y="228" width="150" height="62" rx="10"/><text class="wt" x="545" y="254" text-anchor="middle">Spark</text><text class="ws" x="545" y="273" text-anchor="middle"><tspan class="en">the Fuel · $SPARK</tspan><tspan class="zh">燃料 · $SPARK</tspan></text></g>
       <g class="wpill" style="--pc:#FDE68A"><rect x="474" y="298" width="142" height="20" rx="10"/><text x="545" y="312" text-anchor="middle">PRESALE + IDO</text></g>
@@ -224,7 +224,7 @@ sup a:hover { text-decoration: underline; }
       <table class="tbl">
         <thead><tr><th><span data-i18n="whitepaper.th_organ">Organ</span></th><th><span data-i18n="whitepaper.th_metaphor">Metaphor</span></th><th><span data-i18n="whitepaper.th_function">Function in the loop</span></th><th><span data-i18n="whitepaper.th_status">Real status</span></th></tr></thead>
         <tbody>
-          <tr><td>Vault</td><td class="mono"><span data-i18n="whitepaper.rv_mt">the Safe</span></td><td><span data-i18n="whitepaper.rv_fn">Offline custody of every private key; signs by proxy; migrates keys by QR only</span></td><td class="ok"><span data-i18n="whitepaper.rv_st">v3.69.0 shipped</span></td></tr>
+          <tr><td>Vault</td><td class="mono"><span data-i18n="whitepaper.rv_mt">the Safe</span></td><td><span data-i18n="whitepaper.rv_fn">Offline custody of every private key; signs by proxy; migrates keys by QR only</span></td><td class="ok"><span data-i18n="whitepaper.rv_st">v3.70.0 shipped</span></td></tr>
           <tr><td>Engine</td><td class="mono"><span data-i18n="whitepaper.re_mt">the App</span></td><td><span data-i18n="whitepaper.re_fn">Sovereign social messenger; pure-memory, E2E-encrypted; spends SPARK by the kilobyte</span></td><td class="ok"><span data-i18n="whitepaper.re_st">v3.64.6 shipped</span></td></tr>
           <tr><td>Spark</td><td class="mono"><span data-i18n="whitepaper.rs_mt">the Fuel</span></td><td><span data-i18n="whitepaper.rs_fn">Meters expression; endows the reserve; bridges reserve and markets</span></td><td class="warn"><span data-i18n="whitepaper.rs_st">presale + IDO</span></td></tr>
           <tr><td>Aether</td><td class="mono"><span data-i18n="whitepaper.ra_mt">the Parliament</span></td><td><span data-i18n="whitepaper.ra_fn">SBT-governed DAO: three chambers, soulbound ranks, multisig treasury</span></td><td class="warn"><span data-i18n="whitepaper.ra_st">v3.6 · BSC · audit closed · mainnet pending</span></td></tr>
@@ -265,7 +265,7 @@ sup a:hover { text-decoration: underline; }
   <div class="wp">
     <h2 class="chap"><span class="cnum">03</span> <span data-i18n="whitepaper.ch3">The Four Organs</span></h2>
 
-    <h3><span class="h3k">3.1</span> <span data-i18n="whitepaper.h31">Vault — the Safe</span> <span class="wp-note" style="float:right"><span data-i18n="whitepaper.note31">v3.69.0 · shipped</span></span></h3>
+    <h3><span class="h3k">3.1</span> <span data-i18n="whitepaper.h31">Vault — the Safe</span> <span class="wp-note" style="float:right"><span data-i18n="whitepaper.note31">v3.70.0 · shipped</span></span></h3>
     <p><span data-i18n="whitepaper.ch3_p1">A generic offline keystore, not an Engine accessory: it can custody keys for any compliant app. Mechanism: no network permission; keystores sealed in the TEE; biometric-gated signing (StrongBox-backed where available); SPARK wallet custody — the balance lives as an append-only chain of transactions co-signed inside the secure world, and a wallet handover migrates the full balance to a new device as a genesis transaction; QR-only migration to new hardware, with the private key never entering a network stack<sup><a href="#cite-3">[3]</a></sup>. Since v3.40 Engine reaches Vault over a signature-protected Binder IPC direct channel — the legacy cross-app jump dialogs are gone<sup><a href="#cite-3">[3]</a></sup>.</span></p>
 
     <h3><span class="h3k">3.2</span> <span data-i18n="whitepaper.h32">Engine — the App</span> <span class="wp-note" style="float:right"><span data-i18n="whitepaper.note32">v3.64.6 · shipped</span></span></h3>
@@ -401,7 +401,7 @@ sup a:hover { text-decoration: underline; }
     <div class="tl-wrap">
       <div class="tl-item now">
         <div class="tl-dot">NOW</div>
-        <div class="tl-body"><b><span data-i18n="whitepaper.tl_now_t">Loop in the wild</span></b><span><span data-i18n="whitepaper.tl_now_d">Engine v3.64.6 and Vault v3.69.0 shipped — Binder IPC direct channel and the signed-transaction SPARK wallet live, releases hardened with R8 obfuscation on both apps, and the daily fuel subsidy deduplicated by an unlinkable device-day hash at the relay; Havix in closed beta after a 15-finding audit closure; Aether v3.6 on BSC (audit remediation closed), awaiting mainnet deployment<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>. Presale whitelist open.</span></span></div>
+        <div class="tl-body"><b><span data-i18n="whitepaper.tl_now_t">Loop in the wild</span></b><span><span data-i18n="whitepaper.tl_now_d">Engine v3.64.6 and Vault v3.70.0 shipped — Binder IPC direct channel and the signed-transaction SPARK wallet live, releases hardened with R8 obfuscation on both apps, and the daily fuel subsidy deduplicated by an unlinkable device-day hash at the relay; Havix in closed beta after a 15-finding audit closure; Aether v3.6 on BSC (audit remediation closed), awaiting mainnet deployment<sup><a href="#cite-1">[1]</a></sup><sup><a href="#cite-3">[3]</a></sup><sup><a href="#cite-4">[4]</a></sup><sup><a href="#cite-6">[6]</a></sup>. Presale whitelist open.</span></span></div>
       </div>
       <div class="tl-item">
         <div class="tl-dot">01</div>
