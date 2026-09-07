@@ -21,12 +21,12 @@
      ============================================================ */
   var DOWNLOAD = {
     engine: {
-      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.62.0/Engine-3.62.0-release.apk",
-      ver: "v3.62.0",
+      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.64.0/Engine-3.64.0-release.apk",
+      ver: "v3.64.0",
       tagEn: "Sovereign social · E2EE", tagZh: "主权社交 · 端到端加密"
     },
     vault: {
-      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.62.0/Vault-3.60.0-release.apk",
+      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.64.0/Vault-3.60.0-release.apk",
       ver: "v3.60.0",
       tagEn: "Offline safe · TEE-sealed", tagZh: "离线保险箱 · TEE 封存"
     }
