@@ -54,8 +54,8 @@
 
 | 组件 | 角色 | 状态 | 版本/证据 |
 |---|---|---|---|
-| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.45.1 (code 43) · R8 混淆 release · Binder IPC 直连通道 · 签名交易 SPARK 钱包（v3.37+） |
-| **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.44.0 (code 14) · TEE/DRM 设备种子 · R8 · Android 清单级无联网权限 |
+| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.64.5 (code 80) · R8 混淆 release · Binder IPC 直连通道 · 签名交易 SPARK 钱包（v3.37+） |
+| **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.68.0 (code 27) · TEE/DRM 设备种子 · R8 · Android 清单级无联网权限 · 同步钱包死循环根治 |
 | **SPARK（阶段 A）** | Engine 内燃料：燃料补贴 1000 SPARK/天 | **已交付**（随 Engine） | 设备日铸 · 本地哈希链账本 · 中继当日去重 · 金额白名单 |
 | **Engine3.0** | 加密协议公开审计库 | **已交付** | v3.45.0-audit · 131 测试全绿 · Signal 式公开审计 |
 | **relay-server** | Engine 无消息状态中继 | 已交付（单实例部署红线） | GRANT_CHECK/ACK 当日去重 · 部署文档 §11 |
@@ -172,11 +172,11 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.62.0 (versionCode 74) |
-| Vault 版本 | v3.60.0 (versionCode 21) |
+| Engine 版本 | v3.64.5 (versionCode 80) |
+| Vault 版本 | v3.68.0 (versionCode 27) |
 | Engine3.0 审计库 | v3.45.0-audit |
-| Engine APK URL | **待提供**（上架后填入 `assets/site.js` 的 `DOWNLOAD` 配置） |
-| Vault APK URL | **待提供**（同上） |
+| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.68.0/Engine-3.64.5-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
+| Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.68.0/Vault-3.68.0-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
 ## 7. 历史漂移登记（已修复，防复发）
@@ -188,6 +188,7 @@
 | Havix↔Engine 关系 | Havix 全库零提及 Engine | Havix README 增补回路语境段 |
 | SPARK 机制断层 | 代码=日铸账本 ↔ 白皮书=固定总量 | 本文件 §3 双阶段桥接为唯一口径 |
 | Engine/Vault 版本 | 站点停留 v3.43/v3.41 | 已同步至 v3.45.1 / v3.44.0 |
+| Engine/Vault 版本 | 站点停留 v3.64.5 / v3.67.0 | 2026-09-08 已同步至 v3.64.5 / v3.68.0（Vault 同步钱包死循环根治，Engine 未变） |
 | Vault 中文译名 | 「钥匙盒 / Keybox」混入站点 | 2026-08-30 全站回滚为「保险箱 / the Safe」 |
 | SPARK 供给旧称 | 「每日赠金 / daily login grant」 | 2026-08-30 统一为「燃料补贴 1000 SPARK/天」 |
 | Havix 角色误标 | 「P2P 基座/基底/substrate」作为主定义 | 2026-08-30 改为主 DID 衍生平行身份 · 信用与价值双轨 |
