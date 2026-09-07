@@ -54,7 +54,7 @@
 
 | 组件 | 角色 | 状态 | 版本/证据 |
 |---|---|---|---|
-| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.64.6 (code 81) · R8 混淆 release · Binder IPC 直连通道 · 签名交易 SPARK 钱包（v3.37+） · 身份绑定去二维码化（生成即直传）· KBKB/余额提示/联系人/群组修复 |
+| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.64.7 (code 82) · R8 混淆 release · Binder IPC 直连通道 · 签名交易 SPARK 钱包（v3.37+） · 身份绑定去二维码化（生成即直传）· KBKB/余额提示/联系人/群组修复 · 同步钱包引导流转圈根治（IPC 看门狗） |
 | **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.70.0 (code 29) · TEE/DRM 设备种子 · R8 · Android 清单级无联网权限 · 同步钱包死循环根治 · 交接扫码根治（证书码 1280x720 分辨率选择器） |
 | **SPARK（阶段 A）** | Engine 内燃料：燃料补贴 1000 SPARK/天 | **已交付**（随 Engine） | 设备日铸 · 本地哈希链账本 · 中继当日去重 · 金额白名单 |
 | **Engine3.0** | 加密协议公开审计库 | **已交付** | v3.45.0-audit · 131 测试全绿 · Signal 式公开审计 |
@@ -172,10 +172,10 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.64.6 (versionCode 81) |
+| Engine 版本 | v3.64.7 (versionCode 82) |
 | Vault 版本 | v3.70.0 (versionCode 29) |
 | Engine3.0 审计库 | v3.45.0-audit |
-| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.69.0/Engine-3.64.6-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
+| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.69.0/Engine-3.64.7-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
 | Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.69.0/Vault-3.70.0-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
@@ -191,6 +191,7 @@
 | Engine/Vault 版本 | 站点停留 v3.64.5 / v3.67.0 | 2026-09-08 已同步至 v3.64.5 / v3.68.0（Vault 同步钱包死循环根治，Engine 未变） |
 | Engine/Vault 版本 | 站点停留 v3.64.5 / v3.68.0 | 2026-09-08 已同步至 v3.64.6 / v3.69.0（身份绑定「正在解析二维码」闪现根治 · KBKB 单位/余额提示/联系人详情页/群组指纹五项修复） |
 | Engine/Vault 版本 | 站点停留 v3.64.6 / v3.69.0 | 2026-09-08 已同步至 v3.64.6 / v3.70.0（Vault 交接扫码根治 —— 证书二维码扫不上码，CameraX 分辨率选择器 1280x720） |
+| Engine/Vault 版本 | 站点停留 v3.64.6 / v3.70.0 | 2026-09-08 已同步至 v3.64.7 / v3.70.0（Engine 同步 SPARK 钱包引导流转圈根治 —— IPC 看门狗；为保签名一致性双端重建） |
 | Vault 中文译名 | 「钥匙盒 / Keybox」混入站点 | 2026-08-30 全站回滚为「保险箱 / the Safe」 |
 | SPARK 供给旧称 | 「每日赠金 / daily login grant」 | 2026-08-30 统一为「燃料补贴 1000 SPARK/天」 |
 | Havix 角色误标 | 「P2P 基座/基底/substrate」作为主定义 | 2026-08-30 改为主 DID 衍生平行身份 · 信用与价值双轨 |
