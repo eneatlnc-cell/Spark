@@ -172,10 +172,10 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.67.0 (versionCode 88) |
+| Engine 版本 | v3.68.1 (versionCode 90) |
 | Vault 版本 | v3.71.4 (versionCode 34) |
 | Engine3.0 审计库 | v3.45.0-audit |
-| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.72.0/Engine-3.67.0-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
+| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.72.1/Engine-3.68.1-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
 | Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.72.0/Vault-3.71.4-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
@@ -197,6 +197,7 @@
 | Vault 版本 | 站点停留 Vault v3.71.2 | 2026-09-08 已同步至 Vault v3.71.3（迁移扫码最后一环根治 —— FileProvider authority 崩溃 · 高密度码多尺度多裁剪解码 · ROM 相机兼容；Engine 侧保持 v3.64.9 不变，签名一致） |
 | Engine/Vault 版本 | 站点停留 v3.64.9 / v3.71.3 | 2026-09-08 已同步至 v3.65.0 / v3.71.4（Engine 消息丢包根治 —— 中继保活重校准 · NAT 超时收紧实测；Vault Keystore 认证窗口回归根治 —— 创建即首用路径自救，双端重建） |
 | Engine/Vault 版本 | 站点停留 v3.65.0 / v3.71.4 | 2026-09-09 已同步至 v3.67.0 / v3.71.4（Engine 聊天页列表模块化 + 输入栏小费按钮 + 涂鸦墙速览；Vault 不变，双端签名一致重建，发布到 Spark v3.72.0） |
+| Engine/Vault 版本 | 站点停留 v3.67.0 / v3.71.4 | 2026-09-09 已同步至 v3.68.1 / v3.71.4（Engine 道环身份体系 P0 · 1 万 SPARK 激活/邀请函/环徽 + 聊天页模块卡 v2 + 四项微调；Vault 不变，签名一致重建，发布到 Spark v3.72.1） |
 | Vault 中文译名 | 「钥匙盒 / Keybox」混入站点 | 2026-08-30 全站回滚为「保险箱 / the Safe」 |
 | SPARK 供给旧称 | 「每日赠金 / daily login grant」 | 2026-08-30 统一为「燃料补贴 1000 SPARK/天」 |
 | Havix 角色误标 | 「P2P 基座/基底/substrate」作为主定义 | 2026-08-30 改为主 DID 衍生平行身份 · 信用与价值双轨 |
