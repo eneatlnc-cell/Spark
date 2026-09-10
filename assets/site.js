@@ -21,8 +21,8 @@
      ============================================================ */
   var DOWNLOAD = {
     engine: {
-      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.72.2/Engine-3.68.2-release.apk",
-      ver: "v3.68.2",
+      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.73.0/Engine-3.74.1-release.apk",
+      ver: "v3.74.1",
       tagEn: "Sovereign social · E2EE", tagZh: "主权社交 · 端到端加密"
     },
     vault: {
@@ -312,7 +312,7 @@
     /* ---- sovereignty loop strip (all pages, injected after the hero) ---- */
     var LOOP = [
       { id: "vault",  href: "vault.html",  ic: "shield", name: "VAULT",  nc: "#10B981", men: "the Safe · offline keys",       mzh: "保险箱 · 密钥离线",    st: "ship", sen: "SHIPPED v3.71.4",          szh: "已交付 v3.71.4" },
-      { id: "engine", href: "engine.html", ic: "ship",   name: "ENGINE", nc: "#EC4899", men: "the App · sovereign social",      mzh: "应用 · 主权社交",      st: "ship", sen: "SHIPPED v3.68.2",          szh: "已交付 v3.68.2" },
+      { id: "engine", href: "engine.html", ic: "ship",   name: "ENGINE", nc: "#EC4899", men: "the App · sovereign social",      mzh: "应用 · 主权社交",      st: "ship", sen: "SHIPPED v3.74.1",          szh: "已交付 v3.74.1" },
       { id: "spark",  href: "spark.html",  ic: "flame",  name: "SPARK",  nc: "#F59E0B", men: "the Fuel · presale + IDO",       mzh: "燃料 · 预售+IDO",      st: "live", sen: "PRESALE + IDO",              szh: "预售 + IDO" },
       { id: "aether", href: "aether.html", ic: "temple", name: "AETHER", nc: "#818CF8", men: "the Parliament · reserve",       mzh: "议会 · 储备",          st: "live", sen: "AUDIT ✓ · MAINNET PENDING", szh: "审计完成 · 待主网" },
       { id: "havix",  href: "havix.html",  ic: "mesh",   name: "HAVIX",  nc: "#22D3EE", men: "parallel identity · dual track", mzh: "平行身份 · 双轨",    st: "beta", sen: "VALIDATED · STANDBY",        szh: "已验证 · 待命" },
