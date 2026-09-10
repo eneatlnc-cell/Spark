@@ -54,7 +54,7 @@
 
 | 组件 | 角色 | 状态 | 版本/证据 |
 |---|---|---|---|
-| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.65.0 (code 85) · R8 混淆 release · Binder IPC 直连通道 · 签名交易 SPARK 钱包（v3.37+） · 身份绑定去二维码化（生成即直传）· KBKB/余额提示/联系人/群组修复 · 同步钱包引导流转圈根治（IPC 看门狗）· Android 11 慢设备看门狗误判根治（双会话收养）· 同会话直唤（指纹后转圈铁证修复）· 消息丢包根治（中继保活重校准 · NAT 超时收紧实测） |
+| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.74.2 (code 99) · 绑定/恢复等待回调 45s 超时看护 + 等待页取消按钮（「生成密钥对」无限转圈根治）· abortBindingIdentity 绑定放弃完整回滚 · 沿革：v3.74.1 (98) 中继认领表 SQLite/pending 持久化/备份恢复演练 · v3.65.0 (85) 起 R8 混淆/Binder 直连/SPARK 钱包/绑定直传/同步引导流转圈根治/同会话直唤/消息丢包根治 · R8 混淆 release · Binder IPC 直连通道 · 签名交易 SPARK 钱包（v3.37+） · 身份绑定去二维码化（生成即直传）· KBKB/余额提示/联系人/群组修复 · 同步钱包引导流转圈根治（IPC 看门狗）· Android 11 慢设备看门狗误判根治（双会话收养）· 同会话直唤（指纹后转圈铁证修复）· 消息丢包根治（中继保活重校准 · NAT 超时收紧实测） |
 | **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.74.0 (code 37) · 零出口保险箱 P0（防呆警示 + hasFragileUserData + 权威账本恢复通道）· 身份密钥收归保险箱（identityinit）+ 轮换声明预埋 · DupProbe 盲化序号探针基座 · 原 v3.71.4 能力（TEE/DRM 设备种子 · R8 · Android 清单级无联网权限 · CAMERA 权限彻底移除（系统相机拍照解码）· 拍照模式安全红线收口（照片卫生纪律）· 交接扫码根治 · 受理侧回调永不静默丢弃（配套 Engine 同会话直唤）· 迁移扫码 FileProvider 崩溃根治 + 高密度码多尺度多裁剪解码 + ROM 相机兼容 · Keystore 认证窗口回归根治（创建即首用路径自救） |
 | **SPARK（阶段 A）** | Engine 内燃料：燃料补贴 1000 SPARK/天 | **已交付**（随 Engine） | 设备日铸 · 本地哈希链账本 · 中继当日去重 · 金额白名单 |
 | **Engine3.0** | 加密协议公开审计库 | **已交付** | v3.45.0-audit · 131 测试全绿 · Signal 式公开审计 |
@@ -172,10 +172,10 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.74.1 (versionCode 98) |
+| Engine 版本 | v3.74.2 (versionCode 99) |
 | Vault 版本 | v3.74.0 (versionCode 37) |
 | Engine3.0 审计库 | v3.45.0-audit |
-| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.73.0/Engine-3.74.1-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
+| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.73.1/Engine-3.74.2-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
 | Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.73.0/Vault-3.74.0-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
@@ -201,6 +201,7 @@
 | Engine/Vault 版本 | 站点停留 v3.68.1 / v3.71.4 | 2026-09-09 已同步至 v3.68.2 / v3.71.4（Engine 钱包额度延迟根治：私有链本地 · 三处堵塞；Vault 不变，签名一致重建，发布到 Spark v3.72.2） |
 | Engine/Vault 版本 | 站点停留 v3.68.2 / v3.71.4 | 2026-09-10 已同步至 v3.74.1 / v3.71.4（Engine DUP 认领三态工业级（SQLite/WAL · pending 落盘补发 · 备份恢复演练） · 误报双花与建连竞态修复 · 全量回归 348 项；Vault 侧 v3.72.0–v3.74.0 三代代码已推送但 APK 漏发，站点仍挂 v3.71.4 —— 发布当日未实测仓库版本号所致，发布到 Spark v3.73.0） |
 | Vault 补发 | 站点停留 v3.71.4 / v3.74.1（Vault 漏发三代） | 2026-09-10 已同步至 v3.74.1 / v3.74.0（Vault v3.72.0 零出口保险箱 P0 + v3.73.0 身份密钥收归保险箱 + v3.74.0 DupProbe 探针基座一次补齐；签名一致重建，补进 Spark v3.73.0 同一 Release） |
+| Engine v3.74.2 | 站点停留 v3.74.1（绑定转圈修复发版） | 2026-09-10 已同步至 v3.74.2 / v3.74.0（Engine 绑定/恢复等待回调 45s 超时看护 + 等待页取消按钮 —— 用户真机复现「生成密钥对」无限转圈根治，Engine commit d42fc07；签名常驻安全区不再用后即焚；Release 到 Spark v3.73.1） |
 | Vault 中文译名 | 「钥匙盒 / Keybox」混入站点 | 2026-08-30 全站回滚为「保险箱 / the Safe」 |
 | SPARK 供给旧称 | 「每日赠金 / daily login grant」 | 2026-08-30 统一为「燃料补贴 1000 SPARK/天」 |
 | Havix 角色误标 | 「P2P 基座/基底/substrate」作为主定义 | 2026-08-30 改为主 DID 衍生平行身份 · 信用与价值双轨 |

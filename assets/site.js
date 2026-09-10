@@ -21,8 +21,8 @@
      ============================================================ */
   var DOWNLOAD = {
     engine: {
-      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.73.0/Engine-3.74.1-release.apk",
-      ver: "v3.74.1",
+      url: "https://github.com/eneatlnc-cell/Spark/releases/download/v3.73.1/Engine-3.74.2-release.apk",
+      ver: "v3.74.2",
       tagEn: "Sovereign social · E2EE", tagZh: "主权社交 · 端到端加密"
     },
     vault: {
