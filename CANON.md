@@ -176,7 +176,7 @@
 | Vault 版本 | v3.78.0 (versionCode 41) |
 | Engine3.0 审计库 | v3.45.0-audit |
 | Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.78.1/Engine-3.78.1-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
-| Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.78.0/Vault-3.78.0-release.apk`（同上） |
+| Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.78.1/Vault-3.78.0-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
 ## 7. 历史漂移登记（已修复，防复发）
