@@ -54,8 +54,8 @@
 
 | 组件 | 角色 | 状态 | 版本/证据 |
 |---|---|---|---|
-| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.77.1 (code 104) · 道环降级为 Engine 子身份级 SBT（随子身份注销而灭）+ UI 重构第一轮（引导流单步化/钱包页 LEGACY 收敛）+ R1 E2E 轮换声明传播退役（对端无权干涉）+ DID 派生（SubIdentityCredential）· 沿革：v3.76.x 起 R8 混淆/Binder 直连/SPARK 钱包/绑定直传/同步引导流转圈根治/同会话直唤/消息丢包根治 · 签名交易 SPARK 钱包 · 身份绑定去二维码化 · 中继保活重校准 · NAT 超时收紧实测 |
-| **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.77.0 (code 39) · 身份绑定轮换链路（rotateIdentityKeyPair/draft/serialize API 对齐修复）· 沿革：v3.76.x· v3.74.x 能力（TEE/DRM 设备种子 · R8 · 零出口保险箱 P0 · 身份密钥收归保险箱 · 轮换声明预埋 · Android 清单级无联网权限 · CAMERA 权限彻底移除） |
+| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.77.3 (code 106) · 引导页 Idle 态双按钮等宽视觉微调 + identityinit/rotate 真机「等待 Vault 回调」看门狗转圈根治（v3.77.2）+ v3.77.1（道环降级为 Engine 子身份级 SBT 随子身份注销而灭 / UI 重构第一轮引导流单步化 / R1 E2E 轮换声明传播退役 / DID 派生 SubIdentityCredential）· 沿革：v3.76.x 起 R8 混淆/Binder 直连/SPARK 钱包/绑定直传/同步引导流转圈根治/同会话直唤/消息丢包根治 · 签名交易 SPARK 钱包 · 身份绑定去二维码化 · 中继保活重校准 · NAT 超时收紧实测 |
+| **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.77.1 (code 40) · IdentityInitActivity 反「静默死亡」加固 + 全链路面包屑（v3.77.1）+ v3.77.0（身份绑定轮换链路 rotateIdentityKeyPair/draft/serialize API 对齐修复）· 沿革：v3.76.x· v3.74.x 能力（TEE/DRM 设备种子 · R8 · 零出口保险箱 P0 · 身份密钥收归保险箱 · 轮换声明预埋 · Android 清单级无联网权限 · CAMERA 权限彻底移除） |
 | **SPARK（阶段 A）** | Engine 内燃料：燃料补贴 1000 SPARK/天 | **已交付**（随 Engine） | 设备日铸 · 本地哈希链账本 · 中继当日去重 · 金额白名单 |
 | **Engine3.0** | 加密协议公开审计库 | **已交付** | v3.45.0-audit · 131 测试全绿 · Signal 式公开审计 |
 | **relay-server** | Engine 无消息状态中继 | 已交付（单实例部署红线） | GRANT_CHECK/ACK 当日去重 · 部署文档 §11 |
@@ -172,11 +172,11 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.77.1 (versionCode 104) |
-| Vault 版本 | v3.77.0 (versionCode 39) |
+| Engine 版本 | v3.77.3 (versionCode 106) |
+| Vault 版本 | v3.77.1 (versionCode 40) |
 | Engine3.0 审计库 | v3.45.0-audit |
-| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.77.0/Engine-3.77.1-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
-| Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.77.0/Vault-3.77.0-release.apk`（同上） |
+| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.77.1/Engine-3.77.3-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
+| Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.77.1/Vault-3.77.1-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
 ## 7. 历史漂移登记（已修复，防复发）
@@ -204,6 +204,7 @@
 | Engine v3.74.2 | 站点停留 v3.74.1（绑定转圈修复发版） | 2026-09-10 已同步至 v3.74.2 / v3.74.0（Engine 绑定/恢复等待回调 45s 超时看护 + 等待页取消按钮 —— 用户真机复现「生成密钥对」无限转圈根治，Engine commit d42fc07；签名常驻安全区不再用后即焚；Release 到 Spark v3.73.1） |
 | Engine v3.74.3 | 站点停留 v3.74.2（用户实测仍失败 → 全链审计命中真根因） | 2026-09-10 已同步至 v3.74.3 / v3.74.0（identityinit 漏配 UI_ENTRY_HOSTS —— v3.73 起生成密钥对真机必然失败的单点根因，Binder 受理后 IdentityInitActivity 被 Android 14 静默拦截；Engine commit 80bcbe5 + 防回归单测；Release 到 Spark v3.73.2） |
 | Engine/Vault 版本 | 站点停留 v3.74.3 / v3.74.0 | 2026-09-11 已同步至 v3.77.1 / v3.77.0（Engine 道环降级为子身份级 SBT + UI 重构第一轮 + R1 E2E 轮换声明传播退役 + G4 DID 派生；Vault 身份绑定轮换链路 API 对齐修复 6 处编译错误；双端签名一致重建，发布到 Spark v3.77.0） |
+| Engine/Vault 版本 | 站点停留 v3.77.1 / v3.77.0 | 2026-09-12 已同步至 v3.77.3 / v3.77.1（Engine v3.77.2 identityinit/rotate 真机看门狗转圈根治 + v3.77.3 引导页 Idle 态双按钮等宽视觉微调；Vault IdentityInitActivity 反静默死亡加固 + 全链路面包屑；双端签名一致重建，发布到 Spark v3.77.1） |
 | Vault 中文译名 | 「钥匙盒 / Keybox」混入站点 | 2026-08-30 全站回滚为「保险箱 / the Safe」 |
 | SPARK 供给旧称 | 「每日赠金 / daily login grant」 | 2026-08-30 统一为「燃料补贴 1000 SPARK/天」 |
 | Havix 角色误标 | 「P2P 基座/基底/substrate」作为主定义 | 2026-08-30 改为主 DID 衍生平行身份 · 信用与价值双轨 |
