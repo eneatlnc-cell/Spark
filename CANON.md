@@ -54,7 +54,7 @@
 
 | 组件 | 角色 | 状态 | 版本/证据 |
 |---|---|---|---|
-| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.78.1 (code 108) · 回退「钱包先行」时序（P0 自审）/ 恢复流程白屏修复 / 输入栏三改 + v3.78.0（拍板四连：主 DID 先行时序 / Engine 术语回正 / 钱包迁移退役 / 道环邀请卡 + 权益平铺）+ v3.77.x（引导页 Idle 态双按钮等宽微调 / identityinit·rotate 真机看门狗转圈根治 / 道环降级为子身份级 SBT / UI 重构第一轮 / R1 E2E 轮换声明传播退役 / DID 派生）· 沿革：v3.76.x 起 R8 混淆/Binder 直连/SPARK 钱包/绑定直传/同步引导流转圈根治/同会话直唤/消息丢包根治 · 签名交易 SPARK 钱包 · 身份绑定去二维码化 · 中继保活重校准 · NAT 超时收紧实测 |
+| **Engine** | 回路的人类客户端 · 端到端加密社交应用 | **已交付** | v3.81.0 (code 112) · 涂鸦墙互动升级（留言/浏览量/分页翻阅/满墙等候）+ v3.80.0（道环徽跟人不跟机 + 移位时间行左端）+ v3.79.1（P1 安全修复：遗留软密钥路径完全删除）+ v3.79.0（UI 拍板六连：价值键折叠 / 发送球左移 / 小费点击领取 / 模块卡折叠 / 对端气泡去短号 / 道环排版重做）+ v3.78.1（回退「钱包先行」时序（P0 自审）/ 恢复流程白屏修复 / 输入栏三改）+ v3.78.0（拍板四连：主 DID 先行时序 / Engine 术语回正 / 钱包迁移退役 / 道环邀请卡 + 权益平铺）+ v3.77.x（引导页 Idle 态双按钮等宽微调 / identityinit·rotate 真机看门狗转圈根治 / 道环降级为子身份级 SBT / UI 重构第一轮 / R1 E2E 轮换声明传播退役 / DID 派生）· 沿革：v3.76.x 起 R8 混淆/Binder 直连/SPARK 钱包/绑定直传/同步引导流转圈根治/同会话直唤/消息丢包根治 · 签名交易 SPARK 钱包 · 身份绑定去二维码化 · 中继保活重校准 · NAT 超时收紧实测 |
 | **Vault** | 回路的保险箱 · 私钥离线硬件锚 | **已交付** | v3.78.0 (code 41) · v3.78.0（静默 IPC 下沉服务进程 + identityinit 两阶段进度 + 保险箱改名/防闪/大按钮）+ v3.77.1（IdentityInitActivity 反「静默死亡」加固 + 全链路面包屑）· 沿革：v3.76.x· v3.74.x 能力（TEE/DRM 设备种子 · R8 · 零出口保险箱 P0 · 身份密钥收归保险箱 · 轮换声明预埋 · Android 清单级无联网权限 · CAMERA 权限彻底移除） |
 | **SPARK（阶段 A）** | Engine 内燃料：燃料补贴 1000 SPARK/天 | **已交付**（随 Engine） | 设备日铸 · 本地哈希链账本 · 中继当日去重 · 金额白名单 |
 | **Engine3.0** | 加密协议公开审计库 | **已交付** | v3.45.0-audit · 131 测试全绿 · Signal 式公开审计 |
@@ -172,10 +172,10 @@
 
 | 项 | 值 |
 |---|---|
-| Engine 版本 | v3.79.0 (versionCode 109) |
+| Engine 版本 | v3.81.0 (versionCode 112) |
 | Vault 版本 | v3.78.0 (versionCode 41) |
 | Engine3.0 审计库 | v3.45.0-audit |
-| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.79.0/Engine-3.79.0-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
+| Engine APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.81.0/Engine-3.81.0-release.apk`（同步于 `assets/site.js` DOWNLOAD 配置） |
 | Vault APK URL | `https://github.com/eneatlnc-cell/Spark/releases/download/v3.78.1/Vault-3.78.0-release.apk`（同上） |
 | 下载按钮状态机 | URL 存在 → 直链下载；URL 为空 → 「APK 审核中 · 敬请期待」禁用态 |
 
